@@ -2,7 +2,7 @@
 
 export default function En_Directo() {
     return (
-        <div>
+        <section className="relative h-[70vh] overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black z-10"></div>
             <img
                 src="/images/imagen_portada_1.jpeg"
@@ -25,6 +25,6 @@ export default function En_Directo() {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
