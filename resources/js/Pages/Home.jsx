@@ -1,4 +1,4 @@
-import UltimasNoticias from '../Components/UltimasNoticias';
+import UltimasNoticias from '../Components/default/UltimasNoticias';
 import En_Directo from '../Components/secciones/En_Directo';
 import Proximas_carreras from '../Components/secciones/Proximas_carreras';
 

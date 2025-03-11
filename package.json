@@ -33,6 +33,7 @@
         "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.3",
         "bootstrap-icons": "^1.11.3",
+        "lucide-react": "^0.479.0",
         "react-router-dom": "^7.3.0"
     }
 }
