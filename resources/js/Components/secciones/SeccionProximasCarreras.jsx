@@ -1,7 +1,7 @@
 import { Calendar, ChevronRight, Clock } from "lucide-react"
 
 
-export default function Proximas_carreras() {
+export default function SeccionProximasCarreras() {
     return (
         <div className="container mx-auto px-4 z-30">
             <div className="flex flex-col md:flex-row items-center justify-between bg-gray-800 rounded-xl p-6 md:p-8">

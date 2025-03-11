@@ -1,6 +1,6 @@
 import UltimasNoticias from '../Components/default/UltimasNoticias';
-import En_Directo from '../Components/secciones/En_Directo';
-import Proximas_carreras from '../Components/secciones/Proximas_carreras';
+import En_Directo from '../Components/secciones/SeccionEn_Directo';
+import Proximas_carreras from '../Components/secciones/SeccionProximasCarreras';
 
 export default function Home() {
     return (
