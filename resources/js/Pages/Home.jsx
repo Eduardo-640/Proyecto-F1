@@ -3,6 +3,7 @@ import En_Directo from '../Components/secciones/SeccionEn_Directo';
 import Proximas_carreras from '../Components/secciones/SeccionProximasCarreras';
 import SeccionCalendarioCarreras from "../Components/secciones/SeccionCalendarioCarreras";
 import SeccionClasificaciones from '../Components/secciones/SeccionCalificaciones';
+import SeccionEquipos from '../Components/secciones/SeccionEquipos'
 
 export default function Home() {
     return (
@@ -11,6 +12,7 @@ export default function Home() {
             <Proximas_carreras />
             <SeccionCalendarioCarreras />
             <SeccionClasificaciones />
+            <SeccionEquipos />
             {/*<UltimasNoticias />*/}
         </div>
     );
