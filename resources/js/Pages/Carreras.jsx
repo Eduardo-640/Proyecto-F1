@@ -36,7 +36,7 @@ const verCarrera = async (year, round) => {
     const response = await axios.get(`/api/carrera/${year}/${round}`);
     const data = response.data;
 
-    // Extraer las 3 primeras posiciones
+    // Extraer las 3 primeras posiciones para el podio
     const podio = data.resultados.slice(0, 3).map((piloto) => ({
       piloto: `${piloto.Driver.givenName} ${piloto.Driver.familyName}`,
       equipo: piloto.Constructor.name,
@@ -45,29 +45,25 @@ const verCarrera = async (year, round) => {
 
     console.log("Podio:", podio); // Verificar el array del podio
 
-    // Actualiza el estado con los datos de la carrera seleccionada
-    setCarreraSeleccionada(data);
-
-    // Extrae los datos para la gráfica de barras
-    const labels = data.resultados.map(
-      (piloto) => `${piloto.Driver.givenName} ${piloto.Driver.familyName}`
-    );
-    const puntos = data.resultados.map((piloto) => parseInt(piloto.points, 10));
-
-    // Crea un objeto para la gráfica
+    // Crear los datos para la gráfica de barras
     const datosGrafica = {
-      labels: labels,
-      data: puntos,
+      labels: data.resultados.map(
+        (piloto) => `${piloto.Driver.givenName} ${piloto.Driver.familyName}`
+      ),
+      data: data.resultados.map((piloto) => parseInt(piloto.points, 10)),
     };
 
-    // Actualiza el estado con los datos de la gráfica
-    setGraficaDatos(datosGrafica);
+    console.log("Datos de la gráfica:", datosGrafica); // Verificar los datos de la gráfica
 
-    // Pasa el podio al componente
-    setCarreraSeleccionada((prev) => ({
-      ...prev,
+    // Combinar podio y datos de la gráfica en un solo objeto
+    const detallesCarrera = {
+      ...data,
       podio: podio,
-    }));
+      grafica: datosGrafica,
+    };
+
+    // Actualizar el estado con los datos combinados
+    setCarreraSeleccionada(detallesCarrera);
 
     setShowModal(true); // Muestra el modal con los detalles
   } catch (error) {
