@@ -71,32 +71,6 @@ const verCarrera = async (year, round) => {
   }
 };
 
-/*
-  const verCarrera = async (year, round) => {
-    try {
-      const response = await axios.get(`/api/carrera/${year}/${round}`)
-      const data = response.data;
-
-      setCarreraSeleccionada(data)
-      console.log("Respuesta de la API:", response.data);
-      //console.log(response.data[resultados].points);
-      data.resultados.forEach((piloto, index) => {
-        console.log(`Piloto ${index + 1}:`);
-        console.log(`  Nombre: ${piloto.Driver.givenName} ${piloto.Driver.familyName}`);
-        console.log(`  Equipo: ${piloto.Constructor.name}`);
-        console.log(`  Posición: ${piloto.position}`);
-        console.log(`  Puntos: ${piloto.points}`);
-        console.log(`  Vueltas: ${piloto.laps}`);
-        console.log(`  Tiempo: ${piloto.Time?.time || "No disponible"}`);
-        console.log(`  Vuelta más rápida: ${piloto.FastestLap?.Time?.time || "No disponible"}`);
-      });
-      
-      setShowModal(true)
-    } catch (error) {
-      console.error("Error al obtener los detalles de la carrera", error)
-    }
-  }
-*/
   // Función para formatear la fecha
   const formatearFecha = (fechaStr) => {
     if (!fechaStr) return "No disponible"

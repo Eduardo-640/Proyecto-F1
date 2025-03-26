@@ -13,7 +13,7 @@ export default function Navbar() {
 
         {/* Barra Navegación */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link href="/inicio" className="text-white text-sm font-medium hover:text-red-500 transition-colors font_enlaces">
+          <Link href="/" className="text-white text-sm font-medium hover:text-red-500 transition-colors font_enlaces">
             INICIO
           </Link>
           <Link href="/pilotos" className="text-white text-sm font-medium hover:text-red-500 transition-colors font_enlaces">
