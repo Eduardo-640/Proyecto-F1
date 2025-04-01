@@ -1,4 +1,4 @@
-import TarjetaCarrera from "../ui/tarjeta-carrera";
+import TarjetaCarrera from "../ui/TarjetaCarrera";
 
 export default function SeccionCalendarioCarreras() {
     const carreras = [

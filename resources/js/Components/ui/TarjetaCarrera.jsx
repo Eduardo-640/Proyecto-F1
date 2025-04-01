@@ -1,5 +1,5 @@
 import { Calendar, Flag } from "lucide-react";
-import  Bandera  from "../ui/bandera-paises";
+import  Bandera  from "./BanderaPaises";
 
 export default function TarjetaCarrera({ carrera }) {
   return (

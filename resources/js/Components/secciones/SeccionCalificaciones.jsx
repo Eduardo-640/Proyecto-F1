@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import ClasificacionPilotos from "../ui/calificacion-pilotos"
+import ClasificacionPilotos from "../ui/CalificacionPilotos"
 
 export default function SeccionClasificaciones() {
   const [pestanaActiva, setPestanaActiva] = useState("pilotos")

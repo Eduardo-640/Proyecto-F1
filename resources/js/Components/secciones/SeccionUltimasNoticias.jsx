@@ -1,4 +1,4 @@
-import TarjetaNoticia from "../ui/tarjeta-noticia"
+import TarjetaNoticia from "../ui/TarjetaNoticia"
 
 export default function SeccionUltimasNoticias() {
   const articulos = [

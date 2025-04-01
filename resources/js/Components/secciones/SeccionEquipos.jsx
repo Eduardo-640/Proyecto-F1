@@ -1,4 +1,4 @@
-import TarjetaEquipo from "../ui/tarjeta-equipo"
+import TarjetaEquipo from "../ui/TarjetaEquipo"
 
 export default function SeccionEquipos() {
   const equipos = [
