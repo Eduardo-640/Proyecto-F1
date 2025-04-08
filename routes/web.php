@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CarrerasController;
+use App\Http\Controllers\PilotosController;
 
 Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
@@ -31,9 +32,10 @@ Route::middleware('auth')->group(function () {
 #########################
 Route::get('/', [HomeController::class, 'index']);  // Pagina de Inicio
 
-Route::get('/pilotos', function () {                // Pagina de Pilotos
-    return Inertia::render('Pilotos');
-});
+// Pagina de Pilotos
+Route::get('/pilotos', [PilotosController::class, 'index']);
+Route::get('/api/pilotos/{year}/detalles/{id}', [PilotosController::class, 'verPiloto']);
+Route::get('/api/pilotos/{year}', [PilotosController::class, 'PilotosPorAnho']);
 
 Route::get('/equipos', function () {                // Pagina de Equipos
     return Inertia::render('Equipos');
@@ -41,7 +43,7 @@ Route::get('/equipos', function () {                // Pagina de Equipos
 
 Route::get('/carreras', [CarrerasController::class, 'index']);  // Pagina de Carreras
 
-// Rutas de la API
+// Pagina de Carreras
 Route::get('/api/carreras/{year}', [CarrerasController::class, 'obtenerCarreras']);
 Route::get('/api/carrera/{year}/{round}', [CarrerasController::class, 'verCarrera']);
 
