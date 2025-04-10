@@ -55,7 +55,7 @@ export default function TarjetaPiloto({ piloto, year }) {
             src={`/images/imagenes_drivers/${piloto.driverId}.jpg`}
             onError={(e) => {
               e.target.onerror = null; // Evita un bucle infinito si la imagen de respaldo también falla
-              e.target.src = "/placeholder.svg"; // Imagen de respaldo
+              e.target.src = "/images/imagen_respaldo.png"; // Imagen de respaldo
             }}
             alt={`${piloto.givenName} ${piloto.familyName}`}
             className="w-full h-full object-cover"
@@ -123,7 +123,7 @@ export default function TarjetaPiloto({ piloto, year }) {
                           src={`/images/imagenes_drivers/${piloto.driverId}.jpg`}
                           onError={(e) => {
                             e.target.onerror = null; // Evita un bucle infinito si la imagen de respaldo también falla
-                            e.target.src = "/placeholder.svg"; // Imagen de respaldo
+                            e.target.src = "/images/imagen_respaldo.png"; // Imagen de respaldo
                           }}
                           alt={`${piloto.givenName} ${piloto.familyName}`}
                           className="w-100 h-100 object-cover"

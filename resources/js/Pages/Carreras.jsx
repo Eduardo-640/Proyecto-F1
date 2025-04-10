@@ -190,8 +190,8 @@ const Carreras = () => {
                         src={`/images/imagenes_races/${carreraSeleccionada.detalles?.raceName}.png`}
                         alt={carreraSeleccionada.detalles?.Circuit?.circuitName || "Sin datos"}
                         onError={(e) => {
-                          e.target.onerror = null; // Evita un bucle infinito si la imagen de respaldo también falla
-                          e.target.src = "/placeholder.svg"; // Imagen de respaldo
+                          e.target.onerror = null; // Evita un bucle infinito si la imagen falla
+                          e.target.src = "/images/imagen_respaldo.png"; // Imagen de respaldo
                         }}
                         className="w-full h-full object-contain"
                       />
