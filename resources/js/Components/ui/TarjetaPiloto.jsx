@@ -72,7 +72,6 @@ export default function TarjetaPiloto({ piloto, year }) {
           <h3 className="text-xl font-bold mb-2 text-white">
             {piloto.givenName} {piloto.familyName}
           </h3>
-          <p className="text-gray-300 mb-4">{piloto.Constructor?.name || "Equipo no disponible"}</p>
           <button className="text-red-500 hover:text-red-400 flex items-center" onClick={abrirModal}>
             VER DETALLES <ChevronRight className="h-4 w-4 ml-1" />
           </button>
@@ -172,23 +171,6 @@ export default function TarjetaPiloto({ piloto, year }) {
                         <div className="mb-0">
                           <span className="text-gray-400">Código:</span>
                           <span className="float-end text-white">{piloto.code}</span>
-                        </div>
-                      </div>
-
-                      {/* Equipo actual */}
-                      <div className="bg-gray-700 bg-opacity-50 rounded shadow-sm p-3">
-                        <h5 className="border-bottom border-gray-600 pb-2 mb-3">Equipo Actual</h5>
-
-                        <div className="d-flex align-items-center">
-                          <div className="rounded overflow-hidden me-3" style={{ width: "3rem", height: "3rem" }}>
-                            <div className="w-100 h-100 d-flex align-items-center justify-content-center bg-gray-800">
-                              <i className="bi bi-flag-fill text-gray-500" style={{ fontSize: "1.5rem" }}></i>
-                            </div>
-                          </div>
-                          <div>
-                            <div className="fw-bold text-white">{piloto.Constructor?.name || "No disponible"}</div>
-                            <div className="small text-gray-400">{piloto.Constructor?.nationality || ""}</div>
-                          </div>
                         </div>
                       </div>
                     </div>
