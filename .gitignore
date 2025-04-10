@@ -1,2 +1,34 @@
-node_modules
-public/build/
+# Laravel
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+.env
+.env.*.php
+Homestead.yaml
+Homestead.json
+.phpunit.result.cache
+/storage/logs
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+
+# Laravel Mix / Vite
+/public/hot
+/public/mix-manifest.json
+/public/build
+/build
+
+# React 
+node_modules/
+*.log
+
+# IDEs y sistema
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
