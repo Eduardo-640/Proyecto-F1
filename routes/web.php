@@ -3,10 +3,13 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CarrerasController;
 use App\Http\Controllers\PilotosController;
+use App\Http\Controllers\EquiposController;
+use App\Http\Controllers\NoticiasController;
 
 Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
@@ -37,18 +40,18 @@ Route::get('/pilotos', [PilotosController::class, 'index']);
 Route::get('/api/pilotos/{year}/detalles/{id}', [PilotosController::class, 'verPiloto']);
 Route::get('/api/pilotos/{year}', [PilotosController::class, 'PilotosPorAnho']);
 
-Route::get('/equipos', function () {                // Pagina de Equipos
-    return Inertia::render('Equipos');
-});
+// Pagina de Equipos
+Route::get('/equipos', [EquiposController::class, 'index']);
+Route::get('/api/equipos/{year}', [EquiposController::class, 'obtenerEquipos']);
 
-Route::get('/carreras', [CarrerasController::class, 'index']);  // Pagina de Carreras
 
 // Pagina de Carreras
+Route::get('/carreras', [CarrerasController::class, 'index']);  
 Route::get('/api/carreras/{year}', [CarrerasController::class, 'obtenerCarreras']);
 Route::get('/api/carrera/{year}/{round}', [CarrerasController::class, 'verCarrera']);
 
-Route::get('/noticias', function () {                // Pagina de Noticias
-    return Inertia::render('Noticias');
-});
+// Pagina de Noticias
+Route::get('/noticias', [NoticiasController::class, 'index']);
+Route::get('/api/noticias', [NoticiasController::class, 'obtenerNoticias']);
 
 require __DIR__.'/auth.php';
