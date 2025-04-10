@@ -1,4 +1,3 @@
-import UltimasNoticias from '../Components/default/UltimasNoticias';
 import En_Directo from '../Components/secciones/SeccionEn_Directo';
 import Proximas_carreras from '../Components/secciones/SeccionProximasCarreras';
 import SeccionCalendarioCarreras from "../Components/secciones/SeccionCalendarioCarreras";
@@ -19,7 +18,6 @@ export default function Home() {
             <SeccionUltimasNoticias />
             <SeccionBoletin />
             <PiePagina />
-            {/*<UltimasNoticias />*/}
         </div>
     );
 }
