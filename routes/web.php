@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
 # Rutas de la pagina F1 #
 #########################
 Route::get('/', [HomeController::class, 'index']);  // Pagina de Inicio
+Route::get('/api/proximaCarrera', [CarrerasController::class, 'proximaCarrera']);
+
 
 // Pagina de Pilotos
 Route::get('/pilotos', [PilotosController::class, 'index']);

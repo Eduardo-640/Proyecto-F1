@@ -18,7 +18,7 @@ class CarrerasController extends Controller
     public function obtenerCarreras($year)
     {
         // Realiza una solicitud HTTP GET a la API de Ergast para obtener las carreras del año especificado
-        $response = Http::get("https://ergast.com/api/f1/{$year}.json");
+        $response = Http::get("https://api.jolpi.ca/ergast/f1/{$year}.json");
 
         // Si la solicitud es exitosa, extrae los datos de las carreras
         if ($response->successful()) {
@@ -38,13 +38,8 @@ class CarrerasController extends Controller
     {
         // Diccionario de URLs de la API que necesitas consultar
         $urls = [
-            'detalles' => "https://ergast.com/api/f1/{$year}/{$round}.json",
-            'resultados' => "https://ergast.com/api/f1/{$year}/{$round}/results.json", // resultados de la carrera
-            //'calendario' => "https://ergast.com/api/f1/{$year}.json", // calendario de la temporada
-            //'pilotos' => "https://ergast.com/api/f1/{$year}/{$round}/drivers.json", // lista de pilotos
-            //'driverStandings' => "https://ergast.com/api/f1/{$year}/{$round}/driverStandings.json", // clasificacion de pilotos
-            //'constructorStandings' => "https://ergast.com/api/f1/{$year}/{$round}/constructorStandings.json", // clasificacion de constructores
-            // 'fastestLaps' => "https://ergast.com/api/f1/{$year}/{$round}/fastest/1/laps.json",
+            'detalles' => "https://api.jolpi.ca/ergast/f1/{$year}/{$round}.json",
+            'resultados' => "https://api.jolpi.ca/ergast/f1/{$year}/{$round}/results.json", // resultados de la carrera
         ];
 
         $resultados = [];
@@ -73,4 +68,48 @@ class CarrerasController extends Controller
         // Devuelve todos los resultados en formato JSON
         return response()->json($resultados);
     }
+
+    // Método para obtener la próxima carrera respecto a la fecha actual
+    public function proximaCarrera()
+    {
+        // Obtener el año actual
+        $year = date('Y');
+
+        // Realizar la solicitud HTTP GET a la API para obtener las carreras del año actual
+        $response = Http::get("https://api.jolpi.ca/ergast/f1/{$year}.json");
+
+        // Inicializar la variable de respuesta
+        $resultado = [];
+
+        // Verificar si la solicitud fue exitosa
+        if ($response->successful()) {
+            // Extraer los datos de las carreras
+            $data = $response->json();
+            $carreras = $data['MRData']['RaceTable']['Races'] ?? [];
+
+            // Obtener la fecha actual
+            $fechaActual = date('Y-m-d');
+
+            // Buscar la próxima carrera
+            foreach ($carreras as $carrera) {
+                if (isset($carrera['date']) && $carrera['date'] > $fechaActual) {
+                    $resultado = $carrera;
+                    break;
+                }
+            }
+
+            // Si no se encuentra una próxima carrera
+            if (empty($resultado)) {
+                $resultado = ['message' => 'No hay próximas carreras disponibles'];
+            }
+        } else {
+            // Si la solicitud falla
+            $resultado = ['error' => 'No se pudieron obtener las carreras'];
+        }
+
+        // Devolver el resultado en formato JSON
+        return response()->json($resultado, empty($resultado['error']) ? 200 : 500);
+    }
+
+    
 }
