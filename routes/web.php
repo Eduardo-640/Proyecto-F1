@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [HomeController::class, 'index']);  // Pagina de Inicio
 Route::get('/api/proximaCarrera', [CarrerasController::class, 'proximaCarrera']);
 Route::get('/api/calendarioCarreras', [CarrerasController::class, 'calendarioCarreras']);
+Route::get('/api/calificacionesActuales', [PilotosController::class, 'calificacionesActuales']);
 
 // Pagina de Pilotos
 Route::get('/pilotos', [PilotosController::class, 'index']);
