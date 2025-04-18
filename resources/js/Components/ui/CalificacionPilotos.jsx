@@ -14,11 +14,8 @@ export default function ClasificacionPilotos() {
                     throw new Error("Error al obtener las calificaciones");
                 }
                 const data = await response.json();
-
-                // Ordenar los pilotos por puntos de mayor a menor
-                const pilotosOrdenados = data.sort((a, b) => b.totalPuntos - a.totalPuntos);
-
-                setPilotos(pilotosOrdenados);
+                console.log("Datos de la API:", data); // Verifica qué datos llegan
+                setPilotos(data);
             } catch (error) {
                 console.error("Error al cargar las calificaciones:", error);
                 setError("No se pudieron cargar las calificaciones.");
@@ -52,10 +49,10 @@ export default function ClasificacionPilotos() {
                             pilotos.map((piloto, index) => (
                                 <tr key={index} className="border-t border-gray-700 hover:bg-gray-700">
                                     <td className="py-4 px-6">{index + 1}</td>
-                                    <td className="py-4 px-6 font-medium">{piloto.nombre}</td>
-                                    <td className="py-4 px-6">{piloto.nacionalidad}</td>
-                                    <td className="py-4 px-6">{piloto.equipo || "Desconocido"}</td>
-                                    <td className="py-4 px-6 text-right font-bold">{piloto.totalPuntos}</td>
+                                    <td className="py-4 px-6 font-medium">{piloto.Driver.givenName} {piloto.Driver.familyName}</td>
+                                    <td className="py-4 px-6">{piloto.Driver.nationality}</td>
+                                    <td className="py-4 px-6">{piloto.Constructors[0].name || "Desconocido"}</td>
+                                    <td className="py-4 px-6 text-right font-bold">{piloto.points}</td>
                                 </tr>
                             ))
                         )}

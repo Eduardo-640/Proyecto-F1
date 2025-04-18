@@ -54,7 +54,21 @@ class PilotosController extends Controller
     }
 
     public function calificacionesActuales()
-{
+    {
+    $year = date('Y');
+    $response = Http::get("https://api.jolpi.ca/ergast/f1/{$year}/driverstandings.json");
+
+    if ($response->successful()) {
+        $data = $response->json();
+        $resultados = $data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'] ?? [];
+    }
+
+    return response()->json($resultados);
+    }
+
+/*
+    public function calificacionesActuales()
+    {
     $year = date('Y');
     $pilotos = $this->obtenerPilotosPorAnho($year); // Método privado reutilizable
 
@@ -111,6 +125,6 @@ class PilotosController extends Controller
     }
 
     return response()->json($resultados);
-}
+}*/
 
 }
