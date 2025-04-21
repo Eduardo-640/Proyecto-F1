@@ -71,6 +71,7 @@ Route::post('/logout', [authSesion::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
+    Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.update');
 });
 
 require __DIR__.'/auth.php';

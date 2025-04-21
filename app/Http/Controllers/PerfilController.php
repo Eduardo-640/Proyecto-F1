@@ -22,11 +22,28 @@ class PerfilController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:4',
+            'profile_photo' => 'nullable|image|max:2048',
         ]);
 
-        $user->update($request->only('name', 'email'));
+        $data = $request->only('name', 'email');
 
-        return redirect()->route('perfil')->with('success', 'Perfil actualizado correctamente.');
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profile_photos', 'public');
+            $data['profile_photo_path'] = $path;
+        }
+
+        $user->update($data);
+
+        return Inertia::render('Perfil', [
+            'flash' => [
+                'success' => 'Perfil actualizado correctamente.',
+            ],
+        ]);
     }
 
     
