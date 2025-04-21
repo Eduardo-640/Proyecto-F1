@@ -1,6 +1,14 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function Navbar() {
+  const { auth } = usePage().props;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-red-600">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -30,10 +38,38 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-4">
-          <button className="hidden sm:flex border border-danger text-red-600 hover:bg-red-600 hover:text-white px-4 py-2 rounded-md">
-            SIGN IN
-          </button>
+        <div className="flex items-center gap-4 relative">
+          {!auth.user ? (
+            <Link href="/login" className="hidden sm:flex border border-danger text-red-600 hover:bg-red-600 hover:text-white px-4 py-2 rounded-md font_enlaces">
+              SIGN IN
+            </Link>
+          ) : (
+            <div className="flex items-center gap-2 cursor-pointer" onClick={toggleDropdown}>
+              <img
+                src={auth.user.profile_photo_url || "/images/default-profile.png"}
+                alt="Foto de perfil"
+                className="w-8 h-8 rounded-full"
+              />
+              <span className="text-white text-sm font-medium">{auth.user.name}</span>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
+                  <Link
+                    href="/perfil"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Perfil
+                  </Link>
+                  <Link
+                    href="/logout"
+                    method="post"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Cerrar sesión
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
           <button className="hidden sm:flex bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">
             SUSCRIBIRSE
           </button>
