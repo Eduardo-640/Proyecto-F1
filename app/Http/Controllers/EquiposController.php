@@ -16,7 +16,7 @@ class EquiposController extends Controller
 
     public function obtenerEquipos($year)
     {
-        $response = Http::get("https://ergast.com/api/f1/{$year}/constructors.json");
+        $response = Http::get("https://api.jolpi.ca/ergast/f1/{$year}/constructors.json");
         
         // Si la solicitud es exitosa, extrae los datos de los equipos
         if ($response->successful()) {
