@@ -5,6 +5,7 @@ import axios from "axios"
 import { Modal, Button, Tabs, Tab } from "react-bootstrap"
 import GraficaBarras from "@/Components/ui/GraficaBarras"
 import Podio from "@/Components/ui/Podio"
+import Navbar from '@/Components/cabeceras/Navbar';
 
 const Carreras = () => {
   const [year, setYear] = useState(new Date().getFullYear())
@@ -98,6 +99,8 @@ const Carreras = () => {
   }
 
   return (
+    <>
+    <Navbar />
     <div className="container mt-4">
       <h1 className="text-center">Calendario de Carreras {year}</h1>
 
@@ -376,6 +379,7 @@ const Carreras = () => {
                 `}
       </style>
     </div>
+    </>
   )
 }
 

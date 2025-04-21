@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import TarjetaPiloto from "../Components/ui/TarjetaPiloto";
+import Navbar from "@/Components/cabeceras/Navbar";
 
 export default function Pilotos() {
     const [year, setYear] = useState(new Date().getFullYear())
@@ -34,6 +35,8 @@ export default function Pilotos() {
 
 
     return (
+        <>
+        <Navbar />
         <div className="container py-8">
             <h1 className="text-center">Pilotos F1 {year}</h1>
 
@@ -76,5 +79,6 @@ export default function Pilotos() {
                 ))}
             </div>
         </div>
+        </>
     )
 }

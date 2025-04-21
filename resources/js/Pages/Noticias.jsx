@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import TarjetaNoticia from "../Components/ui/TarjetaNoticia";
+import Navbar from '@/Components/cabeceras/Navbar';
 
 const Noticias = () => {
     const [noticias, setNoticias] = useState([]);
@@ -20,6 +21,8 @@ const Noticias = () => {
     }, []);
 
     return (
+        <>
+        <Navbar />
         <div className="bg-black text-white p-4">
             <h1 className="text-center">Noticias</h1>
             {error && <p className="text-red-500">{error}</p>}
@@ -29,6 +32,7 @@ const Noticias = () => {
                 ))}
             </div>
         </div>
+        </>
     );
 };
 

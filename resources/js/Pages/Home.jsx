@@ -6,10 +6,12 @@ import SeccionEquipos from '../Components/secciones/SeccionEquipos';
 import SeccionUltimasNoticias from "../Components/secciones/SeccionUltimasNoticias";
 import SeccionBoletin from '../Components/secciones/SeccionBoletin';
 import PiePagina from '../Components/pie-pagina/pie-pagina';
+import Navbar from '@/Components/cabeceras/Navbar';
 
 export default function Home() {
     return (
         <div className="bg-black text-white">
+            <Navbar />
             <En_Directo />
             <Proximas_carreras />
             <SeccionCalendarioCarreras />
