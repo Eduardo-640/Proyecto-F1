@@ -36,6 +36,11 @@ export default function Navbar() {
           <Link href="/noticias" className="text-white text-sm font-medium hover:text-red-500 transition-colors font_enlaces">
             NOTICIAS
           </Link>
+          {auth.user && (
+            <Link href="/fantasy" className="text-white text-sm font-medium hover:text-red-500 transition-colors font_enlaces">
+              MANAGER F1
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-4 relative">
@@ -46,7 +51,7 @@ export default function Navbar() {
           ) : (
             <div className="flex items-center gap-2 cursor-pointer" onClick={toggleDropdown}>
               <img
-                src={auth.user.profile_photo_url || "/images/default-profile.png"}
+                src={auth.user.profile_photo_url || "/images/imagen_respaldo.png"}
                 alt="Foto de perfil"
                 className="w-8 h-8 rounded-full"
               />
@@ -55,7 +60,7 @@ export default function Navbar() {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
                   <Link
                     href="/perfil"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font_enlaces"
                   >
                     Perfil
                   </Link>
