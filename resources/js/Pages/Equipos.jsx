@@ -27,6 +27,30 @@ const Equipos = () => {
     "Williams": "bg-cyan-600",
   };
 
+  // Agregar lógica para obtener datos del diccionario
+  const datosEquipos = {
+    alpine: {
+      drivers: [
+        { driverId: "gasly", name: "Pierre Gasly", nationality: "French", url: "http://en.wikipedia.org/wiki/Pierre_Gasly" },
+        { driverId: "oconnor", name: "Esteban Ocon", nationality: "French", url: "http://en.wikipedia.org/wiki/Esteban_Ocon" }
+      ],
+      teamPrincipal: { name: "Otmar Szafnauer", url: "http://en.wikipedia.org/wiki/Otmar_Szafnauer" }
+    },
+    aston_martin: {
+      drivers: [
+        { driverId: "stroll", name: "Lance Stroll", nationality: "Canadian", url: "http://en.wikipedia.org/wiki/Lance_Stroll" },
+        { driverId: "alonso", name: "Fernando Alonso", nationality: "Spanish", url: "http://en.wikipedia.org/wiki/Fernando_Alonso" }
+      ],
+      teamPrincipal: { name: "Mike Krack", url: "http://en.wikipedia.org/wiki/Mike_Krack_(motorsport)" }
+    },
+    // ...otros equipos
+  };
+
+  const obtenerDatosEquipo = (nombreEquipo) => {
+    const clave = nombreEquipo.toLowerCase().replace(/\s+/g, "_");
+    return datosEquipos[clave] || null;
+  };
+
   useEffect(() => {
     const fetchEquipos = async () => {
       setLoading(true);
@@ -125,9 +149,7 @@ const Equipos = () => {
                   }
                 >
                   <div className="p-4">
-                    {/* Información del equipo */}
                     <div className="bg-secondary bg-opacity-25 rounded shadow-sm p-4 text-white">
-
                       {/* Director */}
                       <div className="d-flex align-items-center mb-3 pb-3 border-bottom border-secondary">
                         <div
@@ -139,7 +161,7 @@ const Equipos = () => {
                         <div>
                           <div className="small text-gray-400 fw-medium">Director</div>
                           <div className="text-white">
-                            {equipoSeleccionado.director || "Sin datos"}
+                            {obtenerDatosEquipo(equipoSeleccionado.name)?.teamPrincipal?.name || "Sin datos"}
                           </div>
                         </div>
                       </div>
@@ -155,7 +177,13 @@ const Equipos = () => {
                         <div>
                           <div className="small text-gray-400 fw-medium">Pilotos</div>
                           <div className="text-white">
-                            {equipoSeleccionado.pilotos?.join(", ") || "Sin datos"}
+                            {obtenerDatosEquipo(equipoSeleccionado.name)?.drivers?.map((driver) => (
+                              <div key={driver.driverId}>
+                                <a href={driver.url} target="_blank" rel="noopener noreferrer" className="text-info">
+                                  {driver.name}
+                                </a> ({driver.nationality})
+                              </div>
+                            )) || "Sin datos"}
                           </div>
                         </div>
                       </div>
