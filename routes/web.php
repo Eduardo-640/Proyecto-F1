@@ -13,6 +13,7 @@ use App\Http\Controllers\NoticiasController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\authSesion;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\FantasyController;
 
 // Route::get('/welcome', function () {
 //     return Inertia::render('Welcome', [
@@ -72,6 +73,24 @@ Route::post('/logout', [authSesion::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
     Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.update');
+
+    Route::get('/fantasy', [FantasyController::class, 'index']);
+
+    // Route::get('/fantasy/crear', function () {
+    //     return inertia('Fantasy/CrearEquipo');
+    // })->name('fantasy.create');
+
+    // Route::post('/fantasy/crear', [FantasyController::class, 'store']);
+    
+    Route::get('/fantasy/mi-equipo', [FantasyController::class, 'miEquipo'])->name('fantasy.mi-equipo');
+    Route::get('/fantasy/equipos', [FantasyController::class, 'equipos'])->name('fantasy.equipos');
+
+    Route::get('/fantasy/pilotos', [FantasyController::class, 'getPilotos'])->name('fantasy.pilotos');
+
+    Route::post('/fantasy/comprar-piloto', [FantasyController::class, 'comprarPiloto'])->name('fantasy.comprar-piloto');
+    Route::post('/fantasy/vender-piloto', [FantasyController::class, 'venderPiloto'])->name('fantasy.vender-piloto');
+    Route::post('/fantasy/seleccionar-piloto', [FantasyController::class, 'seleccionarPiloto'])->name('fantasy.seleccionar-piloto');
+    Route::get('/api/usuario/presupuesto', [FantasyController::class, 'obtenerPresupuesto'])->name('usuario.presupuesto');
 });
 
 require __DIR__.'/auth.php';
