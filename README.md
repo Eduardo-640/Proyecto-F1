@@ -78,3 +78,14 @@ Este proyecto es una plataforma web dedicada a los fans de la Fórmula 1, donde 
 
     ```bash
     php artisan serve
+
+
+Enlaces 
+
+[Boceto](https://drive.google.com/file/d/1RZuLG6UakVBmFR7eloQtEuYeyeKAOVuV/view?usp=sharing)
+
+[Analisis](https://drive.google.com/file/d/1r6Q0LrjlT5QrNJKy45wH99NtXDJmZR9N/view?usp=sharing)
+
+[Diseño](https://drive.google.com/file/d/1863NhQfqDKNmjj7nRcM07e7eAPFYSEwh/view?usp=sharing)
+
+[Pruebas](https://drive.google.com/file/d/1ILFDL6xcspfFlvdfQVYXzSWuS8slZmpw/view?usp=sharing)
