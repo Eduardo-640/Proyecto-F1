@@ -18,7 +18,9 @@ export default function SeccionEn_Directo() {
                     Experimente la emoción de la competición de automovilismo más prestigiosa del mundo
                     </p>
                     <div className="flex flex-wrap gap-4">
+                    <a href="https://www.dazn.com" target="_blank" rel="noopener noreferrer">
                         <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">EN DIRECTO</button>
+                    </a>
                         <button className="border border-white text-inherit hover:bg-white hover:text-black px-4 py-2 rounded-md">
                             CALENDARIO
                         </button>

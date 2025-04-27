@@ -29,25 +29,211 @@ const Equipos = () => {
 
   // Agregar lógica para obtener datos del diccionario
   const datosEquipos = {
-    alpine: {
-      drivers: [
-        { driverId: "gasly", name: "Pierre Gasly", nationality: "French", url: "http://en.wikipedia.org/wiki/Pierre_Gasly" },
-        { driverId: "oconnor", name: "Esteban Ocon", nationality: "French", url: "http://en.wikipedia.org/wiki/Esteban_Ocon" }
-      ],
-      teamPrincipal: { name: "Otmar Szafnauer", url: "http://en.wikipedia.org/wiki/Otmar_Szafnauer" }
+    "Alpine F1 Team": {
+        "drivers": [
+            {
+                "driverId": "gasly",
+                "name": "Pierre Gasly",
+                "nationality": "French",
+                "url": "http://en.wikipedia.org/wiki/Pierre_Gasly"
+            },
+            {
+                "driverId": "oconnor",
+                "name": "Esteban Ocon",
+                "nationality": "French",
+                "url": "http://en.wikipedia.org/wiki/Esteban_Ocon"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Otmar Szafnauer",
+            "url": "http://en.wikipedia.org/wiki/Otmar_Szafnauer"
+        }
     },
-    aston_martin: {
-      drivers: [
-        { driverId: "stroll", name: "Lance Stroll", nationality: "Canadian", url: "http://en.wikipedia.org/wiki/Lance_Stroll" },
-        { driverId: "alonso", name: "Fernando Alonso", nationality: "Spanish", url: "http://en.wikipedia.org/wiki/Fernando_Alonso" }
-      ],
-      teamPrincipal: { name: "Mike Krack", url: "http://en.wikipedia.org/wiki/Mike_Krack_(motorsport)" }
+    "Aston Martin": {
+        "drivers": [
+            {
+                "driverId": "stroll",
+                "name": "Lance Stroll",
+                "nationality": "Canadian",
+                "url": "http://en.wikipedia.org/wiki/Lance_Stroll"
+            },
+            {
+                "driverId": "alonso",
+                "name": "Fernando Alonso",
+                "nationality": "Spanish",
+                "url": "http://en.wikipedia.org/wiki/Fernando_Alonso"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Mike Krack",
+            "url": "http://en.wikipedia.org/wiki/Mike_Krack_(motorsport)"
+        }
     },
-    // ...otros equipos
-  };
+    "Ferrari": {
+        "drivers": [
+            {
+                "driverId": "leclerc",
+                "name": "Charles Leclerc",
+                "nationality": "Monacan",
+                "url": "http://en.wikipedia.org/wiki/Charles_Leclerc"
+            },
+            {
+                "driverId": "sainz",
+                "name": "Carlos Sainz",
+                "nationality": "Spanish",
+                "url": "http://en.wikipedia.org/wiki/Carlos_Sainz_Jr."
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Frédéric Vasseur",
+            "url": "http://en.wikipedia.org/wiki/Fr%C3%A9d%C3%A9ric_Vasseur"
+        }
+    },
+    "Haas F1 Team": {
+        "drivers": [
+            {
+                "driverId": "magnussen",
+                "name": "Kevin Magnussen",
+                "nationality": "Danish",
+                "url": "http://en.wikipedia.org/wiki/Kevin_Magnussen"
+            },
+            {
+                "driverId": "hulkenberg",
+                "name": "Nico Hülkenberg",
+                "nationality": "German",
+                "url": "http://en.wikipedia.org/wiki/Nico_H%C3%BClkenberg"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Guenther Steiner",
+            "url": "http://en.wikipedia.org/wiki/Guenther_Steiner"
+        }
+    },
+    "McLaren": {
+        "drivers": [
+            {
+                "driverId": "norris",
+                "name": "Lando Norris",
+                "nationality": "British",
+                "url": "http://en.wikipedia.org/wiki/Lando_Norris"
+            },
+            {
+                "driverId": "piastri",
+                "name": "Oscar Piastri",
+                "nationality": "Australian",
+                "url": "http://en.wikipedia.org/wiki/Oscar_Piastri"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Andreas Seidl",
+            "url": "http://en.wikipedia.org/wiki/Andreas_Seidl"
+        }
+    },
+    "Mercedes": {
+        "drivers": [
+            {
+                "driverId": "hamilton",
+                "name": "Lewis Hamilton",
+                "nationality": "British",
+                "url": "http://en.wikipedia.org/wiki/Lewis_Hamilton"
+            },
+            {
+                "driverId": "russell",
+                "name": "George Russell",
+                "nationality": "British",
+                "url": "http://en.wikipedia.org/wiki/George_Russell"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Toto Wolff",
+            "url": "http://en.wikipedia.org/wiki/Toto_Wolff"
+        }
+    },
+    "RB F1 Team": {
+        "drivers": [
+            {
+                "driverId": "perez",
+                "name": "Sergio Pérez",
+                "nationality": "Mexican",
+                "url": "http://en.wikipedia.org/wiki/Sergio_P%C3%A9rez"
+            },
+            {
+                "driverId": "verstappen",
+                "name": "Max Verstappen",
+                "nationality": "Dutch",
+                "url": "http://en.wikipedia.org/wiki/Max_Verstappen"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Christian Horner",
+            "url": "http://en.wikipedia.org/wiki/Christian_Horner"
+        }
+    },
+    "Red Bull": {
+        "drivers": [
+            {
+                "driverId": "perez",
+                "name": "Sergio Pérez",
+                "nationality": "Mexican",
+                "url": "http://en.wikipedia.org/wiki/Sergio_P%C3%A9rez"
+            },
+            {
+                "driverId": "verstappen",
+                "name": "Max Verstappen",
+                "nationality": "Dutch",
+                "url": "http://en.wikipedia.org/wiki/Max_Verstappen"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Christian Horner",
+            "url": "http://en.wikipedia.org/wiki/Christian_Horner"
+        }
+    },
+    "Sauber": {
+        "drivers": [
+            {
+                "driverId": "bottas",
+                "name": "Valtteri Bottas",
+                "nationality": "Finnish",
+                "url": "http://en.wikipedia.org/wiki/Valtteri_Bottas"
+            },
+            {
+                "driverId": "zhou",
+                "name": "Zhou Guanyu",
+                "nationality": "Chinese",
+                "url": "http://en.wikipedia.org/wiki/Zhou_Guanyu"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "Frédéric Vasseur",
+            "url": "http://en.wikipedia.org/wiki/Fr%C3%A9d%C3%A9ric_Vasseur"
+        }
+    },
+    "Williams": {
+        "drivers": [
+            {
+                "driverId": "albon",
+                "name": "Alex Albon",
+                "nationality": "Thai-British",
+                "url": "http://en.wikipedia.org/wiki/Alex_Albon"
+            },
+            {
+                "driverId": "sargeant",
+                "name": "Logan Sargeant",
+                "nationality": "American",
+                "url": "http://en.wikipedia.org/wiki/Logan_Sargeant"
+            }
+        ],
+        "teamPrincipal": {
+            "name": "James Vowles",
+            "url": "http://en.wikipedia.org/wiki/James_Vowles"
+        }
+    }
+}
+
 
   const obtenerDatosEquipo = (nombreEquipo) => {
-    const clave = nombreEquipo.toLowerCase().replace(/\s+/g, "_");
+    const clave = nombreEquipo//.toLowerCase().replace(/\s+/g, "_");
     return datosEquipos[clave] || null;
   };
 
@@ -69,7 +255,8 @@ const Equipos = () => {
   }, [currentYear]);
 
   const verEquipo = (equipo) => {
-    setEquipoSeleccionado(equipo);
+    const datosEquipo = obtenerDatosEquipo(equipo.name);
+    setEquipoSeleccionado({ ...equipo, datos: datosEquipo });
     setShowModal(true);
   };
 
@@ -161,7 +348,7 @@ const Equipos = () => {
                         <div>
                           <div className="small text-gray-400 fw-medium">Director</div>
                           <div className="text-white">
-                            {obtenerDatosEquipo(equipoSeleccionado.name)?.teamPrincipal?.name || "Sin datos"}
+                            {equipoSeleccionado.datos?.teamPrincipal?.name || "Sin datos"}
                           </div>
                         </div>
                       </div>
@@ -177,7 +364,7 @@ const Equipos = () => {
                         <div>
                           <div className="small text-gray-400 fw-medium">Pilotos</div>
                           <div className="text-white">
-                            {obtenerDatosEquipo(equipoSeleccionado.name)?.drivers?.map((driver) => (
+                            {equipoSeleccionado.datos?.drivers?.map((driver) => (
                               <div key={driver.driverId}>
                                 <a href={driver.url} target="_blank" rel="noopener noreferrer" className="text-info">
                                   {driver.name}
@@ -191,22 +378,6 @@ const Equipos = () => {
                   </div>
                 </Tab>
 
-                {/* Pestaña de Historia */}
-                <Tab
-                  eventKey="historia"
-                  title={
-                    <span className="text-white">
-                      <i className="bi bi-book-fill me-1"></i>
-                      Historia
-                    </span>
-                  }
-                >
-                  <div className="p-4">
-                    <p className="text-white">
-                      {equipoSeleccionado.historia || "Sin datos disponibles sobre la historia del equipo."}
-                    </p>
-                  </div>
-                </Tab>
               </Tabs>
             ) : (
               <div className="d-flex justify-content-center align-items-center py-5 bg-dark text-white">
