@@ -16,11 +16,20 @@ class UsuariosTableSeeder extends Seeder
     {
         //
         DB::table('usuarios')->insert([
+            [
             'name' => 'prueba',
             'email' => 'prueba@gmail.com',
             'password' => Hash::make('1234'),
             'profile_photo' => 'foto_de_perfil.jpg', 
             'email_verified_at' => now(),
-        ]);
+        ],
+        [
+            'name' => 'edu',
+            'email' => 'edu@gmail.com',
+            'password' => Hash::make('1234'),
+            'profile_photo' => 'foto_de_perfil.jpg', 
+            'email_verified_at' => now(),
+        ]
+    ]);
     }
 }
