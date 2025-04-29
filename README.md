@@ -89,3 +89,5 @@ Enlaces
 [Diseño](https://drive.google.com/file/d/1863NhQfqDKNmjj7nRcM07e7eAPFYSEwh/view?usp=sharing)
 
 [Pruebas](https://drive.google.com/file/d/1ILFDL6xcspfFlvdfQVYXzSWuS8slZmpw/view?usp=sharing)
+
+[Video](https://youtu.be/FU6vX9cAtr0)
