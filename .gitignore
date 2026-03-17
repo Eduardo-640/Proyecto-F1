@@ -6,6 +6,7 @@
 /storage/*.key
 .env
 .env.*.php
+.venv
 Homestead.yaml
 Homestead.json
 .phpunit.result.cache
@@ -41,3 +42,9 @@ Thumbs.db
 *.swp
 *.swo
 *.bak
+
+# django y Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
