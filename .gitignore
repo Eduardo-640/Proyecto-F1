@@ -48,3 +48,6 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+#entorno virtual
+venv/
