@@ -404,6 +404,7 @@ def render_setup_ini(
     preset_bias: str | None = None,
     tunable_overrides: dict[str, int | float] | None = None,
     bop_overrides: dict[str, int] | None = None,
+    circuit_emphasis: dict[str, float] | None = None,
 ) -> str:
     """Parse the default template and overwrite computed parameters.
 
@@ -426,7 +427,7 @@ def render_setup_ini(
     Returns the modified INI content as a string.
     """
     tpl = Path(template_path or DEFAULT_TEMPLATE)
-    computed = generate_setup_params(dev, circuit_key, preset_bias)
+    computed = generate_setup_params(dev, circuit_key, preset_bias, circuit_emphasis)
 
     # Apply validated driver overrides for tunable params
     if tunable_overrides:
