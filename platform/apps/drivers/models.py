@@ -1,0 +1,55 @@
+from django.db import models
+from apps.teams.models import Team
+
+
+class Driver(models.Model):
+    name = models.CharField(max_length=100)
+    team = models.OneToOneField(
+        Team,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="driver",
+    )
+    steam_id = models.CharField(max_length=64, blank=True, null=True, unique=True)
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "Driver"
+        verbose_name_plural = "Drivers"
+
+    def __str__(self):
+        return self.name
+
+
+class DriverStanding(models.Model):
+    """Accumulated standings for a driver within a season."""
+
+    driver = models.ForeignKey(
+        Driver,
+        on_delete=models.CASCADE,
+        related_name="standings",
+    )
+    season = models.ForeignKey(
+        "seasons.Season",
+        on_delete=models.CASCADE,
+        related_name="driver_standings",
+    )
+    total_points = models.PositiveIntegerField(default=0)
+    races_entered = models.PositiveSmallIntegerField(default=0)
+    wins = models.PositiveSmallIntegerField(default=0)
+    podiums = models.PositiveSmallIntegerField(default=0)
+    pole_positions = models.PositiveSmallIntegerField(default=0)
+    fastest_laps = models.PositiveSmallIntegerField(default=0)
+    dnf_count = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        unique_together = ["driver", "season"]
+        ordering = ["season", "-total_points"]
+        verbose_name = "Driver Standing"
+        verbose_name_plural = "Driver Standings"
+
+    def __str__(self):
+        return f"{self.driver.name} – {self.season} ({self.total_points} pts)"
