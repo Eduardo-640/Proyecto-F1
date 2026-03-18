@@ -48,6 +48,12 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+# migrations carpeta y archivos compilados
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/*.pyd
+*/migrations/*.py
+
 
 #entorno virtual
 venv/
