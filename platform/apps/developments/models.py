@@ -253,6 +253,47 @@ class CircuitEmphasis(models.Model):
         }
 
 
+class BOPSnapshot(models.Model):
+    """Persisted auto-computed BOP breakdown, always in sync with TeamDevelopment.
+
+    Created and updated automatically by the ``post_save`` signal on
+    ``TeamDevelopment`` — only written when the computed values differ from
+    what is already stored (idempotent).
+
+    Ballast and restrictor start at 200 kg / 100% and are progressively
+    reduced by department levels (weighted) and synergy bonuses.
+    """
+
+    dev = models.OneToOneField(
+        TeamDevelopment,
+        on_delete=models.CASCADE,
+        related_name="bop_snapshot",
+        verbose_name="Development",
+    )
+
+    # Final computed values (what the INI gets when no manual BOP record exists)
+    ballast = models.PositiveSmallIntegerField(default=200)
+    restrictor_pct = models.PositiveSmallIntegerField(default=100)
+
+    # Breakdown components
+    ballast_base_reduction = models.PositiveSmallIntegerField(default=0)
+    restrictor_base_reduction = models.PositiveSmallIntegerField(default=0)
+    synergy_ballast = models.PositiveSmallIntegerField(default=0)
+    synergy_restrictor = models.PositiveSmallIntegerField(default=0)
+
+    # Active synergy pairs — list of {label, ballast, restrictor} dicts
+    active_synergies = models.JSONField(default=list)
+
+    computed_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "BOP Snapshot"
+        verbose_name_plural = "BOP Snapshots"
+
+    def __str__(self):
+        return f"{self.dev} — auto BOP: {self.ballast} kg / {self.restrictor_pct}%"
+
+
 class AccionMasiva(models.Model):
     """Centralized bulk operation executor for the development system.
 
@@ -265,6 +306,7 @@ class AccionMasiva(models.Model):
         INIT_PRESETS = "init_presets", "Generate Initial Setup Presets"
         APPLY_BONUSES = "apply_bonuses", "Apply Sponsor Affinity Bonuses"
         GENERATE_CIRCUIT_SETUPS = "generate_circuit_setups", "Generate Circuit Setups"
+        SYNC_BOP = "sync_bop", "Sync BOP from Development Levels"
 
     class Status(models.TextChoices):
         PENDING = "pending", "Pending"

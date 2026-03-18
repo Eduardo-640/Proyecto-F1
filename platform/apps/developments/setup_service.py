@@ -344,12 +344,19 @@ def generate_circuit_setup(
                 round(clamped_val) if spec.integer else clamped_val
             )
 
-    # Fetch BOP for this team+season
+    # Fetch BOP: manual record wins; fall back to auto-computed from levels.
+    auto_bop = sg.compute_bop(dev)
     try:
         bop = BalanceOfPerformance.objects.get(team=dev.team, season=dev.season)
+        # Manual record explicitly set by admin — use it as-is.
         bop_dict = bop.as_bop_overrides
     except BalanceOfPerformance.DoesNotExist:
+        # No manual record: derive BOP automatically from development levels.
         bop_dict = {}
+        if auto_bop["ballast"] != 0:
+            bop_dict["BALLAST"] = auto_bop["ballast"]
+        if auto_bop["restrictor_pct"] > 0:
+            bop_dict["RESTRICTOR"] = auto_bop["restrictor_pct"]
 
     ini_content = sg.render_setup_ini(
         dev,

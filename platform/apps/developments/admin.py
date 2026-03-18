@@ -11,13 +11,16 @@ from __future__ import annotations
 
 import traceback
 
+from django import forms
 from django.contrib import admin, messages
 from django.db import transaction
 from django.utils import timezone
+from django.utils.html import format_html
 
 from .models import (
     AccionMasiva,
     BalanceOfPerformance,
+    BOPSnapshot,
     CarSetupSnapshot,
     CircuitEmphasis,
     CircuitSetup,
@@ -109,6 +112,30 @@ def _execute_accion(accion: AccionMasiva) -> tuple[bool, list[str]]:
                     bop_note = " (BOP applied)" if "BALLAST" in cs.ini_content else ""
                     lines.append(
                         f"OK   {dev.team} @ {accion.circuit}: INI generated{bop_note}."
+                    )
+                except Exception as exc:
+                    lines.append(f"ERR  {dev.team}: {exc}")
+                    ok = False
+
+        # ------------------------------------------------------------------ #
+        # SYNC_BOP — create / update BalanceOfPerformance from dev levels    #
+        # ------------------------------------------------------------------ #
+        elif accion.action_type == AccionMasiva.ActionType.SYNC_BOP:
+            for dev in devs:
+                try:
+                    auto = sg.compute_bop(dev)
+                    bop, created = BalanceOfPerformance.objects.update_or_create(
+                        team=dev.team,
+                        season=dev.season,
+                        defaults={
+                            "ballast": auto["ballast"],
+                            "restrictor_pct": auto["restrictor_pct"],
+                        },
+                    )
+                    verb = "created" if created else "updated"
+                    lines.append(
+                        f"OK   {dev.team}: BOP {verb} "
+                        f"(ballast={auto['ballast']}kg, restrictor={auto['restrictor_pct']}%)."
                     )
                 except Exception as exc:
                     lines.append(f"ERR  {dev.team}: {exc}")
@@ -244,6 +271,7 @@ class TeamDevelopmentAdmin(admin.ModelAdmin):
         "electronics",
         "bonuses_applied",
         "performance_score",
+        "auto_bop_summary",
         "updated_at",
     ]
     list_filter = ["season", "bonuses_applied"]
@@ -257,10 +285,32 @@ class TeamDevelopmentAdmin(admin.ModelAdmin):
         except Exception:
             return "—"
 
+    @admin.display(description="Auto-BOP")
+    def auto_bop_summary(self, obj: TeamDevelopment) -> str:
+        try:
+            snap = obj.bop_snapshot
+            syn_count = len(snap.active_synergies)
+            syn_note = f" +{syn_count}syn" if syn_count else ""
+            return f"{snap.ballast}kg / {snap.restrictor_pct}%{syn_note}"
+        except BOPSnapshot.DoesNotExist:
+            return "— (no snapshot)"
+        except Exception:
+            return "—"
+
 
 # ---------------------------------------------------------------------------
 # PurchasedUpgrade
 # ---------------------------------------------------------------------------
+
+from .constants import MAX_LEVEL, MIN_LEVEL
+
+
+class PurchasedUpgradeForm(forms.ModelForm):
+    """Form that hides previous/new level on creation (auto-filled by save_model)."""
+
+    class Meta:
+        model = PurchasedUpgrade
+        fields = ["team", "season", "department", "cost", "applied"]
 
 
 @admin.register(PurchasedUpgrade)
@@ -269,8 +319,7 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
         "team",
         "season",
         "department",
-        "previous_level",
-        "new_level",
+        "level_arrow",
         "cost",
         "applied",
         "purchased_at",
@@ -278,13 +327,126 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
     list_filter = ["season", "department", "applied"]
     search_fields = ["team__name", "season__name", "department"]
 
+    def get_form(self, request, obj=None, **kwargs):
+        # On add (obj is None) use the simplified form; on change use full auto form.
+        if obj is None:
+            kwargs["form"] = PurchasedUpgradeForm
+        return super().get_form(request, obj, **kwargs)
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj is not None:
+            # Editing an existing record — show computed fields as read-only.
+            return [
+                "team",
+                "season",
+                "department",
+                "previous_level",
+                "new_level",
+                "purchased_at",
+                "current_levels_panel",
+            ]
+        return ["current_levels_panel"]
+
+    def get_fieldsets(self, request, obj=None):
+        if obj is None:
+            return [
+                (
+                    "Upgrade",
+                    {
+                        "fields": ["team", "season", "department", "cost", "applied"],
+                        "description": (
+                            "Selecciona equipo, temporada y departamento. "
+                            "<strong>previous_level y new_level se calculan automáticamente</strong> "
+                            "desde el estado actual del equipo."
+                        ),
+                    },
+                ),
+                (
+                    "Niveles actuales del equipo",
+                    {
+                        "fields": ["current_levels_panel"],
+                        "classes": ["collapse"],
+                        "description": "Disponible tras seleccionar equipo + temporada.",
+                    },
+                ),
+            ]
+        return [
+            (
+                "Upgrade",
+                {
+                    "fields": [
+                        "team",
+                        "season",
+                        "department",
+                        "previous_level",
+                        "new_level",
+                        "cost",
+                        "applied",
+                        "purchased_at",
+                    ],
+                },
+            ),
+            (
+                "Niveles actuales del equipo",
+                {"fields": ["current_levels_panel"]},
+            ),
+        ]
+
+    @admin.display(description="Nivel")
+    def level_arrow(self, obj: PurchasedUpgrade) -> str:
+        return f"{obj.previous_level} → {obj.new_level}"
+
+    @admin.display(description="Niveles actuales (dev)")
+    def current_levels_panel(self, obj: PurchasedUpgrade) -> str:
+        try:
+            dev = TeamDevelopment.objects.get(team=obj.team, season=obj.season)
+        except TeamDevelopment.DoesNotExist:
+            return "— No TeamDevelopment encontrado"
+        depts = ("engine", "aerodynamics", "chassis", "suspension", "electronics")
+        parts = []
+        for d in depts:
+            lvl = getattr(dev, d)
+            label = d.capitalize()
+            highlight = (
+                " style='font-weight:bold;color:#2a7ae2'" if d == obj.department else ""
+            )
+            parts.append(f"<span{highlight}>{label}: {lvl}</span>")
+        return format_html(" &nbsp;|&nbsp; ".join(parts))
+
     def save_model(self, request, obj, form, change):
-        """Validate level jump and evolve car setup when ``applied`` flips to True."""
+        """Auto-fill previous/new level and evolve car setup when applied."""
+        # ── Auto-fill levels on creation ──────────────────────────────────
+        if not change:
+            try:
+                dev = TeamDevelopment.objects.get(team=obj.team, season=obj.season)
+            except TeamDevelopment.DoesNotExist:
+                self.message_user(
+                    request,
+                    f"No TeamDevelopment para {obj.team} en {obj.season}. "
+                    "Créalo primero.",
+                    messages.ERROR,
+                )
+                return
+
+            current = dev.get_level(obj.department)
+            if current >= MAX_LEVEL:
+                self.message_user(
+                    request,
+                    f"{obj.team} ya está en nivel máximo ({MAX_LEVEL}) "
+                    f"en {obj.department}. No se puede mejorar más.",
+                    messages.ERROR,
+                )
+                return
+
+            obj.previous_level = current
+            obj.new_level = current + 1
+
+        # ── Validate level continuity (safety net for edits) ──────────────
         if obj.new_level != obj.previous_level + 1:
             self.message_user(
                 request,
-                f"Invalid upgrade: levels must increase by exactly 1 "
-                f"({obj.previous_level} → {obj.new_level} is not allowed).",
+                f"Upgrade inválido: los niveles deben subir de 1 en 1 "
+                f"({obj.previous_level} → {obj.new_level} no está permitido).",
                 messages.ERROR,
             )
             return
@@ -299,13 +461,13 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
         if not (obj.applied and not was_applied_before):
             return
 
+        # ── Apply the upgrade to TeamDevelopment + evolve snapshot ────────
         try:
             dev = TeamDevelopment.objects.get(team=obj.team, season=obj.season)
         except TeamDevelopment.DoesNotExist:
             self.message_user(
                 request,
-                f"No TeamDevelopment found for {obj.team} in {obj.season}. "
-                "Create it first, then mark the upgrade as applied.",
+                f"No TeamDevelopment para {obj.team} en {obj.season}.",
                 messages.ERROR,
             )
             return
@@ -318,7 +480,7 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
         except Exception as exc:
             self.message_user(
                 request,
-                f"Upgrade saved but setup evolution failed: {exc}",
+                f"Upgrade guardado pero la evolución del setup falló: {exc}",
                 messages.ERROR,
             )
             return
@@ -327,17 +489,19 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
             changed_keys = list(snapshot.changed_params)
             self.message_user(
                 request,
-                f"Setup updated → v{snapshot.version} "
-                f"({len(changed_keys)} param(s) changed: "
+                f"Setup actualizado → v{snapshot.version} "
+                f"({len(changed_keys)} parámetro(s) cambiado(s): "
                 f"{', '.join(changed_keys[:6])}"
-                f"{'…' if len(changed_keys) > 6 else ''}).",
+                f"{'…' if len(changed_keys) > 6 else ''})."
+                " Recuerda regenerar los Circuit Setups si quieres aplicarlo al fin de semana.",
                 messages.SUCCESS,
             )
         else:
             self.message_user(
                 request,
-                "Upgrade applied but no INI parameters changed "
-                "(synergy thresholds not yet crossed).",
+                "Upgrade aplicado, pero ningún parámetro INI cambió "
+                "(los umbrales de sinergia aún no se han alcanzado). "
+                "Regenera los Circuit Setups si quieres reflejar el cambio de nivel.",
                 messages.INFO,
             )
 
@@ -492,9 +656,197 @@ class BalanceOfPerformanceAdmin(admin.ModelAdmin):
         "season",
         "ballast",
         "restrictor_pct",
+        "auto_ballast",
+        "auto_restrictor",
+        "is_overridden",
         "notes",
         "updated_at",
     ]
     list_filter = ["season"]
     search_fields = ["team__name", "season__name"]
-    readonly_fields = ["updated_at"]
+    readonly_fields = ["updated_at", "bop_breakdown_panel"]
+
+    fieldsets = [
+        (
+            "Valores aplicados",
+            {
+                "fields": [
+                    "team",
+                    "season",
+                    "ballast",
+                    "restrictor_pct",
+                    "notes",
+                    "updated_at",
+                ],
+                "description": (
+                    "Punto de partida siempre: <strong>200 kg / 100%</strong>. "
+                    "Usa <em>AccionMasiva → Sync BOP</em> para rellenar automáticamente "
+                    "según los niveles actuales, o edita manualmente para sobrescribir. "
+                    "El desglose de abajo se recalcula en tiempo real — no se almacena "
+                    "porque siempre se puede derivar de los niveles de desarrollo."
+                ),
+            },
+        ),
+        (
+            "Desglose automático en tiempo real",
+            {
+                "fields": ["bop_breakdown_panel"],
+                "description": (
+                    "Calculado al momento desde <em>TeamDevelopment</em>. "
+                    "Si difiere de los valores aplicados arriba es porque se editaron manualmente."
+                ),
+            },
+        ),
+    ]
+
+    @admin.display(description="Auto Ballast")
+    def auto_ballast(self, obj: BalanceOfPerformance) -> str:
+        try:
+            snap = TeamDevelopment.objects.get(
+                team=obj.team, season=obj.season
+            ).bop_snapshot
+            return f"{snap.ballast} kg"
+        except Exception:
+            return "—"
+
+    @admin.display(description="Auto Restrictor")
+    def auto_restrictor(self, obj: BalanceOfPerformance) -> str:
+        try:
+            snap = TeamDevelopment.objects.get(
+                team=obj.team, season=obj.season
+            ).bop_snapshot
+            return f"{snap.restrictor_pct} %"
+        except Exception:
+            return "—"
+
+    @admin.display(description="Manual?", boolean=True)
+    def is_overridden(self, obj: BalanceOfPerformance) -> bool:
+        try:
+            snap = TeamDevelopment.objects.get(
+                team=obj.team, season=obj.season
+            ).bop_snapshot
+            return (
+                obj.ballast != snap.ballast or obj.restrictor_pct != snap.restrictor_pct
+            )
+        except Exception:
+            return False
+
+    @admin.display(description="Desglose BOP automático")
+    def bop_breakdown_panel(self, obj: BalanceOfPerformance) -> str:
+        try:
+            dev = TeamDevelopment.objects.get(team=obj.team, season=obj.season)
+            snap = dev.bop_snapshot
+        except TeamDevelopment.DoesNotExist:
+            return format_html(
+                "<em>Sin TeamDevelopment para este equipo + temporada.</em>"
+            )
+        except BOPSnapshot.DoesNotExist:
+            return format_html(
+                "<em>Sin BOP Snapshot — guarda el TeamDevelopment una vez para generarlo.</em>"
+            )
+        except Exception as exc:
+            return format_html("<em>Error: {}</em>", str(exc))
+
+        rows = [
+            f"<strong>Ballast auto: {snap.ballast} kg</strong>"
+            f" &nbsp;=&nbsp; 200 − {snap.ballast_base_reduction} (niveles)"
+            f" − {snap.synergy_ballast} (sinergias)",
+            f"<strong>Restrictor auto: {snap.restrictor_pct} %</strong>"
+            f" &nbsp;=&nbsp; 100 − {snap.restrictor_base_reduction} (niveles)"
+            f" − {snap.synergy_restrictor} (sinergias)",
+            f"<em style='color:#888'>Calculado: {snap.computed_at.strftime('%d/%m/%Y %H:%M')}</em>",
+            "",
+        ]
+
+        if snap.active_synergies:
+            rows.append("<strong>Sinergias activas:</strong>")
+            for s in snap.active_synergies:
+                rows.append(
+                    f"&nbsp;&nbsp;• {s['label']}: &minus;{s['ballast']} kg / &minus;{s['restrictor']}%"
+                )
+        else:
+            rows.append(
+                "<em>Sin sinergias activas — sube Motor o Chasis para desbloquearlas.</em>"
+            )
+
+        if obj.ballast != snap.ballast or obj.restrictor_pct != snap.restrictor_pct:
+            rows.extend(
+                [
+                    "",
+                    "<span style='color:#e67e00'>&#9888; Valores manuales difieren del auto: "
+                    f"ballast={obj.ballast:+d} kg (auto={snap.ballast}), "
+                    f"restrictor={obj.restrictor_pct}% (auto={snap.restrictor_pct}%)</span>",
+                ]
+            )
+
+        return format_html("<br>".join(rows))
+
+
+# ---------------------------------------------------------------------------
+# BOPSnapshot
+# ---------------------------------------------------------------------------
+
+
+@admin.register(BOPSnapshot)
+class BOPSnapshotAdmin(admin.ModelAdmin):
+    list_display = [
+        "dev",
+        "ballast",
+        "restrictor_pct",
+        "ballast_base_reduction",
+        "restrictor_base_reduction",
+        "synergy_ballast",
+        "synergy_restrictor",
+        "active_synergies_summary",
+        "computed_at",
+    ]
+    list_filter = ["dev__season"]
+    search_fields = ["dev__team__name", "dev__season__name"]
+    readonly_fields = [
+        "dev",
+        "ballast",
+        "restrictor_pct",
+        "ballast_base_reduction",
+        "restrictor_base_reduction",
+        "synergy_ballast",
+        "synergy_restrictor",
+        "active_synergies",
+        "computed_at",
+    ]
+
+    fieldsets = [
+        (
+            "Resultado",
+            {
+                "fields": ["dev", "ballast", "restrictor_pct", "computed_at"],
+                "description": (
+                    "Valores calculados automáticamente desde los niveles de desarrollo. "
+                    "Se actualizan solos cada vez que cambia <em>TeamDevelopment</em>."
+                ),
+            },
+        ),
+        (
+            "Desglose",
+            {
+                "fields": [
+                    "ballast_base_reduction",
+                    "restrictor_base_reduction",
+                    "synergy_ballast",
+                    "synergy_restrictor",
+                    "active_synergies",
+                ],
+            },
+        ),
+    ]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    @admin.display(description="Sinergias activas")
+    def active_synergies_summary(self, obj: BOPSnapshot) -> str:
+        if not obj.active_synergies:
+            return "—"
+        return ", ".join(s["label"] for s in obj.active_synergies)

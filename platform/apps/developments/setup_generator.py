@@ -60,6 +60,28 @@ SYNERGY_RULES: list[tuple[str, int, str, int, float]] = [
     ("chassis", 4, "suspension", 4, 0.08),  # rigid chassis + precise damping
 ]
 
+#: Per-department weights for BOP reduction: (ballast_weight, restrictor_weight).
+#: Engine and chassis carry the most weight because they have the least visible
+#: impact on INI params — BOP is where their development is felt most.
+#: Both weight columns must sum to 1.0.
+BOP_DEPT_WEIGHTS: dict[str, tuple[float, float]] = {
+    #                    ballast  restrictor
+    "engine": (0.35, 0.40),  # raw power → mainly restrictor; mass → ballast
+    "chassis": (0.30, 0.15),  # structure → weight distribution / ballast
+    "aerodynamics": (0.15, 0.20),  # downforce → cornering speed / restrictor
+    "electronics": (0.12, 0.15),  # ERS/traction → restrictor deployment
+    "suspension": (0.08, 0.10),  # damping → minor contribution to both
+}
+
+#: Extra BOP reductions unlocked when two departments both reach their threshold.
+#: (dept_a, min_level_a, dept_b, min_level_b, ballast_bonus_kg, restrictor_bonus_pct)
+BOP_SYNERGIES: list[tuple[str, int, str, int, int, int]] = [
+    ("engine", 4, "chassis", 3, 20, 10),  # powerful engine on rigid chassis
+    ("engine", 3, "electronics", 3, 10, 15),  # engine management + ERS/traction
+    ("aerodynamics", 4, "suspension", 3, 15, 5),  # aero efficiency + ride control
+    ("chassis", 4, "suspension", 4, 10, 5),  # precision handling package
+]
+
 #: Per-circuit department emphasis weights.
 #: Multiplied over the base modifier; values > 1 reward the department more.
 CIRCUIT_EMPHASIS: dict[str, dict[str, float]] = {
@@ -462,6 +484,73 @@ def render_setup_ini(
                 result.append(f"\n[{section}]\nVALUE={value}\n")
 
     return "".join(result)
+
+
+# ---------------------------------------------------------------------------
+# Balance of Performance (auto-computed from development levels)
+# ---------------------------------------------------------------------------
+
+
+def compute_bop_detail(dev: "TeamDevelopment") -> dict:
+    """Return the full BOP breakdown including per-component reductions.
+
+    All cars start at 200 kg ballast / 100 % restrictor.
+    Development reduces both values via department-weighted LEVEL_PERF scores
+    (non-linear curve) plus flat synergy bonuses when two departments jointly
+    reach their threshold levels.
+
+    Engine and chassis carry the highest weights because they contribute the
+    least to INI parameters — BOP is where their development is most felt.
+
+    Returns
+    -------
+    dict with keys:
+    - ``ballast``, ``restrictor_pct``           — final applied values
+    - ``ballast_base_reduction``,
+      ``restrictor_base_reduction``              — reduction from level weights
+    - ``synergy_ballast``, ``synergy_restrictor`` — extra from active synergies
+    - ``active_synergies``                       — list of dicts {label, ballast, restrictor}
+    """
+    levels = {d: getattr(dev, d, 1) for d in DEPARTMENTS}
+
+    # Weighted LEVEL_PERF score per reduction axis — both range [0.40, 1.00]
+    b_score = sum(BOP_DEPT_WEIGHTS[d][0] * LEVEL_PERF[levels[d]] for d in DEPARTMENTS)
+    r_score = sum(BOP_DEPT_WEIGHTS[d][1] * LEVEL_PERF[levels[d]] for d in DEPARTMENTS)
+
+    # Normalise from [0.40, 1.00] to reduction in [0, 200] kg / [0, 100] %
+    b_base = round(200 * (b_score - 0.40) / 0.60)
+    r_base = round(100 * (r_score - 0.40) / 0.60)
+
+    # Synergy bonuses: flat extra reductions per active pair
+    b_syn = r_syn = 0
+    active: list[dict] = []
+    for dept_a, min_a, dept_b, min_b, bkg, rpct in BOP_SYNERGIES:
+        if levels[dept_a] >= min_a and levels[dept_b] >= min_b:
+            b_syn += bkg
+            r_syn += rpct
+            active.append(
+                {
+                    "label": f"{dept_a.capitalize()}(≥{min_a}) + {dept_b.capitalize()}(≥{min_b})",
+                    "ballast": bkg,
+                    "restrictor": rpct,
+                }
+            )
+
+    return {
+        "ballast": max(0, 200 - b_base - b_syn),
+        "restrictor_pct": max(0, 100 - r_base - r_syn),
+        "ballast_base_reduction": b_base,
+        "restrictor_base_reduction": r_base,
+        "synergy_ballast": b_syn,
+        "synergy_restrictor": r_syn,
+        "active_synergies": active,
+    }
+
+
+def compute_bop(dev: "TeamDevelopment") -> dict[str, int]:
+    """Shortcut: return only ``{'ballast': int, 'restrictor_pct': int}``."""
+    d = compute_bop_detail(dev)
+    return {"ballast": d["ballast"], "restrictor_pct": d["restrictor_pct"]}
 
 
 def write_setup_ini(
