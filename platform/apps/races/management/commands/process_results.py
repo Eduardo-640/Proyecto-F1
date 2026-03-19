@@ -74,12 +74,51 @@ class Command(BaseCommand):
         if not results:
             raise CommandError("No results array found in the provided JSON")
 
-        # Filter and sort results by TotalTime > 0 ascending; DNFs (TotalTime==0) go after
-        def time_key(r):
-            t = r.get("TotalTime") or 0
-            return t if t > 0 else 10**12
+        # Build laps map (DriverGuid or DriverName -> laps completed) from Laps if present
+        laps_entries = data.get("Laps") or data.get("laps") or []
+        laps_map = {}
+        for lap in laps_entries:
+            guid = lap.get("DriverGuid") or lap.get("Guid") or ""
+            name = lap.get("DriverName") or (lap.get("Driver") or {}).get("Name") or ""
+            key = guid or name
+            if not key:
+                continue
+            laps_map[key] = laps_map.get(key, 0) + 1
 
-        sorted_results = sorted(results, key=time_key)
+        # Deduplicate possible reconnections: group Result entries by driver (guid or name)
+        grouped = {}
+        for r in results:
+            guid = r.get("DriverGuid") or r.get("Guid") or ""
+            name = r.get("DriverName") or (r.get("Driver") or {}).get("Name") or ""
+            key = guid or name
+            grouped.setdefault(key, []).append(r)
+
+        # Choose best entry per driver: prefer more laps, then finisher, then lower time
+        deduped_results = []
+        for key, items in grouped.items():
+
+            def candidate_key(rec):
+                laps = laps_map.get(key, 0)
+                t = rec.get("TotalTime") or 0
+                finished = 1 if (t and t > 0) else 0
+                time_val = t if t > 0 else 10**12
+                return (-laps, -finished, time_val)
+
+            # pick best candidate
+            best = sorted(items, key=candidate_key)[0]
+            deduped_results.append(best)
+
+        # Sort deduplicated results by laps completed (desc), then by TotalTime asc.
+        def sort_key(r):
+            guid = r.get("DriverGuid") or r.get("Guid") or ""
+            name = r.get("DriverName") or (r.get("Driver") or {}).get("Name") or ""
+            key = guid or name
+            laps = laps_map.get(key, 0)
+            t = r.get("TotalTime") or 0
+            time_val = t if t > 0 else 10**12
+            return (-laps, time_val)
+
+        sorted_results = sorted(deduped_results, key=sort_key)
 
         # determine fastest lap if possible (ignore sentinel 999999999)
         best_lap_vals = [
