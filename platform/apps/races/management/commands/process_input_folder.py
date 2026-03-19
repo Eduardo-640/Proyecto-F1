@@ -106,6 +106,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         input_dir, output_dir = get_input_output_dirs()
+        # create discarded directory next to output
+        discarded_dir = output_dir.parent / "discarded"
+        discarded_dir.mkdir(parents=True, exist_ok=True)
 
         files = list(input_dir.glob("*.json"))
         if not files:
@@ -161,17 +164,26 @@ class Command(BaseCommand):
                         # no existing race for this circuit+status — consider creating one if we have datetime
                         if info.get("datetime"):
                             target_date = info.get("datetime").date()
-                            # determine season by date, fallback by year, fallback to most recent
-                            season = Season.objects.filter(
-                                start_date__lte=target_date,
-                                end_date__gte=target_date,
-                            ).first()
-                            if not season:
-                                season = Season.objects.filter(
-                                    year=target_date.year
-                                ).first()
-                            if not season:
-                                season = Season.objects.order_by("-year").first()
+                            # determine season by date (strict). If multiple seasons
+                            # cover the same date we treat it as ambiguous and skip
+                            # to avoid assigning races to the wrong season.
+                            seasons_for_date = list(
+                                Season.objects.filter(
+                                    start_date__lte=target_date,
+                                    end_date__gte=target_date,
+                                )
+                            )
+                            if len(seasons_for_date) == 1:
+                                season = seasons_for_date[0]
+                            else:
+                                # strict mode: if the date is not covered by exactly one
+                                # season we consider it ambiguous and skip processing
+                                self.stdout.write(
+                                    self.style.WARNING(
+                                        f"No single season covers {target_date}; skipping {f.name} to avoid incorrect assignment."
+                                    )
+                                )
+                                season = None
 
                             # determine round number: try to reuse existing round on same date/circuit, else next
                             if season:
@@ -194,7 +206,28 @@ class Command(BaseCommand):
                                     ) or 0
                                     round_number = max_round + 1
                             else:
-                                round_number = 1
+                                # no season determined (strict mode) -> move to discarded and skip
+                                self.stdout.write(
+                                    self.style.WARNING(
+                                        f"Skipping {f.name}: no season for date {target_date}"
+                                    )
+                                )
+                                if not options.get("dry_run"):
+                                    try:
+                                        dest = discarded_dir / f.name
+                                        shutil.move(str(f), str(dest))
+                                        self.stdout.write(
+                                            self.style.SUCCESS(
+                                                f"Moved {f.name} -> {dest} (discarded)"
+                                            )
+                                        )
+                                    except Exception:
+                                        self.stdout.write(
+                                            self.style.WARNING(
+                                                f"Failed to move {f.name} to discarded"
+                                            )
+                                        )
+                                continue
 
                             race = Race.objects.create(
                                 season=season,
@@ -266,6 +299,22 @@ class Command(BaseCommand):
                                     f"Could not infer race for '{f.name}', skipping. Rename to <season>_<round>_TYPE.json or include TrackName with matching Circuit."
                                 )
                             )
+                            # move to discarded
+                            if not options.get("dry_run"):
+                                try:
+                                    dest = discarded_dir / f.name
+                                    shutil.move(str(f), str(dest))
+                                    self.stdout.write(
+                                        self.style.SUCCESS(
+                                            f"Moved {f.name} -> {dest} (discarded)"
+                                        )
+                                    )
+                                except Exception:
+                                    self.stdout.write(
+                                        self.style.WARNING(
+                                            f"Failed to move {f.name} to discarded"
+                                        )
+                                    )
                             continue
                     else:
                         self.stdout.write(
@@ -273,6 +322,22 @@ class Command(BaseCommand):
                                 f"Could not infer race for '{f.name}', skipping. Rename to <season>_<round>_TYPE.json or include TrackName with matching Circuit."
                             )
                         )
+                        # move to discarded
+                        if not options.get("dry_run"):
+                            try:
+                                dest = discarded_dir / f.name
+                                shutil.move(str(f), str(dest))
+                                self.stdout.write(
+                                    self.style.SUCCESS(
+                                        f"Moved {f.name} -> {dest} (discarded)"
+                                    )
+                                )
+                            except Exception:
+                                self.stdout.write(
+                                    self.style.WARNING(
+                                        f"Failed to move {f.name} to discarded"
+                                    )
+                                )
                         continue
 
                 if not options.get("dry_run"):
