@@ -70,6 +70,18 @@ class PurchasedUpgrade(models.Model):
     def __str__(self):
         return f"{self.team} – {self.get_department_display()} {self.previous_level}→{self.new_level}"
 
+    def clean(self):
+        # Validate cost matches configured pricing for single-level upgrades
+        from .setup_service import compute_upgrade_cost
+
+        if self.new_level != self.previous_level + 1:
+            raise ValueError("Upgrades must increase level by exactly 1")
+        expected = compute_upgrade_cost(self.previous_level, self.new_level)
+        if expected and self.cost != expected:
+            raise ValueError(
+                f"Cost mismatch: expected {expected} for {self.previous_level}->{self.new_level}"
+            )
+
 
 class CarSetupSnapshot(models.Model):
     """Versioned snapshot of a team's car .ini setup for a season.
@@ -307,6 +319,7 @@ class AccionMasiva(models.Model):
         APPLY_BONUSES = "apply_bonuses", "Apply Sponsor Affinity Bonuses"
         GENERATE_CIRCUIT_SETUPS = "generate_circuit_setups", "Generate Circuit Setups"
         SYNC_BOP = "sync_bop", "Sync BOP from Development Levels"
+        RESET_CONFIGS = "reset_configs", "Reset Team Configurations"
 
     class Status(models.TextChoices):
         PENDING = "pending", "Pending"
@@ -370,3 +383,183 @@ class AccionMasiva(models.Model):
     def __str__(self):
         team_label = str(self.team) if self.team else "all teams"
         return f"{self.get_action_type_display()} – {self.season} – {team_label}"
+
+    def execute(self) -> None:
+        """Execute the selected bulk action and persist a result log.
+
+        This method is idempotent in the sense that it records status and
+        avoids partial commits by wrapping each top-level loop in a
+        transaction. Errors are captured into `result_log` and the `status`
+        field is updated accordingly.
+        """
+        from django.utils import timezone
+        from django.db import transaction
+        from io import StringIO
+
+        from . import setup_service as service
+        from . import setup_generator as sg
+
+        buf = StringIO()
+        attempted = 0
+        successes = 0
+        errors = 0
+
+        try:
+            with transaction.atomic():
+                from apps.teams.models import Team as _Team
+
+                targets = (
+                    [self.team]
+                    if self.team is not None
+                    else list(_Team.objects.filter(active=True))
+                )
+
+                for team in targets:
+                    attempted += 1
+                    try:
+                        if self.action_type == self.ActionType.INIT_PRESETS:
+                            # Ensure TeamDevelopment exists
+                            dev, created = (
+                                service.TeamDevelopment.objects.get_or_create(
+                                    team=team, season=self.season
+                                )
+                            )
+                            # Apply starting bonuses then generate v1 preset if missing
+                            applied = service.apply_starting_bonuses(dev)
+                            if not service.CarSetupSnapshot.objects.filter(
+                                team=team, season=self.season
+                            ).exists():
+                                service.generate_initial_preset(
+                                    dev, bias=self.bias or None
+                                )
+                            buf.write(f"{team}: init_presets ok (bonuses={applied})\n")
+
+                        elif self.action_type == self.ActionType.APPLY_BONUSES:
+                            dev, _ = service.TeamDevelopment.objects.get_or_create(
+                                team=team, season=self.season
+                            )
+                            applied = service.apply_starting_bonuses(dev)
+                            buf.write(f"{team}: apply_bonuses -> {applied}\n")
+
+                        elif (
+                            self.action_type == self.ActionType.GENERATE_CIRCUIT_SETUPS
+                        ):
+                            if not self.circuit:
+                                raise ValueError(
+                                    "Circuit is required for generate_circuit_setups"
+                                )
+                            dev, _ = service.TeamDevelopment.objects.get_or_create(
+                                team=team, season=self.season
+                            )
+                            setup = service.generate_circuit_setup(dev, self.circuit)
+                            buf.write(f"{team}: generated circuit setup {setup}\n")
+
+                        elif self.action_type == self.ActionType.SYNC_BOP:
+                            # Compute auto BOP and persist BOPSnapshot
+                            dev, _ = service.TeamDevelopment.objects.get_or_create(
+                                team=team, season=self.season
+                            )
+                            auto = sg.compute_bop(dev)
+                            from .models import BOPSnapshot
+
+                            BOPSnapshot.objects.update_or_create(
+                                dev=dev,
+                                defaults={
+                                    "ballast": auto["ballast"],
+                                    "restrictor_pct": auto["restrictor_pct"],
+                                    "ballast_base_reduction": auto.get(
+                                        "ballast_base_reduction", 0
+                                    ),
+                                    "restrictor_base_reduction": auto.get(
+                                        "restrictor_base_reduction", 0
+                                    ),
+                                    "synergy_ballast": auto.get("synergy_ballast", 0),
+                                    "synergy_restrictor": auto.get(
+                                        "synergy_restrictor", 0
+                                    ),
+                                    "active_synergies": auto.get(
+                                        "active_synergies", []
+                                    ),
+                                },
+                            )
+                            buf.write(f"{team}: synced BOP {auto}\n")
+
+                        elif self.action_type == self.ActionType.RESET_CONFIGS:
+                            # Reset all generated/derived configuration for the team
+                            # - Delete snapshots, upgrades, circuit setups, BOP
+                            # - Reset TeamDevelopment levels to MIN_LEVEL and clear bonuses_applied
+                            from .constants import MIN_LEVEL
+
+                            # Ensure TeamDevelopment exists
+                            dev, _ = service.TeamDevelopment.objects.get_or_create(
+                                team=team, season=self.season
+                            )
+
+                            # Delete generated records for this team+season
+                            deleted_snapshots = CarSetupSnapshot.objects.filter(
+                                team=team, season=self.season
+                            ).delete()
+                            deleted_upgrades = PurchasedUpgrade.objects.filter(
+                                team=team, season=self.season
+                            ).delete()
+                            deleted_circuit_setups = CircuitSetup.objects.filter(
+                                team=team, season=self.season
+                            ).delete()
+                            deleted_bop = BalanceOfPerformance.objects.filter(
+                                team=team, season=self.season
+                            ).delete()
+
+                            # Reset development levels and bonuses flag
+                            fields_updated = []
+                            for dept in ("engine", "aerodynamics", "chassis", "suspension", "electronics"):
+                                if getattr(dev, dept) != MIN_LEVEL:
+                                    setattr(dev, dept, MIN_LEVEL)
+                                    fields_updated.append(dept)
+
+                            if dev.bonuses_applied:
+                                dev.bonuses_applied = False
+                                fields_updated.append("bonuses_applied")
+
+                            if fields_updated:
+                                dev.save(update_fields=fields_updated + ["updated_at"])
+
+                            buf.write(
+                                f"{team}: reset_configs -> snapshots={deleted_snapshots[0]}, upgrades={deleted_upgrades[0]}, circuit_setups={deleted_circuit_setups[0]}, bop={deleted_bop[0]}, dev_fields_reset={fields_updated}\n"
+                            )
+
+                        else:
+                            raise ValueError(f"Unknown action: {self.action_type}")
+
+                        successes += 1
+                    except Exception as e:
+                        errors += 1
+                        import traceback
+
+                        buf.write(f"{team}: ERROR: {e}\n")
+                        buf.write(traceback.format_exc())
+
+            # If we reach here the transaction committed for all teams
+            self.status = self.Status.OK
+        except Exception as e:
+            # Top-level failure
+            self.status = self.Status.ERROR
+            buf.write(f"Top-level error: {e}\n")
+            import traceback
+
+            buf.write(traceback.format_exc())
+
+        self.result_log = buf.getvalue()
+        self.executed_at = timezone.now()
+        # Persist status/result_log
+        super().save(update_fields=["status", "result_log", "executed_at"])  # type: ignore[arg-type]
+
+    def save(self, *args, **kwargs):
+        # Detect creation: call super to obtain pk, then execute immediately
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new and self.status == self.Status.PENDING:
+            try:
+                self.execute()
+            except Exception:
+                # execute() already records errors into result_log/status
+                pass

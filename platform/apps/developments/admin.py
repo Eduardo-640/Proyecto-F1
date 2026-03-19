@@ -16,6 +16,8 @@ from django.contrib import admin, messages
 from django.db import transaction
 from django.utils import timezone
 from django.utils.html import format_html
+from django.http import JsonResponse
+from django.urls import path
 
 from .models import (
     AccionMasiva,
@@ -32,6 +34,7 @@ from .setup_service import (
     apply_upgrade_to_setup,
     generate_circuit_setup,
     generate_initial_preset,
+    get_sponsor_money_multiplier,
 )
 
 
@@ -136,6 +139,56 @@ def _execute_accion(accion: AccionMasiva) -> tuple[bool, list[str]]:
                     lines.append(
                         f"OK   {dev.team}: BOP {verb} "
                         f"(ballast={auto['ballast']}kg, restrictor={auto['restrictor_pct']}%)."
+                    )
+                except Exception as exc:
+                    lines.append(f"ERR  {dev.team}: {exc}")
+                    ok = False
+
+        # ------------------------------------------------------------------ #
+        # RESET_CONFIGS — delete generated snapshots/upgrades/circuit setups   #
+        # ------------------------------------------------------------------ #
+        elif accion.action_type == AccionMasiva.ActionType.RESET_CONFIGS:
+            from .constants import MIN_LEVEL
+
+            for dev in devs:
+                try:
+                    with transaction.atomic():
+                        # Delete generated records for this team+season
+                        snaps_deleted = CarSetupSnapshot.objects.filter(
+                            team=dev.team, season=dev.season
+                        ).delete()[0]
+                        ups_deleted = PurchasedUpgrade.objects.filter(
+                            team=dev.team, season=dev.season
+                        ).delete()[0]
+                        cs_deleted = CircuitSetup.objects.filter(
+                            team=dev.team, season=dev.season
+                        ).delete()[0]
+                        bop_deleted = BalanceOfPerformance.objects.filter(
+                            team=dev.team, season=dev.season
+                        ).delete()[0]
+
+                        # Reset development levels and bonuses flag
+                        fields_changed = []
+                        for dept in (
+                            "engine",
+                            "aerodynamics",
+                            "chassis",
+                            "suspension",
+                            "electronics",
+                        ):
+                            if getattr(dev, dept) != MIN_LEVEL:
+                                setattr(dev, dept, MIN_LEVEL)
+                                fields_changed.append(dept)
+
+                        if dev.bonuses_applied:
+                            dev.bonuses_applied = False
+                            fields_changed.append("bonuses_applied")
+
+                        if fields_changed:
+                            dev.save(update_fields=fields_changed + ["updated_at"])
+
+                    lines.append(
+                        f"OK   {dev.team}: reset (snaps={snaps_deleted}, ups={ups_deleted}, cs={cs_deleted}, bop={bop_deleted}, fields={fields_changed})"
                     )
                 except Exception as exc:
                     lines.append(f"ERR  {dev.team}: {exc}")
@@ -303,6 +356,9 @@ class TeamDevelopmentAdmin(admin.ModelAdmin):
 # ---------------------------------------------------------------------------
 
 from .constants import MAX_LEVEL, MIN_LEVEL
+from .setup_service import compute_upgrade_cost
+from apps.races.constants import TransactionType as RaceTransactionType
+from apps.races.models import CreditTransaction
 
 
 class PurchasedUpgradeForm(forms.ModelForm):
@@ -332,6 +388,67 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
         if obj is None:
             kwargs["form"] = PurchasedUpgradeForm
         return super().get_form(request, obj, **kwargs)
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path("compute_price/", self.admin_site.admin_view(self.compute_price_view), name="developments_purchasedupgrade_compute_price"),
+        ]
+        return my_urls + urls
+
+    def compute_price_view(self, request):
+        """AJAX endpoint: compute expected upgrade cost for given team/season/department."""
+        team_id = request.GET.get("team")
+        season_id = request.GET.get("season")
+        department = request.GET.get("department")
+
+        try:
+            team = None
+            if team_id:
+                from apps.teams.models import Team
+
+                team = Team.objects.get(pk=int(team_id))
+            # determine previous level
+            prev = 1
+            if team and season_id and department:
+                from apps.developments.models import TeamDevelopment
+
+                try:
+                    dev = TeamDevelopment.objects.get(team=team, season__id=int(season_id))
+                    prev = dev.get_level(department)
+                except TeamDevelopment.DoesNotExist:
+                    prev = 1
+
+            # compute base cost and apply multiplier
+            from .setup_service import compute_upgrade_cost, get_sponsor_money_multiplier
+
+            base = 0
+            try:
+                base = compute_upgrade_cost(prev, prev + 1)
+            except Exception:
+                base = 0
+
+            multiplier = 1.0
+            if team:
+                multiplier = get_sponsor_money_multiplier(team)
+
+            charged = int(round(base * multiplier))
+            team_credits = None
+            if team:
+                team_credits = getattr(team, 'credits', None)
+
+            return JsonResponse({
+                "previous_level": prev,
+                "base_cost": base,
+                "multiplier": multiplier,
+                "charged": charged,
+                "team_credits": team_credits,
+            })
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+    class Media:
+        js = ("developments/admin_upgrade_price.js",)
 
     def get_readonly_fields(self, request, obj=None):
         if obj is not None:
@@ -456,12 +573,21 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
             if obj.pk
             else False
         )
+
+        # If creating and cost not provided, fill expected cost
+        if not change and (not obj.cost or obj.cost == 0):
+            try:
+                expected = compute_upgrade_cost(obj.previous_level, obj.new_level)
+            except Exception:
+                expected = 0
+            obj.cost = expected
+
         super().save_model(request, obj, form, change)
 
         if not (obj.applied and not was_applied_before):
             return
 
-        # ── Apply the upgrade to TeamDevelopment + evolve snapshot ────────
+        # ── Apply the upgrade to TeamDevelopment + evolve snapshot, deduct cost ──
         try:
             dev = TeamDevelopment.objects.get(team=obj.team, season=obj.season)
         except TeamDevelopment.DoesNotExist:
@@ -474,13 +600,43 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
 
         try:
             with transaction.atomic():
+                # Deduct credits from team and record transaction
+                team = obj.team
+
+                # Apply sponsor-derived money multiplier (discount / surcharge)
+                multiplier = get_sponsor_money_multiplier(team)
+                cost_to_charge = int(round((obj.cost or 0) * multiplier))
+
+                if cost_to_charge and team.credits < cost_to_charge:
+                    raise ValueError(
+                        f"Insufficient credits: {team.credits} available, {cost_to_charge} required."
+                    )
+
+                team.credits = team.credits - cost_to_charge
+                team.save(update_fields=["credits"])
+
+                # Update recorded cost to the charged value (for audit clarity)
+                if cost_to_charge != (obj.cost or 0):
+                    obj.cost = cost_to_charge
+                    obj.save(update_fields=["cost"])  # persist adjusted cost
+
+                CreditTransaction.objects.create(
+                    team=team,
+                    amount=-cost_to_charge,
+                    transaction_type=RaceTransactionType.UPGRADE_PURCHASE,
+                    description=(
+                        f"Upgrade purchase: {obj.department} {obj.previous_level}->{obj.new_level} "
+                        f"(upgrade_id={obj.pk}, multiplier={multiplier:.2f})"
+                    ),
+                )
+
                 setattr(dev, obj.department, obj.new_level)
                 dev.save(update_fields=[obj.department, "updated_at"])
                 snapshot = apply_upgrade_to_setup(dev, obj)
         except Exception as exc:
             self.message_user(
                 request,
-                f"Upgrade guardado pero la evolución del setup falló: {exc}",
+                f"Upgrade guardado pero la evolución del setup o cobro falló: {exc}",
                 messages.ERROR,
             )
             return

@@ -24,3 +24,14 @@ AFFINITY_DEPARTMENT: dict[str, str] = {
     "money": "electronics",  # financial muscle → resource-intensive tech
     # "points" has no single department bias
 }
+
+# Cost table for upgrades: cost to purchase an upgrade from level N -> N+1.
+# Values are in the same credits unit used by Team.credits.
+# Tune these to balance a 7-race season economy.
+UPGRADE_COST_BY_LEVEL: dict[int, int] = {
+    # Increased to balance season economy (see notes): costs double per level.
+    1: 2000,  # cost to go 1->2
+    2: 4000,  # 2->3
+    3: 8000,  # 3->4
+    4: 16000,  # 4->5
+}

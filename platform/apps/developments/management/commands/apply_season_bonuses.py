@@ -16,6 +16,8 @@ Usage
 from django.core.management.base import BaseCommand, CommandError
 
 from apps.developments.models import TeamDevelopment
+from apps.races.models import CreditTransaction
+from apps.races.constants import TransactionType as RaceTransactionType
 from apps.developments.setup_service import (
     apply_starting_bonuses,
     get_starting_department_bonus,
@@ -59,13 +61,41 @@ class Command(BaseCommand):
                 none_found += 1
                 continue
 
-            bonus_str = ", ".join(f"{d} +1" for d in bonuses)
+            # Format bonus string showing signs for positive/negative
+            # Compute intended/clamped deltas for readable output
+            max_level = 5
+            min_level = 1
+            intended = {}
+            for dept, raw in bonuses.items():
+                current = dev.get_level(dept)
+                new_level = max(min_level, min(current + raw, max_level))
+                delta = new_level - current
+                if delta != 0:
+                    intended[dept] = delta
+
+            bonus_str = (
+                ", ".join(f"{d} {('+' if v>0 else '')}{v}" for d, v in intended.items())
+                or "(no net change)"
+            )
+
             if dry_run:
                 self.stdout.write(f"  DRY   {dev.team} → {bonus_str}")
                 applied += 1
                 continue
 
-            apply_starting_bonuses(dev)
+            applied_bonuses = apply_starting_bonuses(dev)
+            if applied_bonuses:
+                # record an audit transaction (amount 0)
+                CreditTransaction.objects.create(
+                    team=dev.team,
+                    amount=0,
+                    transaction_type=RaceTransactionType.ADMIN_ADJUSTMENT,
+                    description=(
+                        f"Starting bonuses applied: {', '.join(sorted([f'{k}{v:+d}' for k,v in applied_bonuses.items()]))} "
+                        f"(sponsor={getattr(dev.team.sponsors.filter(is_main=True).first(), 'name', 'None')}, season={season})"
+                    ),
+                )
+
             self.stdout.write(self.style.SUCCESS(f"  OK    {dev.team} → {bonus_str}"))
             applied += 1
 

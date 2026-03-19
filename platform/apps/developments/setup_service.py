@@ -27,7 +27,8 @@ import random
 from typing import TYPE_CHECKING
 
 from . import setup_generator as sg
-from .constants import AFFINITY_DEPARTMENT
+from .constants import AFFINITY_DEPARTMENT, Department
+from .constants import UPGRADE_COST_BY_LEVEL
 from .models import (
     BalanceOfPerformance,
     CarSetupSnapshot,
@@ -206,6 +207,16 @@ def get_latest_snapshot(team: "Team", season: "Season") -> CarSetupSnapshot | No
     )
 
 
+def compute_upgrade_cost(previous_level: int, new_level: int) -> int:
+    """Compute cost for an upgrade from previous_level -> new_level.
+
+    Currently only supports increments of +1. Returns the configured cost.
+    """
+    if new_level != previous_level + 1:
+        raise ValueError("Only single-level upgrades are supported")
+    return UPGRADE_COST_BY_LEVEL.get(previous_level, 0)
+
+
 def get_snapshot_history(
     team: "Team", season: "Season"
 ) -> "django.db.models.QuerySet[CarSetupSnapshot]":
@@ -238,11 +249,74 @@ def get_starting_department_bonus(team: "Team") -> dict[str, int]:
         return {}
 
     bonuses: dict[str, int] = {}
-    for cond in main_sponsor.conditions.filter(type="affinity"):
+    # Accept sponsor conditions both of type affinity (positive) and penalty (negative).
+    # For physical car departments, only allow a single-level (+1/-1) effect per department
+    # coming from sponsor affinities/penalties. Economic effects (category 'money')
+    # are handled separately by get_sponsor_money_multiplier().
+    dept_values = {c.value for c in Department}
+    for cond in main_sponsor.conditions.filter(type__in=("affinity", "penalty")):
+        # try mapping affinity category to department first
         dept = AFFINITY_DEPARTMENT.get(cond.category)
-        if dept and dept not in bonuses:
-            bonuses[dept] = 1
+        # fallback: if category already names a department, use it directly
+        if not dept and cond.category in dept_values:
+            dept = cond.category
+
+        if not dept:
+            # skip non-department categories here (e.g., points)
+            continue
+
+        # money handled elsewhere
+        if cond.category == "money":
+            continue
+
+        # Normalize value to sign-only for department effects: +1, -1 or 0
+        try:
+            raw = int(cond.value)
+        except Exception:
+            raw = 0
+        sign = 1 if raw > 0 else (-1 if raw < 0 else 0)
+
+        if sign == 0:
+            continue
+
+        # Accumulate but clamp per department to [-1, +1]
+        prev = bonuses.get(dept, 0)
+        new = prev + sign
+        # clamp
+        if new > 1:
+            new = 1
+        if new < -1:
+            new = -1
+        bonuses[dept] = new
+
     return bonuses
+
+
+def get_sponsor_money_multiplier(team: "Team") -> float:
+    """Return a cost multiplier derived from the main sponsor's money affinity/penalty.
+
+    Default is 1.0. Each unit of `value` on a `money` condition applies a 5%
+    discount (positive) or surcharge (negative). Result is clamped to [0.5, 2.0].
+    """
+    try:
+        main_sponsor = team.sponsors.get(is_main=True, active=True)
+    except Exception:
+        return 1.0
+
+    total = 0
+    for cond in main_sponsor.conditions.filter(category="money"):
+        try:
+            total += int(cond.value)
+        except Exception:
+            continue
+
+    if total == 0:
+        return 1.0
+
+    multiplier = 1.0 - 0.05 * total
+    # clamp
+    multiplier = max(0.5, min(2.0, multiplier))
+    return multiplier
 
 
 def apply_starting_bonuses(dev: TeamDevelopment) -> dict[str, int]:
@@ -256,27 +330,35 @@ def apply_starting_bonuses(dev: TeamDevelopment) -> dict[str, int]:
 
     Returns the bonuses that were actually saved (empty if none or already applied).
     """
-    if dev.bonuses_applied:
-        return {}
+    # Always compute sponsor effects; even if `bonuses_applied` is True we may
+    # need to apply pending negative/positive deltas that were missed earlier.
     bonuses = get_starting_department_bonus(dev.team)
     if not bonuses:
         return {}
 
-    max_level = max(sg.LEVEL_PERF)  # = 5 (the key, not the 1.0 value)
+    max_level = max(sg.LEVEL_PERF)
+    min_level = 1
     fields_updated: list[str] = []
-    for dept, bonus in bonuses.items():
+    applied_changes: dict[str, int] = {}
+    for dept, delta in bonuses.items():
         current = dev.get_level(dept)
-        new_level = min(current + bonus, max_level)
-        if new_level > current:
+        new_level = max(min_level, min(current + delta, max_level))
+        if new_level != current:
             setattr(dev, dept, new_level)
             fields_updated.append(dept)
+            applied_changes[dept] = new_level - current
 
     if fields_updated:
-        dev.bonuses_applied = True
-        dev.save(update_fields=fields_updated + ["bonuses_applied", "updated_at"])
+        # Mark as applied if not already
+        if not dev.bonuses_applied:
+            dev.bonuses_applied = True
+            fields_to_update = fields_updated + ["bonuses_applied", "updated_at"]
+        else:
+            fields_to_update = fields_updated + ["updated_at"]
+        dev.save(update_fields=fields_to_update)
 
-    # Return only what was actually saved, not the full sponsor conditions dict.
-    return {dept: 1 for dept in fields_updated}
+    # Return the actual delta applied per department (positive or negative)
+    return applied_changes
 
 
 # ---------------------------------------------------------------------------
