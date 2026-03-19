@@ -73,9 +73,16 @@ class PurchasedUpgrade(models.Model):
     def clean(self):
         # Validate cost matches configured pricing for single-level upgrades
         from .setup_service import compute_upgrade_cost
+        # When creating via admin the form may not populate `previous_level`
+        # / `new_level` before model.clean() is called (admin fills them later).
+        # In that case skip strict validation here — the admin's save flow will
+        # compute and enforce values atomically.
+        if self.previous_level is None or self.new_level is None:
+            return
 
         if self.new_level != self.previous_level + 1:
             raise ValueError("Upgrades must increase level by exactly 1")
+
         expected = compute_upgrade_cost(self.previous_level, self.new_level)
         if expected and self.cost != expected:
             raise ValueError(
