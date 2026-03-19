@@ -1,0 +1,12 @@
+{% extends "admin/change_list.html" %} {% block object-tools %} {{ block.super
+}} {% if scan_input_url %}
+<div class="object-tools">
+    <ul class="object-tools">
+        <li>
+            <a class="button" href="{{ scan_input_url }}"
+                >Scan media/input and process</a
+            >
+        </li>
+    </ul>
+</div>
+{% endif %} {% endblock %}

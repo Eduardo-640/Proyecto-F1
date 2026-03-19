@@ -19,7 +19,8 @@ class Race(models.Model):
 
     class Meta:
         ordering = ["season", "round_number"]
-        unique_together = ["season", "round_number"]
+        # allow multiple session records (practice/qualifying/race) per round
+        unique_together = [["season", "round_number", "status"]]
         verbose_name = "Race"
         verbose_name_plural = "Races"
 
@@ -36,6 +37,8 @@ class RaceResult(models.Model):
         Team, on_delete=models.CASCADE, related_name="race_results"
     )
     position = models.PositiveSmallIntegerField()
+    laps_completed = models.PositiveSmallIntegerField(default=0)
+    total_time = models.BigIntegerField(null=True, blank=True)
     pole_position = models.BooleanField(default=False)
     fastest_lap = models.BooleanField(default=False)
     finished_race = models.BooleanField(default=True)
@@ -82,6 +85,12 @@ class CreditTransaction(models.Model):
 
 class Circuit(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    assetto_name = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True,
+        help_text="Name used by Assetto Corsa/assetto servers",
+    )
     location = models.CharField(max_length=100, blank=True)
     laps = models.PositiveSmallIntegerField()
     length_km = models.DecimalField(

@@ -53,3 +53,35 @@ class DriverStanding(models.Model):
 
     def __str__(self):
         return f"{self.driver.name} – {self.season} ({self.total_points} pts)"
+
+
+class DriverPointTransaction(models.Model):
+    """Audit record for point changes applied to a driver."""
+
+    driver = models.ForeignKey(
+        Driver, on_delete=models.CASCADE, related_name="point_transactions"
+    )
+    season = models.ForeignKey(
+        "seasons.Season",
+        on_delete=models.CASCADE,
+        related_name="driver_point_transactions",
+    )
+    amount = models.IntegerField(help_text="Delta points (can be negative)")
+    race = models.ForeignKey(
+        "races.Race",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="driver_point_transactions",
+    )
+    description = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Driver Point Transaction"
+        verbose_name_plural = "Driver Point Transactions"
+
+    def __str__(self):
+        sign = "+" if self.amount >= 0 else ""
+        return f"{self.driver.name} {sign}{self.amount} pts ({self.season})"
