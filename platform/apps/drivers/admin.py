@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Driver, DriverStanding
+from django.utils.html import format_html
+from apps.races.models import RaceResult
+from .models import Driver, DriverStanding, DriverPointTransaction
 
 
 class DriverStandingInline(admin.TabularInline):
@@ -26,12 +28,23 @@ class DriverAdmin(admin.ModelAdmin):
     inlines = [DriverStandingInline]
 
 
+class DriverPointTransactionInline(admin.TabularInline):
+    model = DriverPointTransaction
+    extra = 0
+    fields = ["season", "amount", "description", "race", "created_at"]
+    readonly_fields = ["season", "amount", "description", "race", "created_at"]
+
+
+DriverAdmin.inlines = [DriverStandingInline, DriverPointTransactionInline]
+
+
 @admin.register(DriverStanding)
 class DriverStandingAdmin(admin.ModelAdmin):
     list_display = [
         "driver",
         "season",
         "total_points",
+        "points_breakdown",
         "races_entered",
         "wins",
         "podiums",
@@ -41,3 +54,23 @@ class DriverStandingAdmin(admin.ModelAdmin):
     ]
     list_filter = ["season"]
     search_fields = ["driver__name", "season__name"]
+
+    def points_breakdown(self, obj):
+        # Show per-race contribution for this standing's season
+        qs = (
+            RaceResult.objects.filter(driver=obj.driver, race__season=obj.season)
+            .select_related("race", "race__circuit")
+            .order_by("race__round_number", "race__status")
+        )
+        if not qs.exists():
+            return "-"
+        parts = []
+        for rr in qs:
+            pts = rr.points_awarded or 0
+            status = rr.race.status or ""
+            parts.append(
+                f"R{rr.race.round_number} {rr.race.circuit.name} ({status}): {pts}"
+            )
+        return format_html("<br/>".join(parts))
+
+    points_breakdown.short_description = "Points breakdown"

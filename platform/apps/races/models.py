@@ -37,6 +37,8 @@ class RaceResult(models.Model):
         Team, on_delete=models.CASCADE, related_name="race_results"
     )
     position = models.PositiveSmallIntegerField()
+    laps_completed = models.PositiveSmallIntegerField(default=0)
+    total_time = models.BigIntegerField(null=True, blank=True)
     pole_position = models.BooleanField(default=False)
     fastest_lap = models.BooleanField(default=False)
     finished_race = models.BooleanField(default=True)

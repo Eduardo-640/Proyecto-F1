@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from apps.races.models import RaceResult, Race, CreditTransaction
-from apps.drivers.models import Driver, DriverStanding
+from apps.drivers.models import Driver, DriverStanding, DriverPointTransaction
 from apps.teams.models import Team
 from apps.races.constants import TransactionType
 
@@ -108,8 +108,9 @@ class Command(BaseCommand):
             best = sorted(items, key=candidate_key)[0]
             deduped_results.append(best)
 
-        # Sort deduplicated results by laps completed (desc), then by TotalTime asc.
-        def sort_key(r):
+        # Sorting: for qualifying use BestLap asc (fastest lap),
+        # for race keep laps desc then TotalTime asc.
+        def race_sort_key(r):
             guid = r.get("DriverGuid") or r.get("Guid") or ""
             name = r.get("DriverName") or (r.get("Driver") or {}).get("Name") or ""
             key = guid or name
@@ -118,7 +119,19 @@ class Command(BaseCommand):
             time_val = t if t > 0 else 10**12
             return (-laps, time_val)
 
-        sorted_results = sorted(deduped_results, key=sort_key)
+        def qualify_sort_key(r):
+            # BestLap smaller is better. If missing, treat as large value.
+            best = r.get("BestLap") or None
+            best_val = best if (best and best > 0 and best < 999999999) else 10**12
+            # tie-breaker: TotalTime asc
+            t = r.get("TotalTime") or 0
+            time_val = t if t > 0 else 10**12
+            return (best_val, time_val)
+
+        if session_type == "qualify":
+            sorted_results = sorted(deduped_results, key=qualify_sort_key)
+        else:
+            sorted_results = sorted(deduped_results, key=race_sort_key)
 
         # determine fastest lap if possible (ignore sentinel 999999999)
         best_lap_vals = [
@@ -195,7 +208,8 @@ class Command(BaseCommand):
                 if position and position <= len(source_table):
                     points_awarded = source_table[position - 1]
 
-                pole_position = False
+                # pole position: for qualifying, P1 is pole
+                pole_position = session_type == "qualify" and position == 1
                 fastest_lap = (
                     (r.get("BestLap") == fastest_lap_val)
                     if fastest_lap_val is not None
@@ -215,6 +229,8 @@ class Command(BaseCommand):
                 rr_defaults = {
                     "team": team,
                     "position": position or 0,
+                    "laps_completed": laps_map.get(guid or name, 0),
+                    "total_time": total_time,
                     "pole_position": pole_position,
                     "fastest_lap": fastest_lap,
                     "finished_race": finished,
@@ -245,6 +261,15 @@ class Command(BaseCommand):
                 points_delta = points_awarded - old_points
                 if points_delta != 0:
                     ds.total_points = max(0, ds.total_points + points_delta)
+
+                    # record driver point transaction for audit
+                    DriverPointTransaction.objects.create(
+                        driver=driver,
+                        season=race.season,
+                        amount=points_delta,
+                        race=race,
+                        description=f"Points delta from {race} (pos {position})",
+                    )
 
                 # races_entered adjustments
                 if created_flag and finished:

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from apps.races.models import CreditTransaction
 from .models import Team, Sponsor, SponsorCondition
 
 
@@ -16,12 +17,26 @@ class SponsorInline(admin.TabularInline):
     readonly_fields = []
 
 
+class CreditTransactionInline(admin.TabularInline):
+    model = CreditTransaction
+    extra = 0
+    fields = ["amount", "transaction_type", "description", "race", "created_at"]
+    readonly_fields = [
+        "amount",
+        "transaction_type",
+        "description",
+        "race",
+        "created_at",
+    ]
+
+
+# re-register TeamAdmin with credit transactions inline
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
     list_display = ["name", "credits", "active", "created_at"]
     list_filter = ["active"]
     search_fields = ["name"]
-    inlines = [SponsorInline]
+    inlines = [SponsorInline, CreditTransactionInline]
 
 
 @admin.register(Sponsor)
