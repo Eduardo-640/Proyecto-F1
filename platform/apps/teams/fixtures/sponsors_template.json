@@ -1,0 +1,577 @@
+[
+    {
+        "model": "teams.sponsor",
+        "pk": 1,
+        "fields": {
+            "team": null,
+            "name": "Zenith Motors",
+            "description": "High-end engineering partner focused on raw speed.",
+            "is_main": false,
+            "base_bonus": 8000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 2,
+        "fields": {
+            "team": null,
+            "name": "Green Energy Co.",
+            "description": "Sustainable sponsor, rewards development and consistency.",
+            "is_main": false,
+            "base_bonus": 6000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 3,
+        "fields": {
+            "team": null,
+            "name": "Apex Aero",
+            "description": "Aerodynamics specialist; favors podiums and speed.",
+            "is_main": false,
+            "base_bonus": 7000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 4,
+        "fields": {
+            "team": null,
+            "name": "Nova Electronics",
+            "description": "Tech sponsor that boosts electronics development.",
+            "is_main": false,
+            "base_bonus": 5000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 5,
+        "fields": {
+            "team": null,
+            "name": "Circuit Supply",
+            "description": "Mid-tier sponsor focused on consistency and reliability.",
+            "is_main": false,
+            "base_bonus": 3000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 6,
+        "fields": {
+            "team": null,
+            "name": "Velocity Capital",
+            "description": "Financial backer offering large base bonuses for top results.",
+            "is_main": false,
+            "base_bonus": 15000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 7,
+        "fields": {
+            "team": null,
+            "name": "Precision Bearings",
+            "description": "Small sponsor that prizes development and reliability.",
+            "is_main": false,
+            "base_bonus": 2000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 8,
+        "fields": {
+            "team": null,
+            "name": "Titan Lubes",
+            "description": "Engine-focused sponsor; affinity for wins and speed.",
+            "is_main": false,
+            "base_bonus": 6500,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 9,
+        "fields": {
+            "team": null,
+            "name": "Atlas Logistics",
+            "description": "Supports operational consistency and development.",
+            "is_main": false,
+            "base_bonus": 3500,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 10,
+        "fields": {
+            "team": null,
+            "name": "Photon Systems",
+            "description": "Electronics / software partner; favors electronics development.",
+            "is_main": false,
+            "base_bonus": 7000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 11,
+        "fields": {
+            "team": null,
+            "name": "Summit Tires",
+            "description": "Tyre and grip supplier; rewards consistency and podiums.",
+            "is_main": false,
+            "base_bonus": 6000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 12,
+        "fields": {
+            "team": null,
+            "name": "Helix R&D",
+            "description": "R&D partner that rewards development-focused teams.",
+            "is_main": false,
+            "base_bonus": 9000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 13,
+        "fields": {
+            "team": null,
+            "name": "Forge Manufacturing",
+            "description": "Chassis and parts supplier; affinity for development and wins.",
+            "is_main": false,
+            "base_bonus": 5500,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 14,
+        "fields": {
+            "team": null,
+            "name": "Blue Horizon",
+            "description": "Lifestyle brand; mid-tier base bonus, rewards visibility (podiums).",
+            "is_main": false,
+            "base_bonus": 3000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 15,
+        "fields": {
+            "team": null,
+            "name": "Quantum Analytics",
+            "description": "Data-driven sponsor; favors electronics and development.",
+            "is_main": false,
+            "base_bonus": 8000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 16,
+        "fields": {
+            "team": null,
+            "name": "Pioneer Oil",
+            "description": "Traditional oil brand; affinity to engine and speed.",
+            "is_main": false,
+            "base_bonus": 6000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 17,
+        "fields": {
+            "team": null,
+            "name": "Aurora Finance",
+            "description": "High-value sponsor for ambitious teams; large base bonus.",
+            "is_main": false,
+            "base_bonus": 12000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 18,
+        "fields": {
+            "team": null,
+            "name": "EcoDrive",
+            "description": "Sustainability-focused sponsor; rewards development and consistency.",
+            "is_main": false,
+            "base_bonus": 4000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 19,
+        "fields": {
+            "team": null,
+            "name": "Omega Systems",
+            "description": "Electronics and telemetry; affinity for electronics and points.",
+            "is_main": false,
+            "base_bonus": 7500,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 20,
+        "fields": {
+            "team": null,
+            "name": "Summit Hospitality",
+            "description": "Marketing sponsor; smaller base bonus but broad visibility.",
+            "is_main": false,
+            "base_bonus": 2000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 21,
+        "fields": {
+            "team": null,
+            "name": "Vector Dynamics",
+            "description": "Suspension & handling specialist; rewards consistency and development.",
+            "is_main": false,
+            "base_bonus": 5000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 22,
+        "fields": {
+            "team": null,
+            "name": "Polaris Media",
+            "description": "Media partner; favors podium visibility and marketing.",
+            "is_main": false,
+            "base_bonus": 2500,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 23,
+        "fields": {
+            "team": null,
+            "name": "Atlas Composites",
+            "description": "Lightweight materials supplier; rewards development and speed.",
+            "is_main": false,
+            "base_bonus": 9000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 24,
+        "fields": {
+            "team": null,
+            "name": "Stellar Drinks",
+            "description": "Consumer brand; mid bonus, rewards podiums.",
+            "is_main": false,
+            "base_bonus": 3000,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsor",
+        "pk": 25,
+        "fields": {
+            "team": null,
+            "name": "Nimble Tools",
+            "description": "Workshop sponsor; small base, affinity for development.",
+            "is_main": false,
+            "base_bonus": 1500,
+            "active": true
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 101,
+        "fields": {
+            "sponsor": 3,
+            "type": "affinity",
+            "category": "aerodynamics",
+            "value": 1,
+            "description": "Aerodynamics affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 102,
+        "fields": {
+            "sponsor": 4,
+            "type": "affinity",
+            "category": "electronics",
+            "value": 1,
+            "description": "Electronics affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 103,
+        "fields": {
+            "sponsor": 6,
+            "type": "affinity",
+            "category": "engine",
+            "value": 1,
+            "description": "Engine affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 104,
+        "fields": {
+            "sponsor": 11,
+            "type": "affinity",
+            "category": "suspension",
+            "value": 1,
+            "description": "Suspension affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 105,
+        "fields": {
+            "sponsor": 12,
+            "type": "affinity",
+            "category": "chassis",
+            "value": 1,
+            "description": "Chassis affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 106,
+        "fields": {
+            "sponsor": 15,
+            "type": "affinity",
+            "category": "aerodynamics",
+            "value": 1,
+            "description": "Aero affinity for Apex Engineering"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 107,
+        "fields": {
+            "sponsor": 20,
+            "type": "affinity",
+            "category": "aerodynamics",
+            "value": 1,
+            "description": "Small aero supplier affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 108,
+        "fields": {
+            "sponsor": 1,
+            "type": "penalty",
+            "category": "electronics",
+            "value": -1,
+            "description": "Less focus on electronics"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 109,
+        "fields": {
+            "sponsor": 5,
+            "type": "penalty",
+            "category": "engine",
+            "value": -1,
+            "description": "Chassis-oriented sponsor penalises engine"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 110,
+        "fields": {
+            "sponsor": 8,
+            "type": "affinity",
+            "category": "engine",
+            "value": 1,
+            "description": "Engine affinity for Titan Lubes"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 111,
+        "fields": {
+            "sponsor": 9,
+            "type": "affinity",
+            "category": "consistency",
+            "value": 1,
+            "description": "Operations/consistency affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 112,
+        "fields": {
+            "sponsor": 2,
+            "type": "affinity",
+            "category": "development",
+            "value": 1,
+            "description": "R&D / development affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 113,
+        "fields": {
+            "sponsor": 7,
+            "type": "affinity",
+            "category": "consistency",
+            "value": 1,
+            "description": "Reliability and consistency affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 114,
+        "fields": {
+            "sponsor": 10,
+            "type": "affinity",
+            "category": "electronics",
+            "value": 1,
+            "description": "Electronics / telemetry affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 115,
+        "fields": {
+            "sponsor": 13,
+            "type": "affinity",
+            "category": "chassis",
+            "value": 1,
+            "description": "Chassis / composites affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 116,
+        "fields": {
+            "sponsor": 14,
+            "type": "affinity",
+            "category": "podiums",
+            "value": 1,
+            "description": "Visibility / podiums affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 117,
+        "fields": {
+            "sponsor": 16,
+            "type": "affinity",
+            "category": "engine",
+            "value": 1,
+            "description": "Engine performance affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 118,
+        "fields": {
+            "sponsor": 18,
+            "type": "affinity",
+            "category": "development",
+            "value": 1,
+            "description": "Sustainability-focused development affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 119,
+        "fields": {
+            "sponsor": 19,
+            "type": "affinity",
+            "category": "electronics",
+            "value": 1,
+            "description": "Telemetry and electronics affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 120,
+        "fields": {
+            "sponsor": 20,
+            "type": "affinity",
+            "category": "podiums",
+            "value": 1,
+            "description": "Marketing / visibility affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 121,
+        "fields": {
+            "sponsor": 21,
+            "type": "affinity",
+            "category": "suspension",
+            "value": 1,
+            "description": "Suspension and handling affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 122,
+        "fields": {
+            "sponsor": 22,
+            "type": "affinity",
+            "category": "podiums",
+            "value": 1,
+            "description": "Media/podiums affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 123,
+        "fields": {
+            "sponsor": 23,
+            "type": "affinity",
+            "category": "development",
+            "value": 1,
+            "description": "Composites / development affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 124,
+        "fields": {
+            "sponsor": 24,
+            "type": "affinity",
+            "category": "podiums",
+            "value": 1,
+            "description": "Marketing / podiums affinity"
+        }
+    },
+    {
+        "model": "teams.sponsorcondition",
+        "pk": 125,
+        "fields": {
+            "sponsor": 25,
+            "type": "affinity",
+            "category": "development",
+            "value": 1,
+            "description": "Workshop / development affinity"
+        }
+    }
+]

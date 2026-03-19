@@ -1,5 +1,19 @@
 from django.contrib import admin
+from django.db import transaction
+from django.shortcuts import render, redirect
+from django.urls import path
+from django.template.response import TemplateResponse
+from django.template import TemplateDoesNotExist
+from django.http import HttpResponse
+from django.contrib import messages
+
 from apps.races.models import CreditTransaction
+from apps.races.constants import TransactionType as RaceTransactionType
+from apps.seasons.models import Season
+from apps.developments.models import TeamDevelopment
+from apps.developments.setup_service import (
+    apply_starting_bonuses as service_apply_starting_bonuses,
+)
 from .models import Team, Sponsor, SponsorCondition
 
 
@@ -37,6 +51,150 @@ class TeamAdmin(admin.ModelAdmin):
     list_filter = ["active"]
     search_fields = ["name"]
     inlines = [SponsorInline, CreditTransactionInline]
+    actions = [
+        "assign_main_sponsors",
+        "unassign_main_sponsors",
+        "apply_starting_bonuses",
+    ]
+
+    def assign_main_sponsors(self, request, queryset):
+        """Assign available sponsor templates (team=NULL) as main sponsors to selected teams.
+
+        This action is idempotent: existing main sponsor for a team will be unset.
+        If there are fewer sponsor templates than teams, templates are cycled.
+        """
+        if "apply" in request.POST:
+            sponsor_qs = list(Sponsor.objects.filter(team__isnull=True, active=True))
+            if not sponsor_qs:
+                self.message_user(
+                    request,
+                    "No available sponsor templates (team is null).",
+                    level=messages.ERROR,
+                )
+                return
+
+            assigned = []
+            with transaction.atomic():
+                for i, team in enumerate(queryset):
+                    # unset previous main sponsor(s)
+                    Sponsor.objects.filter(team=team, is_main=True).update(
+                        is_main=False, team=None
+                    )
+
+                    # pick a template (cycle if needed)
+                    template = sponsor_qs[i % len(sponsor_qs)]
+                    # assign template to team as main sponsor
+                    template.team = team
+                    template.is_main = True
+                    template.save(update_fields=["team", "is_main"])
+                    assigned.append(str(team))
+
+            self.message_user(
+                request,
+                f"Assigned sponsors to {len(assigned)} team(s): {', '.join(assigned)}",
+                level=messages.SUCCESS,
+            )
+            return None
+
+        # initial confirmation page (attempt to render template, fallback to inline HTML)
+        context = dict(
+            self.admin_site.each_context(request),
+            teams=queryset,
+            opts=self.model._meta,
+        )
+        try:
+            return TemplateResponse(
+                request, "admin/teams/assign_sponsors_confirm.html", context
+            )
+        except TemplateDoesNotExist:
+            # Fallback to the built-in admin action confirmation template
+            try:
+                return render(request, "admin/action_confirmation.html", context)
+            except TemplateDoesNotExist:
+                # Last-resort simple message
+                return HttpResponse(
+                    "<html><body><h1>Confirm sponsor assignment</h1><p>Template not available.</p></body></html>"
+                )
+
+    assign_main_sponsors.short_description = (
+        "Assign available main sponsors to selected teams"
+    )
+
+    def unassign_main_sponsors(self, request, queryset):
+        """Remove main sponsor assignment from selected teams (team field nulled, is_main=False)."""
+        with transaction.atomic():
+            count = 0
+            for team in queryset:
+                updated = Sponsor.objects.filter(team=team, is_main=True).update(
+                    is_main=False, team=None
+                )
+                count += updated
+        self.message_user(
+            request,
+            f"Unassigned main sponsors from {count} sponsor record(s).",
+            level=messages.SUCCESS,
+        )
+
+    unassign_main_sponsors.short_description = (
+        "Unassign main sponsors from selected teams"
+    )
+
+    def apply_starting_bonuses(self, request, queryset):
+        """Apply sponsor-derived starting bonuses for selected teams.
+
+        Uses the active Season if present, otherwise the most recent by start_date.
+        Creates `TeamDevelopment` rows if missing.
+        """
+        # Determine target season
+        season = Season.objects.filter(active=True).first()
+        if season is None:
+            season = Season.objects.order_by("-start_date").first()
+
+        if season is None:
+            self.message_user(
+                request,
+                "No season available. Create a Season first.",
+                level=messages.ERROR,
+            )
+            return
+
+        applied = []
+        skipped = []
+        with transaction.atomic():
+            for team in queryset:
+                dev, _ = TeamDevelopment.objects.get_or_create(team=team, season=season)
+                bonuses = service_apply_starting_bonuses(dev)
+                if bonuses:
+                    # Create an audit transaction (amount 0) to record the bonus application
+                    CreditTransaction.objects.create(
+                        team=team,
+                        amount=0,
+                        transaction_type=RaceTransactionType.ADMIN_ADJUSTMENT,
+                        description=(
+                            f"Starting bonuses applied: {', '.join(sorted(bonuses))} "
+                            f"(sponsor={getattr(team.sponsors.filter(is_main=True).first(), 'name', 'None')}, season={season})"
+                        ),
+                    )
+                    applied.append(f"{team}: {', '.join(sorted(bonuses))}")
+                else:
+                    skipped.append(str(team))
+
+        msg = []
+        if applied:
+            msg.append(
+                f"Applied bonuses to {len(applied)} team(s): {', '.join(applied)}"
+            )
+        if skipped:
+            msg.append(
+                f"Skipped {len(skipped)} team(s) with no applicable sponsor or already applied."
+            )
+
+        level = messages.SUCCESS if applied else messages.INFO
+        self.message_user(request, "; ".join(msg), level=level)
+
+    apply_starting_bonuses.short_description = (
+        "Apply sponsor starting bonuses to selected teams (active season)"
+    )
 
 
 @admin.register(Sponsor)

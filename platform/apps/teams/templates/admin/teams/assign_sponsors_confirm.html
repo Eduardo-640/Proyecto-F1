@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %} {% load i18n %} {% block content %}
+<h1>{% trans "Confirm sponsor assignment" %}</h1>
+<p>
+    {% trans "This will assign available sponsor templates (team=NULL) as the
+    main sponsor for the following teams:" %}
+</p>
+<ul>
+    {% for t in teams %}
+    <li>{{ t.name }}</li>
+    {% endfor %}
+</ul>
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="assign_main_sponsors" />
+    <input type="hidden" name="apply" value="1" />
+    {% for t in teams %}
+    <input type="hidden" name="_selected_action" value="{{ t.pk }}" />
+    {% endfor %}
+    <button type="submit" class="default">{% trans "Apply" %}</button>
+    <a href="../">{% trans "Cancel" %}</a>
+</form>
+{% endblock %}
