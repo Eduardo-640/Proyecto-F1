@@ -1,4 +1,8 @@
 from django.contrib import admin
+from django.core.management import call_command
+from django.urls import path
+from django.shortcuts import redirect
+from django.urls import reverse
 from .models import Race, RaceResult, CreditTransaction, Circuit
 from apps.developments.models import CircuitEmphasis
 
@@ -31,6 +35,35 @@ class RaceAdmin(admin.ModelAdmin):
     list_filter = ["season", "status"]
     search_fields = ["circuit__name", "season__name"]
     inlines = [RaceResultInline, CreditTransactionInline]
+    change_list_template = "admin/races/race/change_list.html"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path(
+                "scan-input/",
+                self.admin_site.admin_view(self.scan_input_view),
+                name="races_race_scan_input",
+            ),
+        ]
+        return custom_urls + urls
+
+    def scan_input_view(self, request):
+        try:
+            call_command("process_input_folder")
+            self.message_user(request, "media/input scanned and processed (see logs).")
+        except Exception as e:
+            self.message_user(
+                request, f"Error scanning media/input: {e}", level="error"
+            )
+        # redirect back to changelist
+        return redirect(reverse("admin:races_race_changelist"))
+
+    def changelist_view(self, request, extra_context=None):
+        if extra_context is None:
+            extra_context = {}
+        extra_context["scan_input_url"] = reverse("admin:races_race_scan_input")
+        return super().changelist_view(request, extra_context=extra_context)
 
 
 class CircuitEmphasisInline(admin.StackedInline):
@@ -45,7 +78,7 @@ class CircuitEmphasisInline(admin.StackedInline):
 
 @admin.register(Circuit)
 class CircuitAdmin(admin.ModelAdmin):
-    list_display = ["name", "location", "laps", "length_km"]
+    list_display = ["name", "assetto_name", "location", "laps", "length_km"]
     list_filter = ["location"]
-    search_fields = ["name", "location"]
+    search_fields = ["name", "assetto_name", "location"]
     inlines = [CircuitEmphasisInline]
