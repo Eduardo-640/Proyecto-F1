@@ -4,29 +4,43 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap';
 
-import { createInertiaApp } from '@inertiajs/react';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 
+const pages = import.meta.glob('./Pages/**/*.jsx');
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+async function mountApp() {
+    // Try to resolve a page based on the pathname; fallback to Home or Welcome.
+    const path = window.location.pathname.replace(/^\/+|\/+$/g, '');
+    const candidate = path
+        ? path.split('/').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('/')
+        : 'Home';
 
-createInertiaApp({
-    title: () => `Formula1`,
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.jsx`,
-            import.meta.glob('./Pages/**/*.jsx'),
-        ),
-    setup({ el, App, props }) {
-        const root = createRoot(el);
-        root.render(
-            <div className="min-h-screen bg-black text-white">
-                <App {...props} />
-            </div>
-        );
-    },
-    progress: {
-        color: '#4B5563',
-    },
-});
+    let importer = pages[`./Pages/${candidate}.jsx`];
+    if (!importer) {
+        // try last segment
+        const last = candidate.split('/').pop();
+        importer = pages[`./Pages/${last}.jsx`];
+    }
+    if (!importer) {
+        importer = pages['./Pages/Home.jsx'] || pages['./Pages/Welcome.jsx'];
+    }
+
+    const module = await importer();
+    const Page = module.default || module;
+
+    let mountEl = document.getElementById('app');
+    if (!mountEl) {
+        mountEl = document.createElement('div');
+        mountEl.id = 'app';
+        document.body.appendChild(mountEl);
+    }
+
+    const root = createRoot(mountEl);
+    root.render(
+        <div className="min-h-screen bg-black text-white">
+            <Page />
+        </div>
+    );
+}
+
+mountApp();
