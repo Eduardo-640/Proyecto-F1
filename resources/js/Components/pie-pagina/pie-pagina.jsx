@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link } from "../../inertia-shim";
 
 export default function PiePagina() {
     return (

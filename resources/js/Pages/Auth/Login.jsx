@@ -4,7 +4,7 @@ import InputLabel from '@/Components/default/InputLabel';
 import PrimaryButton from '@/Components/default/PrimaryButton';
 import TextInput from '@/Components/default/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '../../inertia-shim';
 import React from 'react';
 
 export default function Login({ status, canResetPassword }) {

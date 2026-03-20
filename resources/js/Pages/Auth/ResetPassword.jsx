@@ -3,7 +3,7 @@ import InputLabel from '@/Components/default/InputLabel';
 import PrimaryButton from '@/Components/default/PrimaryButton';
 import TextInput from '@/Components/default/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm } from '../../inertia-shim';
 
 export default function ResetPassword({ token, email }) {
     const { data, setData, post, processing, errors, reset } = useForm({

@@ -1,4 +1,4 @@
-import { Link, usePage } from "@inertiajs/react";
+import { Link, usePage } from "../../inertia-shim";
 import { useState } from "react";
 
 export default function Navbar() {

@@ -3,7 +3,7 @@ import InputLabel from '@/Components/default/InputLabel';
 import PrimaryButton from '@/Components/default/PrimaryButton';
 import TextInput from '@/Components/default/TextInput';
 import { Transition } from '@headlessui/react';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '../../../inertia-shim';
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,

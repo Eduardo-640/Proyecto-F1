@@ -3,7 +3,7 @@ import InputLabel from '@/Components/default/InputLabel';
 import PrimaryButton from '@/Components/default/PrimaryButton';
 import TextInput from '@/Components/default/TextInput';
 import { Transition } from '@headlessui/react';
-import { useForm } from '@inertiajs/react';
+import { useForm } from '../../../inertia-shim';
 import { useRef } from 'react';
 
 export default function UpdatePasswordForm({ className = '' }) {

@@ -1,4 +1,4 @@
-import { usePage, useForm } from "@inertiajs/react";
+import { usePage, useForm } from "../inertia-shim";
 
 export default function Perfil() {
   const { auth, flash } = usePage().props;

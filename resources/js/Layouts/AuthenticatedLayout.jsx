@@ -2,7 +2,7 @@ import ApplicationLogo from '@/Components/default/ApplicationLogo';
 import Dropdown from '@/Components/default/Dropdown';
 import NavLink from '@/Components/default/NavLink';
 import ResponsiveNavLink from '@/Components/default/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '../inertia-shim';
 import { useState } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {

@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link } from '../inertia-shim';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const handleImageError = () => {
