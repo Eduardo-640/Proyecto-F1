@@ -286,8 +286,10 @@ class SponsorAdmin(admin.ModelAdmin):
             "development",
             "consistency",
             "podiums",
-            "money",
+            "wins",
+            "points",
             "speed",
+            "money",
         ]
         response = HttpResponse(content_type="text/csv; charset=utf-8")
         response["Content-Disposition"] = 'attachment; filename="sponsors_export.csv"'
@@ -393,14 +395,15 @@ class SponsorAdmin(admin.ModelAdmin):
 
             text = f.read().decode("utf-8-sig")
             reader = csv.DictReader(io.StringIO(text), delimiter=";")
+            rows = list(reader)  # read all rows before deleting anything
             created = 0
             errors = []
-            # delete existing sponsors and conditions
-            SponsorCondition.objects.all().delete()
-            Sponsor.objects.all().delete()
 
             with transaction.atomic():
-                for i, row in enumerate(reader, start=1):
+                # delete inside the transaction so a failed import rolls back
+                SponsorCondition.objects.all().delete()
+                Sponsor.objects.all().delete()
+                for i, row in enumerate(rows, start=1):
                     try:
                         name = row.get("name", f"Sponsor {i}").strip()
                         sponsor = Sponsor.objects.create(
@@ -423,8 +426,10 @@ class SponsorAdmin(admin.ModelAdmin):
                             "development",
                             "consistency",
                             "podiums",
-                            "money",
+                            "wins",
+                            "points",
                             "speed",
+                            "money",
                         ]
                         total = 0
                         for cat in cats:
@@ -435,7 +440,7 @@ class SponsorAdmin(admin.ModelAdmin):
                                 v = 0
                             if cat == "money":
                                 val = max(1, v) if v != 0 else 1
-                                typ = "money"
+                                typ = None
                             else:
                                 val = 0 if v == 0 else (1 if v > 0 else -1)
                                 typ = (
@@ -444,15 +449,13 @@ class SponsorAdmin(admin.ModelAdmin):
                                     else ("affinity" if val > 0 else "penalty")
                                 )
 
-                            # Only create non-money conditions if value != 0 (skip neutral to avoid clutter).
-                            if cat == "money" or val != 0:
-                                SponsorCondition.objects.create(
-                                    sponsor=sponsor,
-                                    type=typ,
-                                    category=cat,
-                                    value=val,
-                                    description=f"Imported: {cat} {val}",
-                                )
+                            SponsorCondition.objects.create(
+                                sponsor=sponsor,
+                                type=typ,
+                                category=cat,
+                                value=val,
+                                description=f"Imported: {cat} {val}",
+                            )
 
                             if cat != "money":
                                 total += int(val)

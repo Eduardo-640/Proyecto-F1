@@ -60,7 +60,9 @@ class SponsorCondition(models.Model):
         on_delete=models.CASCADE,
         related_name="conditions",
     )
-    type = models.CharField(max_length=20, choices=SponsorConditionType.choices)
+    type = models.CharField(
+        max_length=20, choices=SponsorConditionType.choices, blank=True, null=True
+    )
     category = models.CharField(max_length=20, choices=Affinity.choices)
     value = models.IntegerField(
         default=0,

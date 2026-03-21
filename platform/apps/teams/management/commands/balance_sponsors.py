@@ -32,6 +32,8 @@ NON_MONEY_CATS = [
     "development",
     "consistency",
     "podiums",
+    "wins",
+    "points",
     "speed",
 ]
 ALL_CATS = NON_MONEY_CATS + ["money"]
@@ -71,7 +73,7 @@ class Command(BaseCommand):
                 for cat in ALL_CATS:
                     if cat not in existing:
                         val = 1 if cat == "money" else 0
-                        typ = "money" if cat == "money" else "neutral"
+                        typ = None if cat == "money" else "neutral"
                         cond = SponsorCondition.objects.create(
                             sponsor=sponsor,
                             type=typ,

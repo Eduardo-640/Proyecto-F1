@@ -27,7 +27,7 @@ import random
 from typing import TYPE_CHECKING
 
 from . import setup_generator as sg
-from .constants import AFFINITY_DEPARTMENT, Department
+from .constants import AFFINITY_DEPARTMENT, PAYOUT_CONDITION_BOOST, Department
 from .constants import UPGRADE_COST_BY_LEVEL
 from .models import (
     BalanceOfPerformance,
@@ -288,6 +288,30 @@ def get_starting_department_bonus(team: "Team") -> dict[str, int]:
         if new < -1:
             new = -1
         bonuses[dept] = new
+
+    # ── Synergy bonuses ────────────────────────────────────────────────────
+    # If 2+ complementary departments are both boosted (+1), grant an extra
+    # +1 to a third synergy department (capped so it never exceeds +1).
+    SYNERGIES = [
+        # (dept_a, dept_b) → synergy_dept  (thematic pairs)
+        ("engine", "aerodynamics", "electronics"),  # speed package → data/power unit
+        ("chassis", "suspension", "aerodynamics"),  # handling package → downforce
+        ("engine", "electronics", "aerodynamics"),  # power unit → aero efficiency
+        ("aerodynamics", "suspension", "chassis"),  # cornering → structural
+    ]
+    for dept_a, dept_b, synergy_dept in SYNERGIES:
+        if bonuses.get(dept_a, 0) > 0 and bonuses.get(dept_b, 0) > 0:
+            # Both parts of the pair are positively boosted: reward synergy dept
+            if bonuses.get(synergy_dept, 0) < 1:
+                bonuses[synergy_dept] = bonuses.get(synergy_dept, 0) + 1
+                if bonuses[synergy_dept] > 1:
+                    bonuses[synergy_dept] = 1
+        elif bonuses.get(dept_a, 0) < 0 and bonuses.get(dept_b, 0) < 0:
+            # Both penalised: compound the penalty on synergy dept
+            if bonuses.get(synergy_dept, 0) > -1:
+                bonuses[synergy_dept] = bonuses.get(synergy_dept, 0) - 1
+                if bonuses[synergy_dept] < -1:
+                    bonuses[synergy_dept] = -1
 
     return bonuses
 
