@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import TarjetaPiloto from "../Components/ui/TarjetaPiloto";
 import Navbar from "@/Components/cabeceras/Navbar";
+import { PILOTOS_MOCK } from "../data/mockData";
 
 export default function Pilotos() {
     const [year, setYear] = useState(new Date().getFullYear())
@@ -12,26 +13,27 @@ export default function Pilotos() {
     const years = Array.from({ length: 6 }, (_, i) => new Date().getFullYear() - i)
 
     useEffect(() => {
-        const fetchPilotos = async () => {
-            setLoading(true)
-            try {
-                // Simulamos una carga de datos
-                await new Promise((resolve) => setTimeout(resolve, 800))
-
-                const response = await axios.get(`/api/pilotos/${year}`);
-                const pilotosData = response.data; 
-                setPilotos(pilotosData)
-            } catch (error) {
-                console.error("Error al obtener los pilotos:", error)
-                setPilotos([]) 
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchPilotos()
+        // TODO: reemplazar con llamada real cuando el backend esté disponible
+        // const fetchPilotos = async () => {
+        //     setLoading(true)
+   
+        //     try {
+        //         const response = await axios.get(`/api/pilotos/${year}`);
+        //         setPilotos(response.data);
+        //     } catch (error) {
+        //         console.error("Error al obtener los pilotos:", error);
+        //         setPilotos([]);
+        //     } finally {
+        //         setLoading(false);
+        //     }
+        // };
+        // fetchPilotos();
+        setLoading(true);
+        setTimeout(() => {
+            setPilotos(PILOTOS_MOCK);
+            setLoading(false);
+        }, 400);
     }, [year])
-
 
     return (
         <>

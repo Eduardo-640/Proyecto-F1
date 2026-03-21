@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { PILOTOS_FANTASY_MOCK, PRESUPUESTO_MOCK } from '../../data/mockData';
 
 const PilotoCard = ({ piloto, onAction, actionLabel }) => {
     return (
@@ -33,15 +34,16 @@ const Compra = ({ actualizarPresupuesto }) => {
 
     const handleComprarPiloto = async (pilotoId) => {
         try {
-            const response = await axios.post('/fantasy/comprar-piloto', { piloto_id: pilotoId });
-            setFlashMessage({ message: response.data.message, isError: false }); 
+            // TODO: descomentar cuando el backend esté disponible
+            // const response = await axios.post('/fantasy/comprar-piloto', { piloto_id: pilotoId });
+            // setFlashMessage({ message: response.data.message, isError: false });
+            // const presupuestoResponse = await axios.get('/api/usuario/presupuesto');
+            // actualizarPresupuesto(presupuestoResponse.data.presupuesto);
 
-            // Actualizar la lista de pilotos después de la compra
+            // Simulación mock: eliminar piloto de la lista y mostrar mensaje
             setPilotos((prevPilotos) => prevPilotos.filter((piloto) => piloto.id !== pilotoId));
-
-            // Actualizar el presupuesto dinámicamente
-            const presupuestoResponse = await axios.get('/api/usuario/presupuesto');
-            actualizarPresupuesto(presupuestoResponse.data.presupuesto);
+            setFlashMessage({ message: 'Piloto comprado correctamente (mock).', isError: false });
+            actualizarPresupuesto((prev) => prev - 10000000);
         } catch (error) {
             console.error('Error al comprar piloto:', error);
             setFlashMessage({ message: 'No se pudo comprar el piloto.', isError: true });
@@ -49,17 +51,19 @@ const Compra = ({ actualizarPresupuesto }) => {
     };
 
     useEffect(() => {
-        // Obtener pilotos desde el backend
-        const fetchPilotos = async () => {
-            try {
-                const response = await axios.get('/fantasy/pilotos');
-                setPilotos(response.data);
-            } catch (error) {
-                console.error('Error al obtener pilotos:', error);
-            }
-        };
-
-        fetchPilotos();
+        // TODO: descomentar cuando el backend esté disponible
+        // const fetchPilotos = async () => {
+        //     try {
+        //         const response = await axios.get('/fantasy/pilotos');
+        //         setPilotos(response.data);
+        //     } catch (error) {
+        //         console.error('Error al obtener pilotos:', error);
+        //     }
+        // };
+        // fetchPilotos();
+        setTimeout(() => {
+            setPilotos(PILOTOS_FANTASY_MOCK);
+        }, 400);
     }, []);
 
     return (

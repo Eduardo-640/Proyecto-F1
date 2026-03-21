@@ -1,11 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import axios from "axios"
 import { Modal, Button, Tabs, Tab } from "react-bootstrap"
 import GraficaBarras from "@/Components/ui/GraficaBarras"
 import Podio from "@/Components/ui/Podio"
 import Navbar from '@/Components/cabeceras/Navbar';
+import { CARRERAS_MOCK } from "../data/mockData";
 
 const Carreras = () => {
   const [year, setYear] = useState(new Date().getFullYear())
@@ -17,60 +17,32 @@ const Carreras = () => {
   const years = Array.from({ length: 6 }, (_, i) => new Date().getFullYear() - i)
 
   useEffect(() => {
-    const fetchCarreras = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(`/api/carreras/${year}`);
-        setCarreras(response.data || []);
-      } catch (error) {
-        console.error("Error al obtener las carreras:", error);
-        setCarreras([]); // Evitar problemas si la API falla
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCarreras();
+    // TODO: reemplazar con llamada real cuando el backend esté disponible
+    setLoading(true);
+    setTimeout(() => {
+      setCarreras(CARRERAS_MOCK);
+      setLoading(false);
+    }, 400);
   }, [year]);
 
-  const verCarrera = async (year, round) => {
-    try {
-      const response = await axios.get(`/api/carrera/${year}/${round}`);
-      const data = response.data;
-
-      // Extraer las 3 primeras posiciones para el podio
-      const podio = data.resultados.slice(0, 3).map((piloto) => ({
-        piloto: `${piloto.Driver.givenName} ${piloto.Driver.familyName}`,
-        equipo: piloto.Constructor.name,
-        tiempo: piloto.Time?.time || "No disponible",
-      }));
-
-      console.log("Podio:", podio); // Verificar el array del podio
-
-      // Crear los datos para la gráfica de barras
-      const datosGrafica = {
-        labels: data.resultados.map(
-          (piloto) => `${piloto.Driver.givenName} ${piloto.Driver.familyName}`
-        ),
-        data: data.resultados.map((piloto) => parseInt(piloto.points, 10)),
-      };
-
-      console.log("Datos de la gráfica:", datosGrafica); // Verificar los datos de la gráfica
-
-      // Combinar podio y datos de la gráfica en un solo objeto
-      const detallesCarrera = {
-        ...data,
-        podio: podio,
-        grafica: datosGrafica,
-      };
-
-      // Actualizar el estado con los datos combinados
-      setCarreraSeleccionada(detallesCarrera);
-
-      setShowModal(true); // Muestra el modal con los detalles
-    } catch (error) {
-      console.error("Error al obtener los detalles de la carrera", error);
-    }
+  const verCarrera = (year, round) => {
+    // TODO: reemplazar con axios.get(`/api/carrera/${year}/${round}`) cuando el backend esté disponible
+    const carrera = CARRERAS_MOCK.find((c) => c.round === round);
+    if (!carrera) return;
+    setCarreraSeleccionada({
+      detalles: carrera,
+      podio: [
+        { piloto: "Max Verstappen",     equipo: "Red Bull Racing", tiempo: "1:30:00.000" },
+        { piloto: "Charles Leclerc",    equipo: "Ferrari",         tiempo: "+5.234" },
+        { piloto: "Lando Norris",       equipo: "McLaren",         tiempo: "+12.891" },
+      ],
+      grafica: {
+        labels: ["Verstappen", "Leclerc", "Norris", "Hamilton", "Piastri", "Russell", "Sainz", "Alonso"],
+        data:   [25, 18, 15, 12, 10, 8, 6, 4],
+      },
+      resultados: [],
+    });
+    setShowModal(true);
   };
 
   // Función para formatear la fecha

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { MI_EQUIPO_MOCK } from '../../data/mockData';
 
 const PilotoCard = ({ piloto, onAction, actionLabel, seleccionado }) => {
     return (
@@ -41,12 +42,15 @@ const MiEquipo = () => {
                 return;
             }
 
-            const response = await axios.post('/fantasy/seleccionar-piloto', {
-                piloto_id: pilotoId,
-                seleccionado,
-            });
-            setFlashMessage({ message: response.data.message, isError: false }); 
+            // TODO: descomentar cuando el backend esté disponible
+            // const response = await axios.post('/fantasy/seleccionar-piloto', {
+            //     piloto_id: pilotoId,
+            //     seleccionado,
+            // });
+            // setFlashMessage({ message: response.data.message, isError: false });
 
+            // Simulación mock: toggle local del estado seleccionado
+            setFlashMessage({ message: 'Estado de selección actualizado (mock).', isError: false });
             setPilotos((prevPilotos) =>
                 prevPilotos.map((piloto) =>
                     piloto.id === pilotoId ? { ...piloto, pivot: { ...piloto.pivot, seleccionado } } : piloto
@@ -59,16 +63,19 @@ const MiEquipo = () => {
     };
 
     useEffect(() => {
-        const fetchPilotos = async () => {
-            try {
-                const response = await axios.get('/fantasy/mi-equipo');
-                setPilotos(response.data);
-            } catch (error) {
-                console.error('Error al obtener pilotos:', error);
-            }
-        };
-
-        fetchPilotos();
+        // TODO: descomentar cuando el backend esté disponible
+        // const fetchPilotos = async () => {
+        //     try {
+        //         const response = await axios.get('/fantasy/mi-equipo');
+        //         setPilotos(response.data);
+        //     } catch (error) {
+        //         console.error('Error al obtener pilotos:', error);
+        //     }
+        // };
+        // fetchPilotos();
+        setTimeout(() => {
+            setPilotos(MI_EQUIPO_MOCK);
+        }, 400);
     }, []);
 
     return (
