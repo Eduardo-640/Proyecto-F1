@@ -1,0 +1,460 @@
+{
+	"TrackName": "spa",
+	"TrackConfig": "",
+	"Type": "QUALIFY",
+	"DurationSecs": 0,
+	"RaceLaps": 0,
+	"Cars": [
+		{
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "29_rss",
+			"BallastKG": 178,
+			"Restrictor": 87
+		},
+		{
+			"CarId": 1,
+			"Driver": {
+				"Name": "OsamaBilRussell",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198275115161",
+				"GuidsList": [
+					"76561198275115161"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "26_rss",
+			"BallastKG": 168,
+			"Restrictor": 86
+		},
+		{
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "El_Medusita - Team",
+				"Nation": "",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "23_rss",
+			"BallastKG": 178,
+			"Restrictor": 87
+		},
+		{
+			"CarId": 3,
+			"Driver": {
+				"Name": "DarkChris11",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198974174291",
+				"GuidsList": [
+					"76561198974174291"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "20_rss",
+			"BallastKG": 168,
+			"Restrictor": 86
+		},
+		{
+			"CarId": 4,
+			"Driver": {
+				"Name": "AlbertG",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198220759596",
+				"GuidsList": [
+					"76561198220759596"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "17_rss",
+			"BallastKG": 175,
+			"Restrictor": 85
+		}
+	],
+	"Result": [
+		{
+			"DriverName": "OsamaBilRussell",
+			"DriverGuid": "76561198275115161",
+			"CarId": 1,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 135166,
+			"TotalTime": 642820,
+			"BallastKG": 168,
+			"Restrictor": 86
+		},
+		{
+			"DriverName": "DarkChris11",
+			"DriverGuid": "76561198974174291",
+			"CarId": 3,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 138492,
+			"TotalTime": 632363,
+			"BallastKG": 168,
+			"Restrictor": 86
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 145384,
+			"TotalTime": 530338,
+			"BallastKG": 178,
+			"Restrictor": 87
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 999999999,
+			"TotalTime": 0,
+			"BallastKG": 175,
+			"Restrictor": 85
+		},
+		{
+			"DriverName": "El_Medusita",
+			"DriverGuid": "76561198242704178",
+			"CarId": 2,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 999999999,
+			"TotalTime": 0,
+			"BallastKG": 178,
+			"Restrictor": 87
+		}
+	],
+	"Laps": [
+		{
+			"DriverName": "OsamaBilRussell",
+			"DriverGuid": "76561198275115161",
+			"CarId": 1,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 208327,
+			"LapTime": 178773,
+			"Sectors": [
+				70440,
+				65043,
+				43290
+			],
+			"Cuts": 1,
+			"BallastKG": 168,
+			"Tyre": "S",
+			"Restrictor": 86
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 233102,
+			"LapTime": 215826,
+			"Sectors": [
+				81649,
+				95405,
+				38772
+			],
+			"Cuts": 6,
+			"BallastKG": 178,
+			"Tyre": "S",
+			"Restrictor": 87
+		},
+		{
+			"DriverName": "DarkChris11",
+			"DriverGuid": "76561198974174291",
+			"CarId": 3,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 236698,
+			"LapTime": 191327,
+			"Sectors": [
+				74219,
+				67707,
+				49401
+			],
+			"Cuts": 1,
+			"BallastKG": 168,
+			"Tyre": "S",
+			"Restrictor": 86
+		},
+		{
+			"DriverName": "OsamaBilRussell",
+			"DriverGuid": "76561198275115161",
+			"CarId": 1,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 343490,
+			"LapTime": 135166,
+			"Sectors": [
+				40248,
+				58225,
+				36693
+			],
+			"Cuts": 0,
+			"BallastKG": 168,
+			"Tyre": "S",
+			"Restrictor": 86
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 366885,
+			"LapTime": 348467,
+			"Sectors": [
+				244356,
+				64462,
+				39649
+			],
+			"Cuts": 2,
+			"BallastKG": 175,
+			"Tyre": "S",
+			"Restrictor": 85
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 386283,
+			"LapTime": 153188,
+			"Sectors": [
+				41895,
+				64763,
+				46530
+			],
+			"Cuts": 5,
+			"BallastKG": 178,
+			"Tyre": "S",
+			"Restrictor": 87
+		},
+		{
+			"DriverName": "DarkChris11",
+			"DriverGuid": "76561198974174291",
+			"CarId": 3,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 495163,
+			"LapTime": 258465,
+			"Sectors": [
+				159780,
+				60651,
+				38034
+			],
+			"Cuts": 1,
+			"BallastKG": 168,
+			"Tyre": "M",
+			"Restrictor": 86
+		},
+		{
+			"DriverName": "OsamaBilRussell",
+			"DriverGuid": "76561198275115161",
+			"CarId": 1,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 508949,
+			"LapTime": 165461,
+			"Sectors": [
+				55252,
+				62568,
+				47641
+			],
+			"Cuts": 0,
+			"BallastKG": 168,
+			"Tyre": "S",
+			"Restrictor": 86
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 531662,
+			"LapTime": 145384,
+			"Sectors": [
+				42123,
+				64529,
+				38732
+			],
+			"Cuts": 0,
+			"BallastKG": 178,
+			"Tyre": "S",
+			"Restrictor": 87
+		},
+		{
+			"DriverName": "DarkChris11",
+			"DriverGuid": "76561198974174291",
+			"CarId": 3,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 633655,
+			"LapTime": 138492,
+			"Sectors": [
+				41049,
+				59913,
+				37530
+			],
+			"Cuts": 0,
+			"BallastKG": 168,
+			"Tyre": "M",
+			"Restrictor": 86
+		},
+		{
+			"DriverName": "OsamaBilRussell",
+			"DriverGuid": "76561198275115161",
+			"CarId": 1,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 644145,
+			"LapTime": 135200,
+			"Sectors": [
+				40251,
+				58261,
+				36688
+			],
+			"Cuts": 0,
+			"BallastKG": 168,
+			"Tyre": "S",
+			"Restrictor": 86
+		}
+	],
+	"Events": [
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 43.60728,
+			"WorldPosition": {
+				"X": 560.5947,
+				"Y": 72.600075,
+				"Z": 690.2023
+			},
+			"RelPosition": {
+				"X": -3.9066308e-7,
+				"Y": -0.08937152,
+				"Z": 2.8558028
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 19.319237,
+			"WorldPosition": {
+				"X": 366.6402,
+				"Y": 31.87856,
+				"Z": 793.5958
+			},
+			"RelPosition": {
+				"X": -0.000009540157,
+				"Y": -0.13687193,
+				"Z": 2.8793855
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 26.933254,
+			"WorldPosition": {
+				"X": 382.02878,
+				"Y": 31.866634,
+				"Z": 772.9898
+			},
+			"RelPosition": {
+				"X": -0.49728885,
+				"Y": 0.6459809,
+				"Z": -2.056295
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 117.0536,
+			"WorldPosition": {
+				"X": 136.58643,
+				"Y": -7.4032774,
+				"Z": 359.62186
+			},
+			"RelPosition": {
+				"X": 0.77925545,
+				"Y": -0.23184855,
+				"Z": 2.6219246
+			}
+		}
+	]
+}

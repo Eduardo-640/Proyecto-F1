@@ -70,3 +70,31 @@ class SponsorCondition(models.Model):
 
     def __str__(self):
         return f"{self.sponsor.name} | {self.get_type_display()} | {self.get_category_display()}"
+
+
+class SponsorPayout(models.Model):
+    """Represents scheduled / pending sponsor payments tied to a season.
+
+    The management command `apply_sponsor_base` will create a payout record
+    for any remainder after an upfront portion has been applied.
+    """
+
+    sponsor = models.ForeignKey(
+        Sponsor, on_delete=models.CASCADE, related_name="payouts"
+    )
+    team = models.ForeignKey(
+        Team, on_delete=models.CASCADE, related_name="sponsor_payouts"
+    )
+    season = models.ForeignKey(
+        "seasons.Season", on_delete=models.CASCADE, related_name="sponsor_payouts"
+    )
+    total_amount = models.PositiveIntegerField()
+    remaining_amount = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Sponsor Payout"
+        verbose_name_plural = "Sponsor Payouts"
+
+    def __str__(self):
+        return f"{self.sponsor.name} → {self.team} ({self.remaining_amount}/{self.total_amount})"
