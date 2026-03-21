@@ -4,16 +4,27 @@ from django.db import transaction
 from apps.races.models import Race, RaceResult
 from apps.races.models import CreditTransaction
 from apps.races.constants import TransactionType
-from apps.teams.models import SponsorPayout
+from apps.teams.models import Sponsor, SponsorPayout
 from apps.developments.constants import PAYOUT_CONDITION_BOOST
+
+# Fraction of base_bonus applied upfront (must match apply_sponsor_base)
+UPFRONT_PERCENT = 0.25
+UPFRONT_CAP = 2000
 
 # Fraction of remaining payout applied per race (before performance modifier)
 PAYOUT_RATE_PER_RACE = 0.25
 
 
 def _build_race_team_stats(race):
-    """Return a dict {team_id: {points, position, has_podium, has_win, has_fastest_lap, has_points}}
-    aggregated from all RaceResult rows for this race."""
+    """Return a dict {team_id: {points, best_position, has_win, has_podium, has_points, fastest_lap}}
+    aggregated from all RaceResult rows for this race.
+
+    fastest_lap is True/False/None:
+      True  – this team's driver recorded the fastest lap
+      False – another driver recorded it
+      None  – no driver in the race has fastest_lap=True (data unknown, e.g. manual entry)
+              In this case speed conditions must be skipped to avoid unfair penalties.
+    """
     from collections import defaultdict
 
     stats = defaultdict(
@@ -26,6 +37,7 @@ def _build_race_team_stats(race):
             "has_points": False,
         }
     )
+    any_fastest_lap = False
     for rr in RaceResult.objects.filter(race=race).select_related("team"):
         tid = rr.team.id
         stats[tid]["points"] += rr.points_awarded or 0
@@ -33,10 +45,15 @@ def _build_race_team_stats(race):
             stats[tid]["best_position"] = rr.position
         if rr.fastest_lap:
             stats[tid]["fastest_lap"] = True
+            any_fastest_lap = True
     for tid, s in stats.items():
         s["has_win"] = s["best_position"] == 1
         s["has_podium"] = s["best_position"] <= 3
         s["has_points"] = s["points"] > 0
+        # If no driver in the race has fastest_lap flagged, mark as None (unknown)
+        # so that speed conditions are skipped rather than penalised unfairly.
+        if not any_fastest_lap:
+            s["fastest_lap"] = None
     return stats
 
 
@@ -60,11 +77,17 @@ def _sponsor_perf_multiplier(sponsor, team_stat) -> float:
             continue
 
         cond_key = rule["condition"]
+
+        # If fastest_lap data is unknown (None), skip speed conditions entirely
+        # to avoid penalising teams for data that was never recorded.
+        if cond_key == "fastest_lap" and team_stat.get("fastest_lap") is None:
+            continue
+
         achieved = (
             (cond_key == "win" and team_stat.get("has_win"))
             or (cond_key == "podium" and team_stat.get("has_podium"))
             or (cond_key == "any_points" and team_stat.get("has_points"))
-            or (cond_key == "fastest_lap" and team_stat.get("fastest_lap"))
+            or (cond_key == "fastest_lap" and team_stat.get("fastest_lap") is True)
         )
         # affinity (+1) rewards achievement; penalty (-1) rewards NOT achieving
         if val > 0 and achieved:
@@ -122,10 +145,45 @@ class Command(BaseCommand):
         applied = 0
         skipped = 0
         with transaction.atomic():
+            # Lazy-init: create SponsorPayout for any active sponsor assigned to a race
+            # team that does not yet have a payout record for this season.
+            # This handles teams that joined after apply_sponsor_base ran, or where
+            # the command was never called for that sponsor.
+            race_team_ids = set(team_points.keys())
+            for sponsor in Sponsor.objects.filter(
+                active=True, team_id__in=race_team_ids, base_bonus__gt=0
+            ).select_related("team"):
+                already_exists = SponsorPayout.objects.filter(
+                    sponsor=sponsor, team=sponsor.team, season=race.season
+                ).exists()
+                if not already_exists:
+                    upfront = min(
+                        int(round(sponsor.base_bonus * UPFRONT_PERCENT)), UPFRONT_CAP
+                    )
+                    remainder = sponsor.base_bonus - upfront
+                    # Give the upfront credit that apply_sponsor_base would have given
+                    if upfront > 0:
+                        sponsor.team.credits = (sponsor.team.credits or 0) + upfront
+                        sponsor.team.save(update_fields=["credits"])
+                        CreditTransaction.objects.create(
+                            team=sponsor.team,
+                            amount=upfront,
+                            transaction_type=TransactionType.SPONSOR_BASE,
+                            description=f"Sponsor upfront (auto-init) {sponsor.name} season:{race.season_id}",
+                        )
+                    if remainder > 0:
+                        SponsorPayout.objects.create(
+                            sponsor=sponsor,
+                            team=sponsor.team,
+                            season=race.season,
+                            total_amount=sponsor.base_bonus,
+                            remaining_amount=remainder,
+                        )
+
             # find payouts for teams that have entries in this race and remaining > 0 in same season
             payouts = SponsorPayout.objects.filter(
                 remaining_amount__gt=0,
-                team__in=[t for t in team_points.keys()],
+                team__in=race_team_ids,
                 season=race.season,
             ).select_related("sponsor", "team")
 

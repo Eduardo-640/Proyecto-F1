@@ -160,14 +160,18 @@ class TeamAdmin(admin.ModelAdmin):
             )
             return
 
+        UPFRONT_PERCENT = 0.25
+        UPFRONT_CAP = 2000
+
         applied = []
         skipped = []
         with transaction.atomic():
             for team in queryset:
                 dev, _ = TeamDevelopment.objects.get_or_create(team=team, season=season)
                 bonuses = service_apply_starting_bonuses(dev)
+
+                # ── Department bonuses audit log ──────────────────────────
                 if bonuses:
-                    # Create an audit transaction (amount 0) to record the bonus application
                     CreditTransaction.objects.create(
                         team=team,
                         amount=0,
@@ -177,53 +181,49 @@ class TeamAdmin(admin.ModelAdmin):
                             f"(sponsor={getattr(team.sponsors.filter(is_main=True).first(), 'name', 'None')}, season={season})"
                         ),
                     )
-                    # Also apply sponsor monetary upfront (same policy as apply_sponsor_base)
-                    try:
-                        sponsor = team.sponsors.filter(
-                            is_main=True, active=True
-                        ).first()
-                    except Exception:
-                        sponsor = None
 
-                    if sponsor and (sponsor.base_bonus or 0) > 0:
-                        amount = sponsor.base_bonus or 0
-                        UPFRONT_PERCENT = 0.25
-                        UPFRONT_CAP = 2000
-                        upfront = int(round(amount * UPFRONT_PERCENT))
-                        upfront = min(upfront, UPFRONT_CAP)
-                        remainder = amount - upfront
+                # ── Sponsor upfront + SponsorPayout (always, independent of dept bonuses) ──
+                try:
+                    sponsor = team.sponsors.filter(is_main=True, active=True).first()
+                except Exception:
+                    sponsor = None
 
-                        # idempotency marker (same format as management command)
-                        marker = f"sponsor_base:season:{season.id}:sponsor:{sponsor.id}"
-                        exists = CreditTransaction.objects.filter(
+                if sponsor and (sponsor.base_bonus or 0) > 0:
+                    amount = sponsor.base_bonus
+                    upfront = min(int(round(amount * UPFRONT_PERCENT)), UPFRONT_CAP)
+                    remainder = amount - upfront
+
+                    marker = f"sponsor_base:season:{season.id}:sponsor:{sponsor.id}"
+                    already_paid = CreditTransaction.objects.filter(
+                        team=team,
+                        transaction_type=RaceTransactionType.SPONSOR_BASE,
+                        description__contains=marker,
+                    ).exists()
+
+                    if not already_paid and upfront > 0:
+                        team.credits = (team.credits or 0) + upfront
+                        team.save(update_fields=["credits"])
+                        CreditTransaction.objects.create(
                             team=team,
+                            amount=upfront,
                             transaction_type=RaceTransactionType.SPONSOR_BASE,
-                            description__contains=marker,
-                        ).exists()
+                            description=f"Sponsor upfront {sponsor.name} ({marker})",
+                        )
 
-                        if not exists and upfront > 0:
-                            team.credits = (team.credits or 0) + upfront
-                            team.save(update_fields=["credits"])
-                            CreditTransaction.objects.create(
+                    if remainder > 0:
+                        dup = SponsorPayout.objects.filter(
+                            sponsor=sponsor, team=team, season=season
+                        ).exists()
+                        if not dup:
+                            SponsorPayout.objects.create(
+                                sponsor=sponsor,
                                 team=team,
-                                amount=upfront,
-                                transaction_type=RaceTransactionType.SPONSOR_BASE,
-                                description=f"Sponsor upfront {sponsor.name} ({marker})",
+                                season=season,
+                                total_amount=amount,
+                                remaining_amount=remainder,
                             )
 
-                        if remainder > 0:
-                            # avoid duplicating SponsorPayouts for same season/sponsor/team
-                            dup = SponsorPayout.objects.filter(
-                                sponsor=sponsor, team=team, season=season
-                            ).exists()
-                            if not dup:
-                                SponsorPayout.objects.create(
-                                    sponsor=sponsor,
-                                    team=team,
-                                    season=season,
-                                    total_amount=amount,
-                                    remaining_amount=remainder,
-                                )
+                if bonuses:
                     applied.append(f"{team}: {', '.join(sorted(bonuses))}")
                 else:
                     skipped.append(str(team))
