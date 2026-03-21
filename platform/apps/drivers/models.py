@@ -4,6 +4,10 @@ from apps.teams.models import Team
 
 class Driver(models.Model):
     name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
+    number = models.PositiveIntegerField(blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    birth_date = models.DateField(blank=True, null=True)
     team = models.OneToOneField(
         Team,
         on_delete=models.SET_NULL,
@@ -21,7 +25,7 @@ class Driver(models.Model):
         verbose_name_plural = "Drivers"
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.last_name}"
 
 
 class DriverStanding(models.Model):
