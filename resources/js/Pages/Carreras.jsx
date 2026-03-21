@@ -21,7 +21,6 @@ const Carreras = () => {
       setLoading(true);
       try {
         const response = await axios.get(`/api/carreras/${year}`);
-        console.log("Respuesta de la API:", response.data); // Verifica qué datos llegan
         setCarreras(response.data || []);
       } catch (error) {
         console.error("Error al obtener las carreras:", error);

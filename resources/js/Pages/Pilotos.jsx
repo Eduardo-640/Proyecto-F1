@@ -19,7 +19,6 @@ export default function Pilotos() {
                 await new Promise((resolve) => setTimeout(resolve, 800))
 
                 const response = await axios.get(`/api/pilotos/${year}`);
-                console.log("Respuesta de la API:", response.data); // Verifica qué datos llegan
                 const pilotosData = response.data; 
                 setPilotos(pilotosData)
             } catch (error) {
