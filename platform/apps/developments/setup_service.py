@@ -343,6 +343,49 @@ def get_sponsor_money_multiplier(team: "Team") -> float:
     return multiplier
 
 
+def get_sponsor_department_multiplier(team: "Team", department: str) -> float:
+    """Return a cost multiplier for a specific upgrade department based on sponsor conditions.
+
+    Considers both direct department category names ('engine', 'chassis', …) and
+    indirect mappings via AFFINITY_DEPARTMENT ('speed' → 'engine', etc.).
+
+    affinity (+1) on the dept  →  5% discount  (× 0.95)
+    penalty  (-1) on the dept  → 10% surcharge  (× 1.10)
+
+    This gives department penalties real in-game weight during the season: if a sponsor
+    is hostile to a department it will cost more to develop that dept, even though the
+    starting-level floor (MIN_LEVEL=1) prevents the initial level from dropping below 1.
+
+    Returns 1.0 if the team has no main sponsor or no relevant conditions.
+    """
+    try:
+        main_sponsor = team.sponsors.get(is_main=True, active=True)
+    except Exception:
+        return 1.0
+
+    dept_values = {c.value for c in Department}
+    net = 0
+    for cond in main_sponsor.conditions.filter(type__in=("affinity", "penalty")):
+        # resolve which department this condition affects
+        mapped = AFFINITY_DEPARTMENT.get(cond.category)
+        if not mapped and cond.category in dept_values:
+            mapped = cond.category
+        if mapped != department:
+            continue
+        try:
+            val = int(cond.value)
+        except Exception:
+            continue
+        net += 1 if val > 0 else (-1 if val < 0 else 0)
+
+    net = max(-1, min(1, net))
+    if net > 0:
+        return 0.95  # affinity → 5% discount
+    if net < 0:
+        return 1.10  # penalty → 10% surcharge
+    return 1.0
+
+
 def apply_starting_bonuses(dev: TeamDevelopment) -> dict[str, int]:
     """Apply sponsor-derived starting bonuses to an existing ``TeamDevelopment``.
 

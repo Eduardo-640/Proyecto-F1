@@ -64,15 +64,14 @@ Si el sponsor principal tiene **dos departamentos complementarios** ambos en `+1
 
 ---
 
-## 4. El campo `money` — Descuento en mejoras
+## 4. El campo `money` — Descuento global en mejoras
 
-El campo `money` no es una condición de tipo affinity/penalty. Representa la capacidad económica del sponsor para **reducir el costo de las mejoras** durante la temporada.
+El campo `money` no es una condición de tipo affinity/penalty. Representa la capacidad económica del sponsor para **reducir el costo de cualquier mejora** durante la temporada.
 
 Cada unidad de `money` aplica un **5% de descuento** sobre el costo de las mejoras:
 
 ```
-multiplicador = 1.0 - (0.05 × money_value)
-costo_final   = costo_base × multiplicador
+money_mult = 1.0 - (0.05 × money_value)
 ```
 
 | money | Descuento | Multiplicador |
@@ -81,11 +80,38 @@ costo_final   = costo_base × multiplicador
 | 2     | 10%       | 0.90          |
 | 3     | 15%       | 0.85          |
 
-> El multiplicador está clampeado en el rango `[0.5, 2.0]`. Solo aplica al **sponsor principal** activo.
+> Solo aplica al **sponsor principal** activo.
 
 ---
 
-## 5. Multiplicador de pago por rendimiento en carrera
+## 5. Condiciones de departamento — Efecto en costo de mejoras
+
+Además del descuento global de `money`, cada condición de departamento modifica el costo de mejoras **específicamente para ese departamento**. Esto da peso real a las penalizaciones durante la temporada: como el nivel inicial no puede bajar de 1 (MIN_LEVEL), las penalizaciones se manifiestan como sobrecosto en el desarrollo de ese departamento.
+
+| Tipo          | Efecto en costo de mejora de ese departamento |
+| ------------- | --------------------------------------------- |
+| Affinity (+1) | −5% adicional (×0.95)                         |
+| Neutral (0)   | sin efecto (×1.00)                            |
+| Penalty (−1)  | +10% adicional (×1.10)                        |
+
+El multiplicador final de una mejora combina ambos multiplicadores, clampeado a `[0.5, 2.0]`:
+
+```
+combined = clamp(money_mult × dept_mult, 0.5, 2.0)
+costo_final = costo_base × combined
+```
+
+**Ejemplo — Banko de la Kurva** (`money=3`, `engine=1`, `chassis=-1`):
+
+- Mejora de **Engine**: `0.85 × 0.95 = 0.807` → ~19% descuento total
+- Mejora de **Chassis**: `0.85 × 1.10 = 0.935` → ~7% descuento (money amortigua la penalidad)
+- Mejora de **Aerodynamics**: `0.85 × 1.00 = 0.850` → solo el 15% de money
+
+> Las condiciones indirectas también aplican: `speed=1` mapea a `engine` → descuenta mejoras de Engine. `development=1` mapea a `chassis` → descuenta Chassis.
+
+---
+
+## 6. Multiplicador de pago por rendimiento en carrera
 
 Cinco categorías del CSV modifican el pago que recibe el equipo por cada carrera, según el resultado obtenido. El sistema lo gestiona el comando `settle_sponsor_payouts`.
 
@@ -125,7 +151,7 @@ El `sponsor_mult` final se clampea a **[0.5, 2.0]**.
 
 ---
 
-## 6. Equilibrio de condiciones (`total_score`)
+## 7. Equilibrio de condiciones (`total_score`)
 
 Cada sponsor tiene un campo `total_score` que es la suma de todos sus valores no-money:
 
@@ -140,7 +166,7 @@ El comando `balance_sponsors --fix` puede rebalancear automáticamente cualquier
 
 ---
 
-## 7. Reglas de diseño para nuevos sponsors
+## 8. Reglas de diseño para nuevos sponsors
 
 Al crear un nuevo sponsor en el CSV:
 
@@ -160,7 +186,7 @@ Al crear un nuevo sponsor en el CSV:
 
 ---
 
-## 8. Ciclo de vida al inicio de temporada
+## 9. Ciclo de vida al inicio de temporada
 
 ```
 1. Equipo firma sponsor principal (is_main=True)
