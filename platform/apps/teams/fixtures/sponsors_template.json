@@ -1,577 +1,1954 @@
 [
-    {
-        "model": "teams.sponsor",
-        "pk": 1,
-        "fields": {
-            "team": null,
-            "name": "Zenith Motors",
-            "description": "High-end engineering partner focused on raw speed.",
-            "is_main": false,
-            "base_bonus": 8000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 2,
-        "fields": {
-            "team": null,
-            "name": "Green Energy Co.",
-            "description": "Sustainable sponsor, rewards development and consistency.",
-            "is_main": false,
-            "base_bonus": 6000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 3,
-        "fields": {
-            "team": null,
-            "name": "Apex Aero",
-            "description": "Aerodynamics specialist; favors podiums and speed.",
-            "is_main": false,
-            "base_bonus": 7000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 4,
-        "fields": {
-            "team": null,
-            "name": "Nova Electronics",
-            "description": "Tech sponsor that boosts electronics development.",
-            "is_main": false,
-            "base_bonus": 5000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 5,
-        "fields": {
-            "team": null,
-            "name": "Circuit Supply",
-            "description": "Mid-tier sponsor focused on consistency and reliability.",
-            "is_main": false,
-            "base_bonus": 3000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 6,
-        "fields": {
-            "team": null,
-            "name": "Velocity Capital",
-            "description": "Financial backer offering large base bonuses for top results.",
-            "is_main": false,
-            "base_bonus": 15000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 7,
-        "fields": {
-            "team": null,
-            "name": "Precision Bearings",
-            "description": "Small sponsor that prizes development and reliability.",
-            "is_main": false,
-            "base_bonus": 2000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 8,
-        "fields": {
-            "team": null,
-            "name": "Titan Lubes",
-            "description": "Engine-focused sponsor; affinity for wins and speed.",
-            "is_main": false,
-            "base_bonus": 6500,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 9,
-        "fields": {
-            "team": null,
-            "name": "Atlas Logistics",
-            "description": "Supports operational consistency and development.",
-            "is_main": false,
-            "base_bonus": 3500,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 10,
-        "fields": {
-            "team": null,
-            "name": "Photon Systems",
-            "description": "Electronics / software partner; favors electronics development.",
-            "is_main": false,
-            "base_bonus": 7000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 11,
-        "fields": {
-            "team": null,
-            "name": "Summit Tires",
-            "description": "Tyre and grip supplier; rewards consistency and podiums.",
-            "is_main": false,
-            "base_bonus": 6000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 12,
-        "fields": {
-            "team": null,
-            "name": "Helix R&D",
-            "description": "R&D partner that rewards development-focused teams.",
-            "is_main": false,
-            "base_bonus": 9000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 13,
-        "fields": {
-            "team": null,
-            "name": "Forge Manufacturing",
-            "description": "Chassis and parts supplier; affinity for development and wins.",
-            "is_main": false,
-            "base_bonus": 5500,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 14,
-        "fields": {
-            "team": null,
-            "name": "Blue Horizon",
-            "description": "Lifestyle brand; mid-tier base bonus, rewards visibility (podiums).",
-            "is_main": false,
-            "base_bonus": 3000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 15,
-        "fields": {
-            "team": null,
-            "name": "Quantum Analytics",
-            "description": "Data-driven sponsor; favors electronics and development.",
-            "is_main": false,
-            "base_bonus": 8000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 16,
-        "fields": {
-            "team": null,
-            "name": "Pioneer Oil",
-            "description": "Traditional oil brand; affinity to engine and speed.",
-            "is_main": false,
-            "base_bonus": 6000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 17,
-        "fields": {
-            "team": null,
-            "name": "Aurora Finance",
-            "description": "High-value sponsor for ambitious teams; large base bonus.",
-            "is_main": false,
-            "base_bonus": 12000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 18,
-        "fields": {
-            "team": null,
-            "name": "EcoDrive",
-            "description": "Sustainability-focused sponsor; rewards development and consistency.",
-            "is_main": false,
-            "base_bonus": 4000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 19,
-        "fields": {
-            "team": null,
-            "name": "Omega Systems",
-            "description": "Electronics and telemetry; affinity for electronics and points.",
-            "is_main": false,
-            "base_bonus": 7500,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 20,
-        "fields": {
-            "team": null,
-            "name": "Summit Hospitality",
-            "description": "Marketing sponsor; smaller base bonus but broad visibility.",
-            "is_main": false,
-            "base_bonus": 2000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 21,
-        "fields": {
-            "team": null,
-            "name": "Vector Dynamics",
-            "description": "Suspension & handling specialist; rewards consistency and development.",
-            "is_main": false,
-            "base_bonus": 5000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 22,
-        "fields": {
-            "team": null,
-            "name": "Polaris Media",
-            "description": "Media partner; favors podium visibility and marketing.",
-            "is_main": false,
-            "base_bonus": 2500,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 23,
-        "fields": {
-            "team": null,
-            "name": "Atlas Composites",
-            "description": "Lightweight materials supplier; rewards development and speed.",
-            "is_main": false,
-            "base_bonus": 9000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 24,
-        "fields": {
-            "team": null,
-            "name": "Stellar Drinks",
-            "description": "Consumer brand; mid bonus, rewards podiums.",
-            "is_main": false,
-            "base_bonus": 3000,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsor",
-        "pk": 25,
-        "fields": {
-            "team": null,
-            "name": "Nimble Tools",
-            "description": "Workshop sponsor; small base, affinity for development.",
-            "is_main": false,
-            "base_bonus": 1500,
-            "active": true
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 101,
-        "fields": {
-            "sponsor": 3,
-            "type": "affinity",
-            "category": "aerodynamics",
-            "value": 1,
-            "description": "Aerodynamics affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 102,
-        "fields": {
-            "sponsor": 4,
-            "type": "affinity",
-            "category": "electronics",
-            "value": 1,
-            "description": "Electronics affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 103,
-        "fields": {
-            "sponsor": 6,
-            "type": "affinity",
-            "category": "engine",
-            "value": 1,
-            "description": "Engine affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 104,
-        "fields": {
-            "sponsor": 11,
-            "type": "affinity",
-            "category": "suspension",
-            "value": 1,
-            "description": "Suspension affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 105,
-        "fields": {
-            "sponsor": 12,
-            "type": "affinity",
-            "category": "chassis",
-            "value": 1,
-            "description": "Chassis affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 106,
-        "fields": {
-            "sponsor": 15,
-            "type": "affinity",
-            "category": "aerodynamics",
-            "value": 1,
-            "description": "Aero affinity for Apex Engineering"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 107,
-        "fields": {
-            "sponsor": 20,
-            "type": "affinity",
-            "category": "aerodynamics",
-            "value": 1,
-            "description": "Small aero supplier affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 108,
-        "fields": {
-            "sponsor": 1,
-            "type": "penalty",
-            "category": "electronics",
-            "value": -1,
-            "description": "Less focus on electronics"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 109,
-        "fields": {
-            "sponsor": 5,
-            "type": "penalty",
-            "category": "engine",
-            "value": -1,
-            "description": "Chassis-oriented sponsor penalises engine"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 110,
-        "fields": {
-            "sponsor": 8,
-            "type": "affinity",
-            "category": "engine",
-            "value": 1,
-            "description": "Engine affinity for Titan Lubes"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 111,
-        "fields": {
-            "sponsor": 9,
-            "type": "affinity",
-            "category": "consistency",
-            "value": 1,
-            "description": "Operations/consistency affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 112,
-        "fields": {
-            "sponsor": 2,
-            "type": "affinity",
-            "category": "development",
-            "value": 1,
-            "description": "R&D / development affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 113,
-        "fields": {
-            "sponsor": 7,
-            "type": "affinity",
-            "category": "consistency",
-            "value": 1,
-            "description": "Reliability and consistency affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 114,
-        "fields": {
-            "sponsor": 10,
-            "type": "affinity",
-            "category": "electronics",
-            "value": 1,
-            "description": "Electronics / telemetry affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 115,
-        "fields": {
-            "sponsor": 13,
-            "type": "affinity",
-            "category": "chassis",
-            "value": 1,
-            "description": "Chassis / composites affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 116,
-        "fields": {
-            "sponsor": 14,
-            "type": "affinity",
-            "category": "podiums",
-            "value": 1,
-            "description": "Visibility / podiums affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 117,
-        "fields": {
-            "sponsor": 16,
-            "type": "affinity",
-            "category": "engine",
-            "value": 1,
-            "description": "Engine performance affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 118,
-        "fields": {
-            "sponsor": 18,
-            "type": "affinity",
-            "category": "development",
-            "value": 1,
-            "description": "Sustainability-focused development affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 119,
-        "fields": {
-            "sponsor": 19,
-            "type": "affinity",
-            "category": "electronics",
-            "value": 1,
-            "description": "Telemetry and electronics affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 120,
-        "fields": {
-            "sponsor": 20,
-            "type": "affinity",
-            "category": "podiums",
-            "value": 1,
-            "description": "Marketing / visibility affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 121,
-        "fields": {
-            "sponsor": 21,
-            "type": "affinity",
-            "category": "suspension",
-            "value": 1,
-            "description": "Suspension and handling affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 122,
-        "fields": {
-            "sponsor": 22,
-            "type": "affinity",
-            "category": "podiums",
-            "value": 1,
-            "description": "Media/podiums affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 123,
-        "fields": {
-            "sponsor": 23,
-            "type": "affinity",
-            "category": "development",
-            "value": 1,
-            "description": "Composites / development affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 124,
-        "fields": {
-            "sponsor": 24,
-            "type": "affinity",
-            "category": "podiums",
-            "value": 1,
-            "description": "Marketing / podiums affinity"
-        }
-    },
-    {
-        "model": "teams.sponsorcondition",
-        "pk": 125,
-        "fields": {
-            "sponsor": 25,
-            "type": "affinity",
-            "category": "development",
-            "value": 1,
-            "description": "Workshop / development affinity"
-        }
+  {
+    "model": "teams.sponsor",
+    "pk": 1,
+    "fields": {
+      "team": null,
+      "name": "Banko de la Kurva",
+      "description": "Inyeccion de capital a costa de chasis pesado y lento",
+      "is_main": true,
+      "base_bonus": 12000,
+      "active": true
     }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1001,
+    "fields": {
+      "sponsor": 1,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1002,
+    "fields": {
+      "sponsor": 1,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1003,
+    "fields": {
+      "sponsor": 1,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1004,
+    "fields": {
+      "sponsor": 1,
+      "type": "penalty",
+      "category": "chassis",
+      "value": -2,
+      "description": "Auto: chassis -2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1005,
+    "fields": {
+      "sponsor": 1,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1006,
+    "fields": {
+      "sponsor": 1,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1007,
+    "fields": {
+      "sponsor": 1,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 1,
+      "description": "Auto: consistency 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1008,
+    "fields": {
+      "sponsor": 1,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1009,
+    "fields": {
+      "sponsor": 1,
+      "type": "money",
+      "category": "money",
+      "value": 3,
+      "description": "Auto: money 3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1010,
+    "fields": {
+      "sponsor": 1,
+      "type": "penalty",
+      "category": "speed",
+      "value": -1,
+      "description": "Auto: speed -1"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 2,
+    "fields": {
+      "team": null,
+      "name": "Refrescos Burbuja",
+      "description": "Mucha energia para el motor pero poco desarrollo tecnico",
+      "is_main": false,
+      "base_bonus": 5000,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1011,
+    "fields": {
+      "sponsor": 2,
+      "type": "affinity",
+      "category": "engine",
+      "value": 2,
+      "description": "Auto: engine 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1012,
+    "fields": {
+      "sponsor": 2,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1013,
+    "fields": {
+      "sponsor": 2,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1014,
+    "fields": {
+      "sponsor": 2,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1015,
+    "fields": {
+      "sponsor": 2,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1016,
+    "fields": {
+      "sponsor": 2,
+      "type": "penalty",
+      "category": "development",
+      "value": -1,
+      "description": "Auto: development -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1017,
+    "fields": {
+      "sponsor": 2,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1018,
+    "fields": {
+      "sponsor": 2,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1019,
+    "fields": {
+      "sponsor": 2,
+      "type": "money",
+      "category": "money",
+      "value": 1,
+      "description": "Auto: money 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1020,
+    "fields": {
+      "sponsor": 2,
+      "type": "affinity",
+      "category": "speed",
+      "value": 1,
+      "description": "Auto: speed 1"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 3,
+    "fields": {
+      "team": null,
+      "name": "Neumaticos de Corcho",
+      "description": "Agarre nulo en curva pero gran velocidad punta en recta",
+      "is_main": false,
+      "base_bonus": 3500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1021,
+    "fields": {
+      "sponsor": 3,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1022,
+    "fields": {
+      "sponsor": 3,
+      "type": "penalty",
+      "category": "aerodynamics",
+      "value": -2,
+      "description": "Auto: aerodynamics -2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1023,
+    "fields": {
+      "sponsor": 3,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1024,
+    "fields": {
+      "sponsor": 3,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1025,
+    "fields": {
+      "sponsor": 3,
+      "type": "penalty",
+      "category": "suspension",
+      "value": -1,
+      "description": "Auto: suspension -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1026,
+    "fields": {
+      "sponsor": 3,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1027,
+    "fields": {
+      "sponsor": 3,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1028,
+    "fields": {
+      "sponsor": 3,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1029,
+    "fields": {
+      "sponsor": 3,
+      "type": "money",
+      "category": "money",
+      "value": 1,
+      "description": "Auto: money 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1030,
+    "fields": {
+      "sponsor": 3,
+      "type": "affinity",
+      "category": "speed",
+      "value": 3,
+      "description": "Auto: speed 3"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 4,
+    "fields": {
+      "team": null,
+      "name": "Cableado Enredado",
+      "description": "Electronica barata que falla en momentos clave del podio",
+      "is_main": false,
+      "base_bonus": 4000,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1031,
+    "fields": {
+      "sponsor": 4,
+      "type": "affinity",
+      "category": "engine",
+      "value": 1,
+      "description": "Auto: engine 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1032,
+    "fields": {
+      "sponsor": 4,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1033,
+    "fields": {
+      "sponsor": 4,
+      "type": "penalty",
+      "category": "electronics",
+      "value": -2,
+      "description": "Auto: electronics -2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1034,
+    "fields": {
+      "sponsor": 4,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1035,
+    "fields": {
+      "sponsor": 4,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1036,
+    "fields": {
+      "sponsor": 4,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1037,
+    "fields": {
+      "sponsor": 4,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1038,
+    "fields": {
+      "sponsor": 4,
+      "type": "penalty",
+      "category": "podiums",
+      "value": -1,
+      "description": "Auto: podiums -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1039,
+    "fields": {
+      "sponsor": 4,
+      "type": "money",
+      "category": "money",
+      "value": 1,
+      "description": "Auto: money 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1040,
+    "fields": {
+      "sponsor": 4,
+      "type": "affinity",
+      "category": "speed",
+      "value": 0,
+      "description": "Auto: speed 0"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 5,
+    "fields": {
+      "team": null,
+      "name": "Gasolina de Garrafa",
+      "description": "Potencia bruta con riesgo alto de averia mecanica",
+      "is_main": true,
+      "base_bonus": 8500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1041,
+    "fields": {
+      "sponsor": 5,
+      "type": "affinity",
+      "category": "engine",
+      "value": 3,
+      "description": "Auto: engine 3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1042,
+    "fields": {
+      "sponsor": 5,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1043,
+    "fields": {
+      "sponsor": 5,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1044,
+    "fields": {
+      "sponsor": 5,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1045,
+    "fields": {
+      "sponsor": 5,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1046,
+    "fields": {
+      "sponsor": 5,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1047,
+    "fields": {
+      "sponsor": 5,
+      "type": "penalty",
+      "category": "consistency",
+      "value": -2,
+      "description": "Auto: consistency -2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1048,
+    "fields": {
+      "sponsor": 5,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1049,
+    "fields": {
+      "sponsor": 5,
+      "type": "money",
+      "category": "money",
+      "value": 2,
+      "description": "Auto: money 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1050,
+    "fields": {
+      "sponsor": 5,
+      "type": "affinity",
+      "category": "speed",
+      "value": 2,
+      "description": "Auto: speed 2"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 6,
+    "fields": {
+      "team": null,
+      "name": "Seguros El Chochazo",
+      "description": "Proteccion financiera ante accidentes penaliza el podio",
+      "is_main": true,
+      "base_bonus": 14000,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1051,
+    "fields": {
+      "sponsor": 6,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1052,
+    "fields": {
+      "sponsor": 6,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1053,
+    "fields": {
+      "sponsor": 6,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1054,
+    "fields": {
+      "sponsor": 6,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 2,
+      "description": "Auto: chassis 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1055,
+    "fields": {
+      "sponsor": 6,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1056,
+    "fields": {
+      "sponsor": 6,
+      "type": "penalty",
+      "category": "development",
+      "value": -1,
+      "description": "Auto: development -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1057,
+    "fields": {
+      "sponsor": 6,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1058,
+    "fields": {
+      "sponsor": 6,
+      "type": "penalty",
+      "category": "podiums",
+      "value": -2,
+      "description": "Auto: podiums -2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1059,
+    "fields": {
+      "sponsor": 6,
+      "type": "money",
+      "category": "money",
+      "value": 3,
+      "description": "Auto: money 3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1060,
+    "fields": {
+      "sponsor": 6,
+      "type": "affinity",
+      "category": "speed",
+      "value": 0,
+      "description": "Auto: speed 0"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 7,
+    "fields": {
+      "team": null,
+      "name": "Herramientas de Plastico",
+      "description": "Pesimo desarrollo pero ahorro de costes operativo alto",
+      "is_main": false,
+      "base_bonus": 2500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1061,
+    "fields": {
+      "sponsor": 7,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1062,
+    "fields": {
+      "sponsor": 7,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1063,
+    "fields": {
+      "sponsor": 7,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1064,
+    "fields": {
+      "sponsor": 7,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1065,
+    "fields": {
+      "sponsor": 7,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1066,
+    "fields": {
+      "sponsor": 7,
+      "type": "penalty",
+      "category": "development",
+      "value": -3,
+      "description": "Auto: development -3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1067,
+    "fields": {
+      "sponsor": 7,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 1,
+      "description": "Auto: consistency 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1068,
+    "fields": {
+      "sponsor": 7,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1069,
+    "fields": {
+      "sponsor": 7,
+      "type": "money",
+      "category": "money",
+      "value": 2,
+      "description": "Auto: money 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1070,
+    "fields": {
+      "sponsor": 7,
+      "type": "penalty",
+      "category": "speed",
+      "value": -1,
+      "description": "Auto: speed -1"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 8,
+    "fields": {
+      "team": null,
+      "name": "Viajes al Paddock",
+      "description": "Comodidad para el equipo pero penaliza la aerodinamica",
+      "is_main": false,
+      "base_bonus": 6000,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1071,
+    "fields": {
+      "sponsor": 8,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1072,
+    "fields": {
+      "sponsor": 8,
+      "type": "penalty",
+      "category": "aerodynamics",
+      "value": -1,
+      "description": "Auto: aerodynamics -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1073,
+    "fields": {
+      "sponsor": 8,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1074,
+    "fields": {
+      "sponsor": 8,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1075,
+    "fields": {
+      "sponsor": 8,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1076,
+    "fields": {
+      "sponsor": 8,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1077,
+    "fields": {
+      "sponsor": 8,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1078,
+    "fields": {
+      "sponsor": 8,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 2,
+      "description": "Auto: podiums 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1079,
+    "fields": {
+      "sponsor": 8,
+      "type": "money",
+      "category": "money",
+      "value": 1,
+      "description": "Auto: money 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1080,
+    "fields": {
+      "sponsor": 8,
+      "type": "affinity",
+      "category": "speed",
+      "value": 0,
+      "description": "Auto: speed 0"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 9,
+    "fields": {
+      "team": null,
+      "name": "Pinturas Relucientes",
+      "description": "Mejora estetica y flujo de aire pero mantenimiento caro",
+      "is_main": false,
+      "base_bonus": 9500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1081,
+    "fields": {
+      "sponsor": 9,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1082,
+    "fields": {
+      "sponsor": 9,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 2,
+      "description": "Auto: aerodynamics 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1083,
+    "fields": {
+      "sponsor": 9,
+      "type": "penalty",
+      "category": "electronics",
+      "value": -1,
+      "description": "Auto: electronics -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1084,
+    "fields": {
+      "sponsor": 9,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1085,
+    "fields": {
+      "sponsor": 9,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1086,
+    "fields": {
+      "sponsor": 9,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1087,
+    "fields": {
+      "sponsor": 9,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1088,
+    "fields": {
+      "sponsor": 9,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 1,
+      "description": "Auto: podiums 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1089,
+    "fields": {
+      "sponsor": 9,
+      "type": "money",
+      "category": "money",
+      "value": 2,
+      "description": "Auto: money 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1090,
+    "fields": {
+      "sponsor": 9,
+      "type": "affinity",
+      "category": "speed",
+      "value": 1,
+      "description": "Auto: speed 1"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 10,
+    "fields": {
+      "team": null,
+      "name": "Relojes de Arena",
+      "description": "Precision cronometrica que sacrifica la velocidad final",
+      "is_main": false,
+      "base_bonus": 5500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1091,
+    "fields": {
+      "sponsor": 10,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1092,
+    "fields": {
+      "sponsor": 10,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1093,
+    "fields": {
+      "sponsor": 10,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1094,
+    "fields": {
+      "sponsor": 10,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1095,
+    "fields": {
+      "sponsor": 10,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 1,
+      "description": "Auto: suspension 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1096,
+    "fields": {
+      "sponsor": 10,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1097,
+    "fields": {
+      "sponsor": 10,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 3,
+      "description": "Auto: consistency 3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1098,
+    "fields": {
+      "sponsor": 10,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1099,
+    "fields": {
+      "sponsor": 10,
+      "type": "money",
+      "category": "money",
+      "value": 1,
+      "description": "Auto: money 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1100,
+    "fields": {
+      "sponsor": 10,
+      "type": "penalty",
+      "category": "speed",
+      "value": -2,
+      "description": "Auto: speed -2"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 11,
+    "fields": {
+      "team": null,
+      "name": "Cafe para Mecanicos",
+      "description": "Rapidez en desarrollo tecnico que penaliza la suspension",
+      "is_main": false,
+      "base_bonus": 4500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1101,
+    "fields": {
+      "sponsor": 11,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1102,
+    "fields": {
+      "sponsor": 11,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1103,
+    "fields": {
+      "sponsor": 11,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1104,
+    "fields": {
+      "sponsor": 11,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1105,
+    "fields": {
+      "sponsor": 11,
+      "type": "penalty",
+      "category": "suspension",
+      "value": -1,
+      "description": "Auto: suspension -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1106,
+    "fields": {
+      "sponsor": 11,
+      "type": "affinity",
+      "category": "development",
+      "value": 2,
+      "description": "Auto: development 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1107,
+    "fields": {
+      "sponsor": 11,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1108,
+    "fields": {
+      "sponsor": 11,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1109,
+    "fields": {
+      "sponsor": 11,
+      "type": "money",
+      "category": "money",
+      "value": 1,
+      "description": "Auto: money 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1110,
+    "fields": {
+      "sponsor": 11,
+      "type": "affinity",
+      "category": "speed",
+      "value": 0,
+      "description": "Auto: speed 0"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 12,
+    "fields": {
+      "team": null,
+      "name": "Telefonia Desconectada",
+      "description": "Sin datos en carrera pero mas presupuesto para el equipo",
+      "is_main": true,
+      "base_bonus": 11500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1111,
+    "fields": {
+      "sponsor": 12,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1112,
+    "fields": {
+      "sponsor": 12,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1113,
+    "fields": {
+      "sponsor": 12,
+      "type": "penalty",
+      "category": "electronics",
+      "value": -3,
+      "description": "Auto: electronics -3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1114,
+    "fields": {
+      "sponsor": 12,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1115,
+    "fields": {
+      "sponsor": 12,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1116,
+    "fields": {
+      "sponsor": 12,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1117,
+    "fields": {
+      "sponsor": 12,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1118,
+    "fields": {
+      "sponsor": 12,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 1,
+      "description": "Auto: podiums 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1119,
+    "fields": {
+      "sponsor": 12,
+      "type": "money",
+      "category": "money",
+      "value": 3,
+      "description": "Auto: money 3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1120,
+    "fields": {
+      "sponsor": 12,
+      "type": "affinity",
+      "category": "speed",
+      "value": 0,
+      "description": "Auto: speed 0"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 13,
+    "fields": {
+      "team": null,
+      "name": "Frenos Chirriantes",
+      "description": "Parada en seco que estresa el chasis pero da seguridad",
+      "is_main": false,
+      "base_bonus": 7500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1121,
+    "fields": {
+      "sponsor": 13,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1122,
+    "fields": {
+      "sponsor": 13,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1123,
+    "fields": {
+      "sponsor": 13,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1124,
+    "fields": {
+      "sponsor": 13,
+      "type": "penalty",
+      "category": "chassis",
+      "value": -2,
+      "description": "Auto: chassis -2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1125,
+    "fields": {
+      "sponsor": 13,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 2,
+      "description": "Auto: suspension 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1126,
+    "fields": {
+      "sponsor": 13,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1127,
+    "fields": {
+      "sponsor": 13,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 1,
+      "description": "Auto: consistency 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1128,
+    "fields": {
+      "sponsor": 13,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1129,
+    "fields": {
+      "sponsor": 13,
+      "type": "money",
+      "category": "money",
+      "value": 2,
+      "description": "Auto: money 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1130,
+    "fields": {
+      "sponsor": 13,
+      "type": "affinity",
+      "category": "speed",
+      "value": 0,
+      "description": "Auto: speed 0"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 14,
+    "fields": {
+      "team": null,
+      "name": "Transportes Tortuga",
+      "description": "Entrega lenta de piezas pero aerodinamica de alto nivel",
+      "is_main": false,
+      "base_bonus": 8800,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1131,
+    "fields": {
+      "sponsor": 14,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1132,
+    "fields": {
+      "sponsor": 14,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 3,
+      "description": "Auto: aerodynamics 3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1133,
+    "fields": {
+      "sponsor": 14,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1134,
+    "fields": {
+      "sponsor": 14,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1135,
+    "fields": {
+      "sponsor": 14,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1136,
+    "fields": {
+      "sponsor": 14,
+      "type": "penalty",
+      "category": "development",
+      "value": -2,
+      "description": "Auto: development -2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1137,
+    "fields": {
+      "sponsor": 14,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1138,
+    "fields": {
+      "sponsor": 14,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1139,
+    "fields": {
+      "sponsor": 14,
+      "type": "money",
+      "category": "money",
+      "value": 2,
+      "description": "Auto: money 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1140,
+    "fields": {
+      "sponsor": 14,
+      "type": "affinity",
+      "category": "speed",
+      "value": 1,
+      "description": "Auto: speed 1"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 15,
+    "fields": {
+      "team": null,
+      "name": "Energia de Rayo",
+      "description": "Chispazos en electronica que mejoran el motor drasticamente",
+      "is_main": true,
+      "base_bonus": 10500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1141,
+    "fields": {
+      "sponsor": 15,
+      "type": "affinity",
+      "category": "engine",
+      "value": 2,
+      "description": "Auto: engine 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1142,
+    "fields": {
+      "sponsor": 15,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1143,
+    "fields": {
+      "sponsor": 15,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 2,
+      "description": "Auto: electronics 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1144,
+    "fields": {
+      "sponsor": 15,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 0,
+      "description": "Auto: chassis 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1145,
+    "fields": {
+      "sponsor": 15,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1146,
+    "fields": {
+      "sponsor": 15,
+      "type": "affinity",
+      "category": "development",
+      "value": 0,
+      "description": "Auto: development 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1147,
+    "fields": {
+      "sponsor": 15,
+      "type": "penalty",
+      "category": "consistency",
+      "value": -1,
+      "description": "Auto: consistency -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1148,
+    "fields": {
+      "sponsor": 15,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 0,
+      "description": "Auto: podiums 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1149,
+    "fields": {
+      "sponsor": 15,
+      "type": "money",
+      "category": "money",
+      "value": 2,
+      "description": "Auto: money 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1150,
+    "fields": {
+      "sponsor": 15,
+      "type": "affinity",
+      "category": "speed",
+      "value": 1,
+      "description": "Auto: speed 1"
+    }
+  },
+  {
+    "model": "teams.sponsor",
+    "pk": 16,
+    "fields": {
+      "team": null,
+      "name": "Inmobiliaria El Box",
+      "description": "Espacio de sobra para trabajar pero burocracia lenta",
+      "is_main": true,
+      "base_bonus": 13500,
+      "active": true
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1151,
+    "fields": {
+      "sponsor": 16,
+      "type": "affinity",
+      "category": "engine",
+      "value": 0,
+      "description": "Auto: engine 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1152,
+    "fields": {
+      "sponsor": 16,
+      "type": "affinity",
+      "category": "aerodynamics",
+      "value": 0,
+      "description": "Auto: aerodynamics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1153,
+    "fields": {
+      "sponsor": 16,
+      "type": "affinity",
+      "category": "electronics",
+      "value": 0,
+      "description": "Auto: electronics 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1154,
+    "fields": {
+      "sponsor": 16,
+      "type": "affinity",
+      "category": "chassis",
+      "value": 1,
+      "description": "Auto: chassis 1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1155,
+    "fields": {
+      "sponsor": 16,
+      "type": "affinity",
+      "category": "suspension",
+      "value": 0,
+      "description": "Auto: suspension 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1156,
+    "fields": {
+      "sponsor": 16,
+      "type": "penalty",
+      "category": "development",
+      "value": -1,
+      "description": "Auto: development -1"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1157,
+    "fields": {
+      "sponsor": 16,
+      "type": "affinity",
+      "category": "consistency",
+      "value": 0,
+      "description": "Auto: consistency 0"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1158,
+    "fields": {
+      "sponsor": 16,
+      "type": "affinity",
+      "category": "podiums",
+      "value": 2,
+      "description": "Auto: podiums 2"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1159,
+    "fields": {
+      "sponsor": 16,
+      "type": "money",
+      "category": "money",
+      "value": 3,
+      "description": "Auto: money 3"
+    }
+  },
+  {
+    "model": "teams.sponsorcondition",
+    "pk": 1160,
+    "fields": {
+      "sponsor": 16,
+      "type": "affinity",
+      "category": "speed",
+      "value": 0,
+      "description": "Auto: speed 0"
+    }
+  }
 ]

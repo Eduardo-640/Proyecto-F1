@@ -6,6 +6,11 @@ from django.db import transaction
 from apps.teams.models import Sponsor
 from apps.races.models import CreditTransaction
 from apps.races.constants import TransactionType
+from apps.teams.models import SponsorPayout
+
+# Configuration: fraction of base_bonus applied immediately and an absolute cap
+UPFRONT_PERCENT = 0.25  # 25% upfront
+UPFRONT_CAP = 2000  # maximum immediate grant per sponsor
 
 
 class Command(BaseCommand):
@@ -48,14 +53,30 @@ class Command(BaseCommand):
                     skipped += 1
                     continue
 
-                team.credits = (team.credits or 0) + amount
-                team.save(update_fields=["credits"])
-                CreditTransaction.objects.create(
-                    team=team,
-                    amount=amount,
-                    transaction_type=TransactionType.SPONSOR_BASE,
-                    description=f"Sponsor base bonus {sponsor.name} ({marker})",
-                )
+                # Split into upfront + scheduled remainder to avoid big early advantages
+                upfront = int(round((amount or 0) * UPFRONT_PERCENT))
+                upfront = min(upfront, UPFRONT_CAP)
+                remainder = (amount or 0) - upfront
+
+                if upfront > 0:
+                    team.credits = (team.credits or 0) + upfront
+                    team.save(update_fields=["credits"])
+                    CreditTransaction.objects.create(
+                        team=team,
+                        amount=upfront,
+                        transaction_type=TransactionType.SPONSOR_BASE,
+                        description=f"Sponsor upfront {sponsor.name} ({marker})",
+                    )
+
+                if remainder > 0:
+                    # Record a scheduled payout to be applied later (e.g., on race results)
+                    SponsorPayout.objects.create(
+                        sponsor=sponsor,
+                        team=team,
+                        season_id=season_id,
+                        total_amount=amount,
+                        remaining_amount=remainder,
+                    )
                 applied += 1
 
         self.stdout.write(

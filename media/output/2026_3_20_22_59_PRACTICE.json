@@ -1,0 +1,1785 @@
+{
+	"TrackName": "spa",
+	"TrackConfig": "",
+	"Type": "PRACTICE",
+	"DurationSecs": 0,
+	"RaceLaps": 0,
+	"Cars": [
+		{
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "29_rss",
+			"BallastKG": 196,
+			"Restrictor": 97
+		},
+		{
+			"CarId": 1,
+			"Driver": {
+				"Name": "OsamaBilRussell",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198275115161",
+				"GuidsList": [
+					"76561198275115161"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "26_rss",
+			"BallastKG": 183,
+			"Restrictor": 90
+		},
+		{
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "23_rss",
+			"BallastKG": 183,
+			"Restrictor": 90
+		},
+		{
+			"CarId": 3,
+			"Driver": {
+				"Name": "DarkChris11",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198974174291",
+				"GuidsList": [
+					"76561198974174291"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "20_rss",
+			"BallastKG": 183,
+			"Restrictor": 90
+		},
+		{
+			"CarId": 4,
+			"Driver": {
+				"Name": "AlbertG",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198220759596",
+				"GuidsList": [
+					"76561198220759596"
+				]
+			},
+			"Model": "rss_formula_rss_3_v6",
+			"Skin": "17_rss",
+			"BallastKG": 183,
+			"Restrictor": 90
+		}
+	],
+	"Result": [
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 139646,
+			"TotalTime": 1701688,
+			"BallastKG": 183,
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "DarkChris11",
+			"DriverGuid": "76561198974174291",
+			"CarId": 3,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 141387,
+			"TotalTime": 1110514,
+			"BallastKG": 183,
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 142125,
+			"TotalTime": 1095901,
+			"BallastKG": 196,
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "El_Medusita",
+			"DriverGuid": "76561198242704178",
+			"CarId": 2,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 999999999,
+			"TotalTime": 0,
+			"BallastKG": 183,
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "OsamaBilRussell",
+			"DriverGuid": "76561198275115161",
+			"CarId": 1,
+			"CarModel": "rss_formula_rss_3_v6",
+			"BestLap": 999999999,
+			"TotalTime": 0,
+			"BallastKG": 183,
+			"Restrictor": 90
+		}
+	],
+	"Laps": [
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 257569,
+			"LapTime": 228911,
+			"Sectors": [
+				117708,
+				61672,
+				49531
+			],
+			"Cuts": 1,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 377052,
+			"LapTime": 171707,
+			"Sectors": [
+				62151,
+				66883,
+				42673
+			],
+			"Cuts": 1,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 399016,
+			"LapTime": 141455,
+			"Sectors": [
+				42194,
+				61349,
+				37912
+			],
+			"Cuts": 0,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 519489,
+			"LapTime": 142441,
+			"Sectors": [
+				42955,
+				61042,
+				38444
+			],
+			"Cuts": 0,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 548808,
+			"LapTime": 149798,
+			"Sectors": [
+				42820,
+				60732,
+				46246
+			],
+			"Cuts": 1,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 661607,
+			"LapTime": 142125,
+			"Sectors": [
+				42215,
+				61129,
+				38781
+			],
+			"Cuts": 0,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 689386,
+			"LapTime": 140583,
+			"Sectors": [
+				42415,
+				60367,
+				37801
+			],
+			"Cuts": 0,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 954822,
+			"LapTime": 293224,
+			"Sectors": [
+				192617,
+				61570,
+				39037
+			],
+			"Cuts": 1,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "DarkChris11",
+			"DriverGuid": "76561198974174291",
+			"CarId": 3,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 970423,
+			"LapTime": 951526,
+			"Sectors": [
+				841838,
+				70709,
+				38979
+			],
+			"Cuts": 1,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "El_Medusita",
+			"DriverGuid": "76561198242704178",
+			"CarId": 2,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 976548,
+			"LapTime": 164696,
+			"Sectors": [
+				49263,
+				76194,
+				39239
+			],
+			"Cuts": 1,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1097232,
+			"LapTime": 142413,
+			"Sectors": [
+				42117,
+				60250,
+				40046
+			],
+			"Cuts": 0,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "DarkChris11",
+			"DriverGuid": "76561198974174291",
+			"CarId": 3,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1111810,
+			"LapTime": 141387,
+			"Sectors": [
+				41671,
+				61357,
+				38359
+			],
+			"Cuts": 0,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "El_Medusita",
+			"DriverGuid": "76561198242704178",
+			"CarId": 2,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1131531,
+			"LapTime": 154987,
+			"Sectors": [
+				42901,
+				70281,
+				41805
+			],
+			"Cuts": 4,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1135524,
+			"LapTime": 446156,
+			"Sectors": [
+				333152,
+				61659,
+				51345
+			],
+			"Cuts": 2,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1256754,
+			"LapTime": 159533,
+			"Sectors": [
+				42533,
+				68913,
+				48087
+			],
+			"Cuts": 3,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1277235,
+			"LapTime": 141716,
+			"Sectors": [
+				42145,
+				60791,
+				38780
+			],
+			"Cuts": 0,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "El_Medusita",
+			"DriverGuid": "76561198242704178",
+			"CarId": 2,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1291447,
+			"LapTime": 159922,
+			"Sectors": [
+				50257,
+				70803,
+				38862
+			],
+			"Cuts": 4,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1399599,
+			"LapTime": 142850,
+			"Sectors": [
+				42510,
+				61515,
+				38825
+			],
+			"Cuts": 2,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1423107,
+			"LapTime": 145879,
+			"Sectors": [
+				41438,
+				60863,
+				43578
+			],
+			"Cuts": 0,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1547679,
+			"LapTime": 148088,
+			"Sectors": [
+				41812,
+				66109,
+				40167
+			],
+			"Cuts": 1,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1563380,
+			"LapTime": 140279,
+			"Sectors": [
+				41698,
+				60080,
+				38501
+			],
+			"Cuts": 0,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "El_Medusita",
+			"DriverGuid": "76561198242704178",
+			"CarId": 2,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1620636,
+			"LapTime": 329199,
+			"Sectors": [
+				184902,
+				92988,
+				51309
+			],
+			"Cuts": 10,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		},
+		{
+			"DriverName": "Tuku",
+			"DriverGuid": "76561198298433679",
+			"CarId": 0,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1702155,
+			"LapTime": 154479,
+			"Sectors": [
+				41911,
+				63491,
+				49077
+			],
+			"Cuts": 3,
+			"BallastKG": 196,
+			"Tyre": "M",
+			"Restrictor": 97
+		},
+		{
+			"DriverName": "AlbertG",
+			"DriverGuid": "76561198220759596",
+			"CarId": 4,
+			"CarModel": "rss_formula_rss_3_v6",
+			"Timestamp": 1703023,
+			"LapTime": 139646,
+			"Sectors": [
+				41533,
+				59481,
+				38632
+			],
+			"Cuts": 0,
+			"BallastKG": 183,
+			"Tyre": "M",
+			"Restrictor": 90
+		}
+	],
+	"Events": [
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 19.941856,
+			"WorldPosition": {
+				"X": -523.74194,
+				"Y": -24.804056,
+				"Z": 990.0359
+			},
+			"RelPosition": {
+				"X": 0.9000616,
+				"Y": -0.19017039,
+				"Z": 2.6748414
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 4,
+			"Driver": {
+				"Name": "AlbertG",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198220759596",
+				"GuidsList": [
+					"76561198220759596"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 4.225555,
+			"WorldPosition": {
+				"X": 565.00195,
+				"Y": 74.158875,
+				"Z": 767.0086
+			},
+			"RelPosition": {
+				"X": 0.497241,
+				"Y": 0.64598227,
+				"Z": -2.0562968
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 7.2089367,
+			"WorldPosition": {
+				"X": -217.24002,
+				"Y": -17.843948,
+				"Z": 764.5633
+			},
+			"RelPosition": {
+				"X": -0.9000661,
+				"Y": -0.19016989,
+				"Z": 2.6748197
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 4,
+			"Driver": {
+				"Name": "AlbertG",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198220759596",
+				"GuidsList": [
+					"76561198220759596"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 1.4278115,
+			"WorldPosition": {
+				"X": -347.9204,
+				"Y": 21.720621,
+				"Z": -917.1774
+			},
+			"RelPosition": {
+				"X": -0.90005875,
+				"Y": -0.19017117,
+				"Z": 2.6748428
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_CAR",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": 3,
+			"OtherDriver": {
+				"Name": "DarkChris11",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198974174291",
+				"GuidsList": [
+					"76561198974174291"
+				]
+			},
+			"ImpactSpeed": 28.679897,
+			"WorldPosition": {
+				"X": 602.76556,
+				"Y": 71.16267,
+				"Z": 692.0981
+			},
+			"RelPosition": {
+				"X": -0.77073026,
+				"Y": -0.1887398,
+				"Z": 0.866466
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_CAR",
+			"CarId": 3,
+			"Driver": {
+				"Name": "DarkChris11",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198974174291",
+				"GuidsList": [
+					"76561198974174291"
+				]
+			},
+			"OtherCarId": 2,
+			"OtherDriver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"ImpactSpeed": 27.1096,
+			"WorldPosition": {
+				"X": 602.7156,
+				"Y": 71.14981,
+				"Z": 692.0391
+			},
+			"RelPosition": {
+				"X": 0.9101378,
+				"Y": -0.1994765,
+				"Z": 2.41475
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_CAR",
+			"CarId": 4,
+			"Driver": {
+				"Name": "AlbertG",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198220759596",
+				"GuidsList": [
+					"76561198220759596"
+				]
+			},
+			"OtherCarId": 2,
+			"OtherDriver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"ImpactSpeed": 17.074188,
+			"WorldPosition": {
+				"X": 261.26862,
+				"Y": 54.09533,
+				"Z": 1031.9949
+			},
+			"RelPosition": {
+				"X": -0.90468204,
+				"Y": -0.19444694,
+				"Z": 2.555338
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_CAR",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": 4,
+			"OtherDriver": {
+				"Name": "AlbertG",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198220759596",
+				"GuidsList": [
+					"76561198220759596"
+				]
+			},
+			"ImpactSpeed": 0.94327915,
+			"WorldPosition": {
+				"X": 261.07208,
+				"Y": 53.9649,
+				"Z": 1030.6881
+			},
+			"RelPosition": {
+				"X": 0.784182,
+				"Y": -0.21324342,
+				"Z": 0.3976703
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 4,
+			"Driver": {
+				"Name": "AlbertG",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198220759596",
+				"GuidsList": [
+					"76561198220759596"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 6.8966837,
+			"WorldPosition": {
+				"X": -182.68997,
+				"Y": 15.563511,
+				"Z": -504.45477
+			},
+			"RelPosition": {
+				"X": 0.9000823,
+				"Y": -0.19016956,
+				"Z": 2.6748464
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 8.334507,
+			"WorldPosition": {
+				"X": 561.91534,
+				"Y": 72.39159,
+				"Z": 688.4128
+			},
+			"RelPosition": {
+				"X": -0.90005285,
+				"Y": -0.19016945,
+				"Z": 2.6748214
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 57.53506,
+			"WorldPosition": {
+				"X": 210.57045,
+				"Y": 21.734718,
+				"Z": -326.14407
+			},
+			"RelPosition": {
+				"X": -0.9000553,
+				"Y": -0.1901696,
+				"Z": 2.6748426
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 11.052083,
+			"WorldPosition": {
+				"X": -169.15753,
+				"Y": 14.756134,
+				"Z": -483.72873
+			},
+			"RelPosition": {
+				"X": -0.900075,
+				"Y": -0.190171,
+				"Z": 2.674834
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 0.13587256,
+			"WorldPosition": {
+				"X": -167.78592,
+				"Y": 14.676258,
+				"Z": -481.7338
+			},
+			"RelPosition": {
+				"X": -0.90007186,
+				"Y": -0.19016962,
+				"Z": 2.6748564
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 93.866974,
+			"WorldPosition": {
+				"X": 261.0196,
+				"Y": 2.0044053,
+				"Z": 329.1065
+			},
+			"RelPosition": {
+				"X": 0.90006816,
+				"Y": -0.19016987,
+				"Z": 2.674844
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 119.89105,
+			"WorldPosition": {
+				"X": -209.13368,
+				"Y": -16.531815,
+				"Z": 815.3954
+			},
+			"RelPosition": {
+				"X": 0.9000413,
+				"Y": -0.1901691,
+				"Z": 2.674845
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 24.328743,
+			"WorldPosition": {
+				"X": -329.55045,
+				"Y": -19.09484,
+				"Z": 806.1861
+			},
+			"RelPosition": {
+				"X": 0.90007937,
+				"Y": -0.19016987,
+				"Z": 2.6748319
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 40.30343,
+			"WorldPosition": {
+				"X": -113.01434,
+				"Y": -17.510689,
+				"Z": 772.9818
+			},
+			"RelPosition": {
+				"X": 0.000009953976,
+				"Y": -0.13687173,
+				"Z": 2.8793814
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 12.145092,
+			"WorldPosition": {
+				"X": -120.650795,
+				"Y": -16.8409,
+				"Z": 789.897
+			},
+			"RelPosition": {
+				"X": 0.90007967,
+				"Y": -0.1901683,
+				"Z": 2.6748319
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 40.606438,
+			"WorldPosition": {
+				"X": -357.1279,
+				"Y": -17.246254,
+				"Z": 789.0929
+			},
+			"RelPosition": {
+				"X": -0.4973035,
+				"Y": 0.6459806,
+				"Z": -2.0562763
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 95.570625,
+			"WorldPosition": {
+				"X": -140.76804,
+				"Y": 1.4171696,
+				"Z": -80.63904
+			},
+			"RelPosition": {
+				"X": -0.3381864,
+				"Y": 0.6900533,
+				"Z": -1.9277357
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 41.98903,
+			"WorldPosition": {
+				"X": 368.00107,
+				"Y": 43.574455,
+				"Z": 935.0138
+			},
+			"RelPosition": {
+				"X": -0.82487684,
+				"Y": -0.19646885,
+				"Z": -1.0705123
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 103.35714,
+			"WorldPosition": {
+				"X": -476.3396,
+				"Y": 31.501728,
+				"Z": -1003.7315
+			},
+			"RelPosition": {
+				"X": 0.9132751,
+				"Y": -0.19383028,
+				"Z": -1.368098
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 2.448163,
+			"WorldPosition": {
+				"X": -469.37943,
+				"Y": 31.293613,
+				"Z": -1004.55457
+			},
+			"RelPosition": {
+				"X": 0.9000588,
+				"Y": -0.19017038,
+				"Z": 2.6748676
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 1.9217113,
+			"WorldPosition": {
+				"X": -467.57782,
+				"Y": 31.23772,
+				"Z": -1004.77
+			},
+			"RelPosition": {
+				"X": 0.90004987,
+				"Y": -0.19016844,
+				"Z": 2.6748676
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 0.2573811,
+			"WorldPosition": {
+				"X": -465.88623,
+				"Y": 31.18968,
+				"Z": -1004.9762
+			},
+			"RelPosition": {
+				"X": 0.900064,
+				"Y": -0.19016954,
+				"Z": 2.674875
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 0,
+			"Driver": {
+				"Name": "Tuku",
+				"Team": "",
+				"Nation": "ESP",
+				"Guid": "76561198298433679",
+				"GuidsList": [
+					"76561198298433679"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 55.65609,
+			"WorldPosition": {
+				"X": 559.36725,
+				"Y": 72.60034,
+				"Z": 691.9989
+			},
+			"RelPosition": {
+				"X": 0.000030760195,
+				"Y": -0.13687052,
+				"Z": 2.8793795
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 104.353966,
+			"WorldPosition": {
+				"X": 264.23212,
+				"Y": 59.339104,
+				"Z": 1106.4147
+			},
+			"RelPosition": {
+				"X": 0.000004887581,
+				"Y": -0.13687137,
+				"Z": 2.8793762
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_CAR",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": 1,
+			"OtherDriver": {
+				"Name": "OsamaBilRussell",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198275115161",
+				"GuidsList": [
+					"76561198275115161"
+				]
+			},
+			"ImpactSpeed": 42.267067,
+			"WorldPosition": {
+				"X": -399.3564,
+				"Y": 23.616888,
+				"Z": -897.87103
+			},
+			"RelPosition": {
+				"X": 0.000008821487,
+				"Y": -0.1368725,
+				"Z": 2.8793876
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_CAR",
+			"CarId": 1,
+			"Driver": {
+				"Name": "OsamaBilRussell",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198275115161",
+				"GuidsList": [
+					"76561198275115161"
+				]
+			},
+			"OtherCarId": 2,
+			"OtherDriver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"ImpactSpeed": 55.723045,
+			"WorldPosition": {
+				"X": -399.4348,
+				"Y": 23.656796,
+				"Z": -897.6813
+			},
+			"RelPosition": {
+				"X": 0.7430006,
+				"Y": -0.08342305,
+				"Z": -1.5338714
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 1,
+			"Driver": {
+				"Name": "OsamaBilRussell",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198275115161",
+				"GuidsList": [
+					"76561198275115161"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 52.13114,
+			"WorldPosition": {
+				"X": -409.83688,
+				"Y": 25.35048,
+				"Z": -916.9774
+			},
+			"RelPosition": {
+				"X": -0.48090836,
+				"Y": 0.65959185,
+				"Z": -2.0174022
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_CAR",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": 1,
+			"OtherDriver": {
+				"Name": "OsamaBilRussell",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198275115161",
+				"GuidsList": [
+					"76561198275115161"
+				]
+			},
+			"ImpactSpeed": 8.098906,
+			"WorldPosition": {
+				"X": -407.73895,
+				"Y": 24.79146,
+				"Z": -915.3376
+			},
+			"RelPosition": {
+				"X": 0.44855228,
+				"Y": 0.27207983,
+				"Z": -1.9022799
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 28.603098,
+			"WorldPosition": {
+				"X": -409.83997,
+				"Y": 24.961798,
+				"Z": -917.0225
+			},
+			"RelPosition": {
+				"X": -0.82592684,
+				"Y": -0.17665264,
+				"Z": -1.3704486
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 1,
+			"Driver": {
+				"Name": "OsamaBilRussell",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198275115161",
+				"GuidsList": [
+					"76561198275115161"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 29.02112,
+			"WorldPosition": {
+				"X": -409.0893,
+				"Y": 25.54454,
+				"Z": -923.3666
+			},
+			"RelPosition": {
+				"X": -0.4803298,
+				"Y": 0.6610301,
+				"Z": -2.013318
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_CAR",
+			"CarId": 1,
+			"Driver": {
+				"Name": "OsamaBilRussell",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198275115161",
+				"GuidsList": [
+					"76561198275115161"
+				]
+			},
+			"OtherCarId": 2,
+			"OtherDriver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"ImpactSpeed": 11.116159,
+			"WorldPosition": {
+				"X": -406.53116,
+				"Y": 25.417633,
+				"Z": -926.64856
+			},
+			"RelPosition": {
+				"X": -0.7564297,
+				"Y": 0.46159568,
+				"Z": -1.3551869
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 4.2427616,
+			"WorldPosition": {
+				"X": -397.11493,
+				"Y": 23.291489,
+				"Z": -889.29565
+			},
+			"RelPosition": {
+				"X": -0.9000608,
+				"Y": -0.19017026,
+				"Z": 2.6748655
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 137.58064,
+			"WorldPosition": {
+				"X": 183.67477,
+				"Y": 19.807287,
+				"Z": -366.43277
+			},
+			"RelPosition": {
+				"X": -0.000045895576,
+				"Y": -0.13700752,
+				"Z": 2.8791556
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 2,
+			"Driver": {
+				"Name": "El_Medusita",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198242704178",
+				"GuidsList": [
+					"76561198242704178"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 24.988005,
+			"WorldPosition": {
+				"X": 227.90567,
+				"Y": 23.030195,
+				"Z": -301.18185
+			},
+			"RelPosition": {
+				"X": -0.90007734,
+				"Y": -0.19016866,
+				"Z": 2.674841
+			}
+		},
+		{
+			"Type": "COLLISION_WITH_ENV",
+			"CarId": 4,
+			"Driver": {
+				"Name": "AlbertG",
+				"Team": "",
+				"Nation": "PLA",
+				"Guid": "76561198220759596",
+				"GuidsList": [
+					"76561198220759596"
+				]
+			},
+			"OtherCarId": -1,
+			"OtherDriver": {
+				"Name": "",
+				"Team": "",
+				"Nation": "",
+				"Guid": "",
+				"GuidsList": null
+			},
+			"ImpactSpeed": 8.406301,
+			"WorldPosition": {
+				"X": -171.76357,
+				"Y": 14.95026,
+				"Z": -487.62848
+			},
+			"RelPosition": {
+				"X": 0.9000725,
+				"Y": -0.19016978,
+				"Z": 2.6748378
+			}
+		}
+	]
+}

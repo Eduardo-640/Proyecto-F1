@@ -14,3 +14,4 @@ class TransactionType(models.TextChoices):
     UPGRADE_PURCHASE = "upgrade_purchase", "Upgrade Purchase"
     ADMIN_ADJUSTMENT = "admin_adjustment", "Administrative Adjustment"
     SPONSOR_BASE = "sponsor_base", "Sponsor Base Bonus"
+    SPONSOR_PAYOUT = "sponsor_payout", "Sponsor Payout"
