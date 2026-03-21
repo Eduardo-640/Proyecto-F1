@@ -4,45 +4,39 @@ import InputLabel from '@/Components/default/InputLabel';
 import Modal from '@/Components/default/Modal';
 import SecondaryButton from '@/Components/default/SecondaryButton';
 import TextInput from '@/Components/default/TextInput';
-import { useForm } from '../../../inertia-shim';
-import { useRef, useState } from 'react';
+import { useAuth } from '../../../context/AuthContext';
+import { api } from '../../../api';
+import React, { useRef, useState } from 'react';
 
 export default function DeleteUserForm({ className = '' }) {
+    const { logout } = useAuth();
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
+    const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({});
+    const [processing, setProcessing] = useState(false);
     const passwordInput = useRef();
 
-    const {
-        data,
-        setData,
-        delete: destroy,
-        processing,
-        reset,
-        errors,
-        clearErrors,
-    } = useForm({
-        password: '',
-    });
+    const confirmUserDeletion = () => setConfirmingUserDeletion(true);
 
-    const confirmUserDeletion = () => {
-        setConfirmingUserDeletion(true);
-    };
-
-    const deleteUser = (e) => {
+    const deleteUser = async (e) => {
         e.preventDefault();
-
-        destroy(route('profile.destroy'), {
-            preserveScroll: true,
-            onSuccess: () => closeModal(),
-            onError: () => passwordInput.current.focus(),
-            onFinish: () => reset(),
-        });
+        setProcessing(true);
+        setErrors({});
+        try {
+            await api.delete('/api/auth/profile/');
+            logout();
+        } catch (err) {
+            setErrors(err?.data?.errors ?? { password: err?.data?.detail ?? 'Error al eliminar la cuenta' });
+            passwordInput.current?.focus();
+        } finally {
+            setProcessing(false);
+        }
     };
 
     const closeModal = () => {
         setConfirmingUserDeletion(false);
-
-        clearErrors();
-        reset();
+        setErrors({});
+        setPassword('');
     };
 
     return (

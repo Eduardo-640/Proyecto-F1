@@ -1,8 +1,10 @@
-import { Link, usePage } from "../../inertia-shim";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
 
 export default function Navbar() {
-  const { auth } = usePage().props;
+  const { user: authUser } = useAuth();
+  const auth = { user: authUser ?? null };
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {

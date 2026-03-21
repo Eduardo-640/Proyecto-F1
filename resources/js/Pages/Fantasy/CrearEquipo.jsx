@@ -83,4 +83,4 @@ const CrearEquipo = () => {
     );
 };
 
-//export default CrearEquipo;
+export default CrearEquipo;

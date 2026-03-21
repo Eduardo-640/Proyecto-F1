@@ -1,5 +1,5 @@
 import { Transition } from '@headlessui/react';
-import { Link } from '../../inertia-shim';
+import { Link } from 'react-router-dom';
 import { createContext, useContext, useState } from 'react';
 
 const DropDownContext = createContext();

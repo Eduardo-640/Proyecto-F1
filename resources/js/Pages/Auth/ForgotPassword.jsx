@@ -2,52 +2,44 @@ import InputError from '@/Components/default/InputError';
 import PrimaryButton from '@/Components/default/PrimaryButton';
 import TextInput from '@/Components/default/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, useForm } from '../../inertia-shim';
+import React from 'react';
+import { api } from '../../api';
 
 export default function ForgotPassword({ status }) {
-    const { data, setData, post, processing, errors } = useForm({
-        email: '',
-    });
+    const [email, setEmail] = React.useState('');
+    const [errors, setErrors] = React.useState({});
+    const [processing, setProcessing] = React.useState(false);
+    const [sent, setSent] = React.useState(false);
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
-
-        post(route('password.email'));
+        setProcessing(true);
+        setErrors({});
+        try {
+            await api.post('/api/auth/password/reset-email/', { email });
+            setSent(true);
+        } catch (err) {
+            setErrors({ email: err?.data?.detail ?? 'Error al enviar el correo' });
+        } finally {
+            setProcessing(false);
+        }
     };
 
     return (
         <GuestLayout>
-            <Head title="Forgot Password" />
-
             <div className="mb-4 text-sm text-gray-600">
-                Forgot your password? No problem. Just let us know your email
-                address and we will email you a password reset link that will
-                allow you to choose a new one.
+                ¿Olvidaste tu contraseña? Introduce tu email y te enviaremos un enlace de recuperación.
             </div>
-
-            {status && (
+            {(status || sent) && (
                 <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
+                    {status ?? 'Enlace enviado. Revisa tu correo.'}
                 </div>
             )}
-
             <form onSubmit={submit}>
-                <TextInput
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={data.email}
-                    className="mt-1 block w-full"
-                    isFocused={true}
-                    onChange={(e) => setData('email', e.target.value)}
-                />
-
+                <TextInput id="email" type="email" name="email" value={email} className="mt-1 block w-full" isFocused={true} onChange={(e) => setEmail(e.target.value)} />
                 <InputError message={errors.email} className="mt-2" />
-
                 <div className="mt-4 flex items-center justify-end">
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Email Password Reset Link
-                    </PrimaryButton>
+                    <PrimaryButton className="ms-4" disabled={processing}>Enviar enlace</PrimaryButton>
                 </div>
             </form>
         </GuestLayout>

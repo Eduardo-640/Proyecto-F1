@@ -1,4 +1,4 @@
-import { Link } from "../../inertia-shim";
+import { Link } from "react-router-dom";
 
 export default function PiePagina() {
     return (
