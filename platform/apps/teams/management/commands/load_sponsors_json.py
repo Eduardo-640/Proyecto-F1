@@ -19,6 +19,13 @@ class Command(BaseCommand):
         parser.add_argument(
             "--update", action="store_true", help="Update existing sponsors by name"
         )
+        parser.add_argument(
+            "--affinity-total",
+            dest="affinity_total",
+            type=int,
+            default=1,
+            help="Número total de puntos positivos (affinity) por sponsor (excluyendo money). Set to 0 to disable enforcement.",
+        )
 
     def handle(self, *args, **options):
         path = Path(options.get("file"))
@@ -75,34 +82,71 @@ class Command(BaseCommand):
                     if dept not in cat_map:
                         cat_map[dept] = 0
 
-                # ensure at least one positive and one negative exists
-                has_pos = any(v > 0 for v in cat_map.values())
-                has_neg = any(v < 0 for v in cat_map.values())
-                # auto-fill if missing: add small +1 to first dept and -1 to second
-                if not has_pos:
-                    first = DEPARTMENTS[0]
-                    cat_map[first] = 1
-                if not has_neg:
-                    second = DEPARTMENTS[1] if len(DEPARTMENTS) > 1 else DEPARTMENTS[0]
-                    # avoid clobbering if already +1; set to -1
-                    if cat_map.get(second, 0) > 0:
-                        # find any dept with zero
-                        zero_dept = next(
-                            (d for d in DEPARTMENTS if cat_map.get(d, 0) == 0), None
-                        )
-                        if zero_dept:
-                            cat_map[zero_dept] = -1
-                        else:
-                            cat_map[second] = -1
+                # normalization rules:
+                # - for 'money' keep integer and force at least 1
+                # - for other categories normalize to -1/0/+1
+                for dept in DEPARTMENTS:
+                    v = int(cat_map.get(dept, 0))
+                    if dept == "money":
+                        cat_map[dept] = max(1, v) if v != 0 else 1
                     else:
-                        cat_map[second] = -1
+                        cat_map[dept] = 0 if v == 0 else (1 if v > 0 else -1)
+
+                # enforce affinity_total (number of positive affinities excluding money)
+                affinity_total = int(options.get("affinity_total", 1))
+                cats_no_money = [c for c in DEPARTMENTS if c != "money"]
+                if affinity_total and affinity_total > 0:
+                    positives = [c for c in cats_no_money if cat_map.get(c, 0) > 0]
+                    # add positives if too few
+                    if len(positives) < affinity_total:
+                        choices = [c for c in cats_no_money if cat_map.get(c, 0) == 0]
+                        while len(positives) < affinity_total and choices:
+                            pick = random.choice(choices)
+                            cat_map[pick] = 1
+                            positives.append(pick)
+                            choices.remove(pick)
+                    # reduce positives if too many
+                    if len(positives) > affinity_total:
+                        to_remove = len(positives) - affinity_total
+                        for _ in range(to_remove):
+                            rem = random.choice(positives)
+                            cat_map[rem] = 0
+                            positives.remove(rem)
+
+                # ensure at least one negative among non-money
+                negatives = [c for c in cats_no_money if cat_map.get(c, 0) < 0]
+                if not negatives:
+                    zeros = [c for c in cats_no_money if cat_map.get(c, 0) == 0]
+                    if zeros:
+                        cat_map[random.choice(zeros)] = -1
+                    else:
+                        # fallback: flip one positive if exists
+                        positives = [c for c in cats_no_money if cat_map.get(c, 0) > 0]
+                        if positives:
+                            flip = random.choice(positives)
+                            cat_map[flip] = -1
 
                 # delete previous conditions for this sponsor and recreate
                 SponsorCondition.objects.filter(sponsor=sponsor).delete()
-                for cat, val in cat_map.items():
+                # compute total score (exclude money)
+                total_score = sum(int(v) for k, v in cat_map.items() if k != "money")
+                sponsor.total_score = int(total_score)
+                sponsor.save()
+
+                for cat in DEPARTMENTS:
+                    val = int(cat_map.get(cat, 0))
+                    # determine type: money special, zero -> neutral
+                    if cat == "money":
+                        typ = "money" if val != 0 else "neutral"
+                    else:
+                        if val == 0:
+                            typ = "neutral"
+                        else:
+                            typ = "affinity" if val > 0 else "penalty"
+
                     SponsorCondition.objects.create(
                         sponsor=sponsor,
-                        type="affinity" if val >= 0 else "penalty",
+                        type=typ,
                         category=cat,
                         value=val,
                         description=f"Auto-generated from import (category={cat})",

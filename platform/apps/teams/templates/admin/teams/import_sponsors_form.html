@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %} {% load i18n %} {% block content %}
+<h1>{% trans "Import Sponsors CSV" %}</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p><input type="file" name="csv_file" accept=".csv" /></p>
+    <p>
+        <button type="submit" class="default">
+            {% trans "Upload and Import (will delete existing sponsors)" %}
+        </button>
+    </p>
+</form>
+{% endblock %}

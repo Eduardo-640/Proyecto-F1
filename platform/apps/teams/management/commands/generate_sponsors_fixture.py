@@ -53,6 +53,13 @@ class Command(BaseCommand):
             type=int,
             help="Genera N sponsors aleatorios en vez de leer CSV",
         )
+        parser.add_argument(
+            "--affinity-total",
+            dest="affinity_total",
+            type=int,
+            default=1,
+            help="Número total de puntos positivos (affinity) por sponsor (excluyendo money).",
+        )
 
     def handle(self, *args, **options):
         out_path = Path(options["out"]).resolve()
@@ -68,6 +75,9 @@ class Command(BaseCommand):
         else:
             fixtures_dir = out_path.parent
         fixtures_dir.mkdir(parents=True, exist_ok=True)
+
+        # configurable total of positive affinity points per sponsor (excl. money)
+        self.affinity_total = int(options.get("affinity_total", 1))
 
         if options.get("template_csv"):
             csv_path = fixtures_dir / "sponsors_template.csv"
@@ -162,6 +172,57 @@ class Command(BaseCommand):
                 for cat in CATEGORIES:
                     sponsor["conditions"][cat] = parse_int(row.get(cat, 0), 0)
 
+                # normalize values: non-money categories -> -1/0/+1; money kept as integer (>=1)
+                for cat, val in list(sponsor["conditions"].items()):
+                    if cat == "money":
+                        sponsor["conditions"][cat] = (
+                            max(1, int(val)) if int(val) != 0 else 1
+                        )
+                    else:
+                        v = int(val)
+                        sponsor["conditions"][cat] = (
+                            0 if v == 0 else (1 if v > 0 else -1)
+                        )
+
+                # enforce exact number of positive affinity points among non-money categories
+                cats_no_money = [c for c in CATEGORIES if c != "money"]
+                positives = [
+                    c for c in cats_no_money if sponsor["conditions"].get(c, 0) > 0
+                ]
+                # add positives if too few
+                if len(positives) < self.affinity_total:
+                    choices = [
+                        c for c in cats_no_money if sponsor["conditions"].get(c, 0) == 0
+                    ]
+                    while len(positives) < self.affinity_total and choices:
+                        pick = random.choice(choices)
+                        sponsor["conditions"][pick] = 1
+                        positives.append(pick)
+                        choices.remove(pick)
+                # reduce positives if too many
+                if len(positives) > self.affinity_total:
+                    to_remove = len(positives) - self.affinity_total
+                    for _ in range(to_remove):
+                        rem = random.choice(positives)
+                        sponsor["conditions"][rem] = 0
+                        positives.remove(rem)
+
+                # ensure at least one negative exists among non-money
+                negatives = [
+                    c for c in cats_no_money if sponsor["conditions"].get(c, 0) < 0
+                ]
+                if not negatives:
+                    zeros = [
+                        c for c in cats_no_money if sponsor["conditions"].get(c, 0) == 0
+                    ]
+                    if zeros:
+                        sponsor["conditions"][random.choice(zeros)] = -1
+                    else:
+                        # fallback: turn one positive into negative
+                        if positives:
+                            flip = random.choice(positives)
+                            sponsor["conditions"][flip] = -1
+
                 # validation / auto-fill rules
                 # ensure money exists
                 if sponsor["conditions"].get("money", 0) == 0:
@@ -216,15 +277,19 @@ class Command(BaseCommand):
             )
             base = random.choice([2000, 3000, 5000, 7000, 9000, 12000])
             conds = {c: 0 for c in CATEGORIES}
-            # money positive
-            conds["money"] = random.choice([1, 1, 2])
-            # pick 1-2 affinities and 1 penalty
-            pos_cats = random.sample([c for c in CATEGORIES if c != "money"], k=2)
+            # money positive (keep value >=1, may be >1)
+            conds["money"] = random.choice([1, 1, 2, 3])
+            # pick exactly self.affinity_total positives
+            available = [c for c in CATEGORIES if c != "money"]
+            k = min(self.affinity_total, len(available))
+            pos_cats = random.sample(available, k=k)
             for pc in pos_cats:
-                conds[pc] = random.choice([1, 2])
-            neg_cat = random.choice(
-                [c for c in CATEGORIES if c != "money" and c not in pos_cats]
-            )
+                conds[pc] = 1
+            # pick one penalty (negative) in a different category if possible
+            neg_choices = [c for c in available if c not in pos_cats]
+            if not neg_choices:
+                neg_choices = [c for c in available]
+            neg_cat = random.choice(neg_choices)
             conds[neg_cat] = -1
 
             sponsors.append(
@@ -254,23 +319,34 @@ class Command(BaseCommand):
                         "description": s.get("description", ""),
                         "is_main": s.get("is_main", False),
                         "base_bonus": int(s.get("base_bonus", 0)),
+                        "total_score": int(
+                            sum(
+                                v
+                                for k, v in s.get("conditions", {}).items()
+                                if k != "money"
+                            )
+                        ),
                         "active": bool(s.get("active", True)),
                     },
                 }
             )
             for cat, val in s.get("conditions", {}).items():
-                # each condition becomes a SponsorCondition row
+                # ensure every category is present in fixtures (including 0)
+                if cat == "money":
+                    typ = "money" if int(val) != 0 else "neutral"
+                else:
+                    if int(val) == 0:
+                        typ = "neutral"
+                    else:
+                        typ = "affinity" if int(val) > 0 else "penalty"
+
                 fixtures.append(
                     {
                         "model": "teams.sponsorcondition",
                         "pk": cond_pk,
                         "fields": {
                             "sponsor": sponsor_pk,
-                            "type": (
-                                "money"
-                                if cat == "money" and val != 0
-                                else ("affinity" if val >= 0 else "penalty")
-                            ),
+                            "type": typ,
                             "category": cat,
                             "value": int(val),
                             "description": f"Auto: {cat} {val}",

@@ -1,17 +1,17 @@
-name;description;base_bonus;is_main;active;engine;aerodynamics;electronics;chassis;suspension;development;consistency;podiums;money;speed
-Banko de la Kurva;Inyeccion de capital a costa de chasis pesado y lento;12000;true;true;0;0;0;-2;0;0;1;0;3;-1
-Refrescos Burbuja;Mucha energia para el motor pero poco desarrollo tecnico;5000;false;true;2;0;0;0;0;-1;0;0;1;1
-Neumaticos de Corcho;Agarre nulo en curva pero gran velocidad punta en recta;3500;false;true;0;-2;0;0;-1;0;0;0;1;3
-Cableado Enredado;Electronica barata que falla en momentos clave del podio;4000;false;true;1;0;-2;0;0;0;0;-1;1;0
-Gasolina de Garrafa;Potencia bruta con riesgo alto de averia mecanica;8500;true;true;3;0;0;0;0;0;-2;0;2;2
-Seguros El Chochazo;Proteccion financiera ante accidentes penaliza el podio;14000;true;true;0;0;0;2;0;-1;0;-2;3;0
-Herramientas de Plastico;Pesimo desarrollo pero ahorro de costes operativo alto;2500;false;true;0;0;0;0;0;-3;1;0;2;-1
-Viajes al Paddock;Comodidad para el equipo pero penaliza la aerodinamica;6000;false;true;0;-1;0;0;0;0;0;2;1;0
-Pinturas Relucientes;Mejora estetica y flujo de aire pero mantenimiento caro;9500;false;true;0;2;-1;0;0;0;0;1;2;1
-Relojes de Arena;Precision cronometrica que sacrifica la velocidad final;5500;false;true;0;0;0;0;1;0;3;0;1;-2
-Cafe para Mecanicos;Rapidez en desarrollo tecnico que penaliza la suspension;4500;false;true;0;0;0;0;-1;2;0;0;1;0
-Telefonia Desconectada;Sin datos en carrera pero mas presupuesto para el equipo;11500;true;true;0;0;-3;0;0;0;0;1;3;0
-Frenos Chirriantes;Parada en seco que estresa el chasis pero da seguridad;7500;false;true;0;0;0;-2;2;0;1;0;2;0
-Transportes Tortuga;Entrega lenta de piezas pero aerodinamica de alto nivel;8800;false;true;0;3;0;0;0;-2;0;0;2;1
-Energia de Rayo;Chispazos en electronica que mejoran el motor drasticamente;10500;true;true;2;0;2;0;0;0;-1;0;2;1
-Inmobiliaria El Box;Espacio de sobra para trabajar pero burocracia lenta;13500;true;true;0;0;0;1;0;-1;0;2;3;0
+name;description;base_bonus;is_main;active;engine;aerodynamics;electronics;chassis;suspension;development;consistency;podiums;money;wins;points;speed
+Banko de la Kurva;Capital que potencia motor y aerodinamica pero carga el chasis y suspension;12000;true;true;1;1;0;-1;-1;0;0;0;3;0;0;0
+Refrescos Burbuja;Energia para el motor pero descuida el desarrollo tecnico;5000;false;true;1;0;0;0;0;-1;0;0;1;0;0;0
+Neumaticos de Corcho;Mejora la suspension pero penaliza la velocidad punta;3500;false;true;0;0;0;0;1;0;0;0;1;0;0;-1
+Cableado Enredado;Electronica barata que falla en momentos clave del podio;4000;false;true;0;0;1;-1;0;0;0;0;1;0;0;0
+Gasolina de Garrafa;Potencia bruta y velocidad a costa de consistencia y desarrollo;8500;true;true;1;0;0;0;0;-1;-1;0;2;0;0;1
+Seguros El Chochazo;Estructura solida y consistente pero lenta en pista;14000;true;true;-1;-1;0;1;1;0;1;0;3;0;0;-1
+Herramientas de Plastico;Desarrollo y consistencia aunque poca velocidad y aerodinamica;2500;false;true;0;-1;0;0;0;1;1;0;2;0;0;-1
+Viajes al Paddock;Presencia en podios pero penaliza la aerodinamica;6000;false;true;0;-1;0;0;0;0;0;1;1;0;0;0
+Pinturas Relucientes;Aerodinamica y consistencia mejoradas pero electronica y desarrollo pobres;9500;false;true;0;1;-1;0;0;-1;1;0;2;0;0;0
+Relojes de Arena;Precision y consistencia a costa de velocidad;5500;false;true;0;0;0;0;0;0;1;0;1;0;0;-1
+Cafe para Mecanicos;Rapidez en desarrollo pero suspension debilitada;4500;false;true;0;0;0;0;-1;1;0;0;1;0;0;0
+Telefonia Desconectada;Electronica y desarrollo para ganar carreras pero sin aerodinamica ni velocidad;11500;true;true;0;-1;1;0;-1;1;0;1;3;0;0;-1
+Frenos Chirriantes;Chasis y suspension firmes pero pierden velocidad y motor;7500;false;true;-1;0;0;1;1;0;0;0;2;0;0;-1
+Transportes Tortuga;Aerodinamica y consistencia pero lenta entrega penaliza velocidad y desarrollo;8800;false;true;0;1;0;0;1;-1;0;0;2;0;0;-1
+Energia de Rayo;Motor y velocidad explosivos pero penaliza consistencia y chasis;10500;true;true;1;0;1;-1;0;0;-1;0;2;0;0;0
+Inmobiliaria El Box;Infraestructura para desarrollo y chasis pero penaliza motor y aerodinamica;13500;true;true;-1;-1;0;1;0;1;0;0;3;0;0;0

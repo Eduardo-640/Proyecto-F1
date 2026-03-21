@@ -35,6 +35,7 @@ from .setup_service import (
     generate_circuit_setup,
     generate_initial_preset,
     get_sponsor_money_multiplier,
+    get_sponsor_department_multiplier,
 )
 
 
@@ -392,7 +393,11 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            path("compute_price/", self.admin_site.admin_view(self.compute_price_view), name="developments_purchasedupgrade_compute_price"),
+            path(
+                "compute_price/",
+                self.admin_site.admin_view(self.compute_price_view),
+                name="developments_purchasedupgrade_compute_price",
+            ),
         ]
         return my_urls + urls
 
@@ -408,19 +413,36 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
                 from apps.teams.models import Team
 
                 team = Team.objects.get(pk=int(team_id))
+
             # determine previous level
             prev = 1
+            all_levels = {}
             if team and season_id and department:
                 from apps.developments.models import TeamDevelopment
 
                 try:
-                    dev = TeamDevelopment.objects.get(team=team, season__id=int(season_id))
+                    dev = TeamDevelopment.objects.get(
+                        team=team, season__id=int(season_id)
+                    )
                     prev = dev.get_level(department)
+                    for dept in (
+                        "engine",
+                        "aerodynamics",
+                        "chassis",
+                        "suspension",
+                        "electronics",
+                    ):
+                        all_levels[dept] = dev.get_level(dept)
                 except TeamDevelopment.DoesNotExist:
                     prev = 1
 
-            # compute base cost and apply multiplier
-            from .setup_service import compute_upgrade_cost, get_sponsor_money_multiplier
+            from .setup_service import (
+                compute_upgrade_cost,
+                get_sponsor_money_multiplier,
+                get_sponsor_department_multiplier,
+                get_starting_department_bonus,
+            )
+            from apps.developments.constants import AFFINITY_DEPARTMENT
 
             base = 0
             try:
@@ -428,22 +450,79 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
             except Exception:
                 base = 0
 
-            multiplier = 1.0
-            if team:
-                multiplier = get_sponsor_money_multiplier(team)
+            money_mult = 1.0
+            dept_mult = 1.0
+            sponsor_info = None
 
-            charged = int(round(base * multiplier))
-            team_credits = None
             if team:
-                team_credits = getattr(team, 'credits', None)
+                money_mult = get_sponsor_money_multiplier(team)
+                if department:
+                    dept_mult = get_sponsor_department_multiplier(team, department)
 
-            return JsonResponse({
-                "previous_level": prev,
-                "base_cost": base,
-                "multiplier": multiplier,
-                "charged": charged,
-                "team_credits": team_credits,
-            })
+                # Build sponsor detail for frontend display
+                try:
+                    sponsor = team.sponsors.get(is_main=True, active=True)
+                    money_val = 0
+                    conditions_summary = []
+                    for cond in sponsor.conditions.select_related().all():
+                        try:
+                            val = int(cond.value)
+                        except Exception:
+                            val = 0
+                        if cond.category == "money":
+                            money_val = val
+                            continue
+                        if val == 0:
+                            continue
+                        # which department does this condition touch?
+                        from apps.developments.constants import (
+                            AFFINITY_DEPARTMENT,
+                            Department,
+                        )
+
+                        dept_values = {c.value for c in Department}
+                        mapped = AFFINITY_DEPARTMENT.get(cond.category)
+                        if not mapped and cond.category in dept_values:
+                            mapped = cond.category
+                        sign = "+" if val > 0 else "−"
+                        affects_dept = f" → {mapped}" if mapped else ""
+                        highlighted = mapped == department
+                        conditions_summary.append(
+                            {
+                                "category": cond.category,
+                                "value": val,
+                                "sign": sign,
+                                "mapped_dept": mapped,
+                                "affects_this_dept": highlighted,
+                            }
+                        )
+
+                    sponsor_info = {
+                        "name": sponsor.name,
+                        "money_value": money_val,
+                        "conditions": conditions_summary,
+                    }
+                except Exception:
+                    sponsor_info = None
+
+            combined = max(0.5, min(2.0, money_mult * dept_mult))
+            charged = int(round(base * combined))
+            team_credits = getattr(team, "credits", None) if team else None
+
+            return JsonResponse(
+                {
+                    "previous_level": prev,
+                    "all_levels": all_levels,
+                    "base_cost": base,
+                    "money_multiplier": money_mult,
+                    "dept_multiplier": dept_mult,
+                    "combined_multiplier": combined,
+                    "charged": charged,
+                    "team_credits": team_credits,
+                    "sponsor": sponsor_info,
+                    "max_level": 5,
+                }
+            )
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
 
@@ -603,9 +682,11 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
                 # Deduct credits from team and record transaction
                 team = obj.team
 
-                # Apply sponsor-derived money multiplier (discount / surcharge)
-                multiplier = get_sponsor_money_multiplier(team)
-                cost_to_charge = int(round((obj.cost or 0) * multiplier))
+                # Apply sponsor-derived multipliers: global money discount + dept bonus/penalty
+                money_mult = get_sponsor_money_multiplier(team)
+                dept_mult = get_sponsor_department_multiplier(team, obj.department)
+                combined_mult = max(0.5, min(2.0, money_mult * dept_mult))
+                cost_to_charge = int(round((obj.cost or 0) * combined_mult))
 
                 if cost_to_charge and team.credits < cost_to_charge:
                     raise ValueError(
@@ -626,7 +707,7 @@ class PurchasedUpgradeAdmin(admin.ModelAdmin):
                     transaction_type=RaceTransactionType.UPGRADE_PURCHASE,
                     description=(
                         f"Upgrade purchase: {obj.department} {obj.previous_level}->{obj.new_level} "
-                        f"(upgrade_id={obj.pk}, multiplier={multiplier:.2f})"
+                        f"(upgrade_id={obj.pk}, money_mult={money_mult:.2f}, dept_mult={dept_mult:.2f})"
                     ),
                 )
 

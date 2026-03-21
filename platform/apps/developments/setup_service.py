@@ -27,7 +27,7 @@ import random
 from typing import TYPE_CHECKING
 
 from . import setup_generator as sg
-from .constants import AFFINITY_DEPARTMENT, Department
+from .constants import AFFINITY_DEPARTMENT, PAYOUT_CONDITION_BOOST, Department
 from .constants import UPGRADE_COST_BY_LEVEL
 from .models import (
     BalanceOfPerformance,
@@ -289,6 +289,30 @@ def get_starting_department_bonus(team: "Team") -> dict[str, int]:
             new = -1
         bonuses[dept] = new
 
+    # ── Synergy bonuses ────────────────────────────────────────────────────
+    # If 2+ complementary departments are both boosted (+1), grant an extra
+    # +1 to a third synergy department (capped so it never exceeds +1).
+    SYNERGIES = [
+        # (dept_a, dept_b) → synergy_dept  (thematic pairs)
+        ("engine", "aerodynamics", "electronics"),  # speed package → data/power unit
+        ("chassis", "suspension", "aerodynamics"),  # handling package → downforce
+        ("engine", "electronics", "aerodynamics"),  # power unit → aero efficiency
+        ("aerodynamics", "suspension", "chassis"),  # cornering → structural
+    ]
+    for dept_a, dept_b, synergy_dept in SYNERGIES:
+        if bonuses.get(dept_a, 0) > 0 and bonuses.get(dept_b, 0) > 0:
+            # Both parts of the pair are positively boosted: reward synergy dept
+            if bonuses.get(synergy_dept, 0) < 1:
+                bonuses[synergy_dept] = bonuses.get(synergy_dept, 0) + 1
+                if bonuses[synergy_dept] > 1:
+                    bonuses[synergy_dept] = 1
+        elif bonuses.get(dept_a, 0) < 0 and bonuses.get(dept_b, 0) < 0:
+            # Both penalised: compound the penalty on synergy dept
+            if bonuses.get(synergy_dept, 0) > -1:
+                bonuses[synergy_dept] = bonuses.get(synergy_dept, 0) - 1
+                if bonuses[synergy_dept] < -1:
+                    bonuses[synergy_dept] = -1
+
     return bonuses
 
 
@@ -317,6 +341,49 @@ def get_sponsor_money_multiplier(team: "Team") -> float:
     # clamp
     multiplier = max(0.5, min(2.0, multiplier))
     return multiplier
+
+
+def get_sponsor_department_multiplier(team: "Team", department: str) -> float:
+    """Return a cost multiplier for a specific upgrade department based on sponsor conditions.
+
+    Considers both direct department category names ('engine', 'chassis', …) and
+    indirect mappings via AFFINITY_DEPARTMENT ('speed' → 'engine', etc.).
+
+    affinity (+1) on the dept  →  5% discount  (× 0.95)
+    penalty  (-1) on the dept  → 10% surcharge  (× 1.10)
+
+    This gives department penalties real in-game weight during the season: if a sponsor
+    is hostile to a department it will cost more to develop that dept, even though the
+    starting-level floor (MIN_LEVEL=1) prevents the initial level from dropping below 1.
+
+    Returns 1.0 if the team has no main sponsor or no relevant conditions.
+    """
+    try:
+        main_sponsor = team.sponsors.get(is_main=True, active=True)
+    except Exception:
+        return 1.0
+
+    dept_values = {c.value for c in Department}
+    net = 0
+    for cond in main_sponsor.conditions.filter(type__in=("affinity", "penalty")):
+        # resolve which department this condition affects
+        mapped = AFFINITY_DEPARTMENT.get(cond.category)
+        if not mapped and cond.category in dept_values:
+            mapped = cond.category
+        if mapped != department:
+            continue
+        try:
+            val = int(cond.value)
+        except Exception:
+            continue
+        net += 1 if val > 0 else (-1 if val < 0 else 0)
+
+    net = max(-1, min(1, net))
+    if net > 0:
+        return 0.95  # affinity → 5% discount
+    if net < 0:
+        return 1.10  # penalty → 10% surcharge
+    return 1.0
 
 
 def apply_starting_bonuses(dev: TeamDevelopment) -> dict[str, int]:

@@ -1,0 +1,40 @@
+{% extends "admin/change_list.html" %} {% load i18n %} {% block object-tools %}
+{{ block.super }}
+<span id="sponsor-extra-tools" style="display: none">
+    <a
+        id="import-csv-link"
+        class="addlink"
+        href="{% url 'admin:teams_sponsor_import_csv' %}"
+        >{% trans "Import CSV" %}</a
+    >
+    <a
+        id="balance-link"
+        class="addlink"
+        href="{% url 'admin:teams_sponsor_balance' %}"
+        >{% trans "Balance Sponsors" %}</a
+    >
+    <a
+        id="export-csv-link"
+        class="addlink"
+        href="{% url 'admin:teams_sponsor_export_csv' %}"
+        >{% trans "Export CSV" %}</a
+    >
+</span>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ul = document.querySelector('ul.object-tools');
+        ['import-csv-link', 'balance-link', 'export-csv-link'].forEach(
+            function (id) {
+                var link = document.getElementById(id);
+                if (!link) return;
+                var li = document.createElement('li');
+                li.style.marginLeft = '10px';
+                li.appendChild(link);
+                if (ul) {
+                    ul.appendChild(li);
+                }
+            },
+        );
+    });
+</script>
+{% endblock %}
