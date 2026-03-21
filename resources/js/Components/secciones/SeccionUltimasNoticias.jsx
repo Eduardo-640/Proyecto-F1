@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import TarjetaNoticia from "../ui/TarjetaNoticia";
 
@@ -23,12 +24,12 @@ export default function SeccionUltimasNoticias() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-10">
           <h2 className="text-3xl font-bold">ÚLTIMAS NOTICIAS</h2>
-          <a
-            href="/noticias" // Cambia esta ruta según la configuración de tu aplicación
+          <Link
+            to="/noticias"
             className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-4 py-2 rounded-md font_enlaces"
           >
             VER TODAS LAS NOTICIAS
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

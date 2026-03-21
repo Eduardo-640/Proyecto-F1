@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api';
 
@@ -44,12 +45,12 @@ export default function Perfil() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-start mb-4">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md font_enlaces"
         >
           Volver al Inicio
-        </a>
+        </Link>
       </div>
       {successMsg && (
         <div className="bg-green-500 text-white text-center py-2 rounded mb-4">
