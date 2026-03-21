@@ -262,8 +262,123 @@ class SponsorAdmin(admin.ModelAdmin):
                 self.admin_site.admin_view(self.import_csv),
                 name="teams_sponsor_import_csv",
             ),
+            path(
+                "balance/",
+                self.admin_site.admin_view(self.balance_sponsors),
+                name="teams_sponsor_balance",
+            ),
+            path(
+                "export-csv/",
+                self.admin_site.admin_view(self.export_csv),
+                name="teams_sponsor_export_csv",
+            ),
         ]
         return custom + urls
+
+    def export_csv(self, request):
+        """Export all sponsors to a semicolon-delimited CSV in the same format as import."""
+        CATS = [
+            "engine",
+            "aerodynamics",
+            "electronics",
+            "chassis",
+            "suspension",
+            "development",
+            "consistency",
+            "podiums",
+            "money",
+            "speed",
+        ]
+        response = HttpResponse(content_type="text/csv; charset=utf-8")
+        response["Content-Disposition"] = 'attachment; filename="sponsors_export.csv"'
+        response.write("\ufeff")  # UTF-8 BOM so Excel opens it correctly
+        writer = csv.writer(response, delimiter=";")
+        writer.writerow(
+            ["name", "description", "base_bonus", "is_main", "active"] + CATS
+        )
+        for sponsor in Sponsor.objects.prefetch_related("conditions").order_by("id"):
+            cond_map = {c.category: c.value for c in sponsor.conditions.all()}
+            row = [
+                sponsor.name,
+                sponsor.description,
+                sponsor.base_bonus,
+                "true" if sponsor.is_main else "false",
+                "true" if sponsor.active else "false",
+            ] + [cond_map.get(cat, 0) for cat in CATS]
+            writer.writerow(row)
+        return response
+
+    def balance_sponsors(self, request):
+        """Fill missing SponsorCondition rows and rebalance affinities/penalties (total_score == 0)."""
+        import random
+        from .constants import Affinity
+
+        NON_MONEY_CATS = [c for c in [v for v, _ in Affinity.choices] if c != "money"]
+        ALL_CATS = NON_MONEY_CATS + ["money"]
+
+        filled = 0
+        rebalanced = 0
+
+        for sponsor in Sponsor.objects.prefetch_related("conditions").all():
+            existing = {c.category: c for c in sponsor.conditions.all()}
+
+            # Fill missing categories
+            for cat in ALL_CATS:
+                if cat not in existing:
+                    val = 1 if cat == "money" else 0
+                    typ = "money" if cat == "money" else "neutral"
+                    cond = SponsorCondition.objects.create(
+                        sponsor=sponsor,
+                        type=typ,
+                        category=cat,
+                        value=val,
+                        description=f"Auto-filled: {cat} {val}",
+                    )
+                    existing[cat] = cond
+                    filled += 1
+
+            # Rebalance
+            non_money = [existing[c] for c in NON_MONEY_CATS if c in existing]
+            total_score = sum(int(c.value) for c in non_money)
+            iterations = 0
+            while total_score != 0 and iterations < 20:
+                iterations += 1
+                if total_score < 0:
+                    targets = [c for c in non_money if int(c.value) < 0]
+                    if not targets:
+                        break
+                    victim = random.choice(targets)
+                    victim.value = 0
+                    victim.type = "neutral"
+                    victim.description = f"Rebalanced: {victim.category}"
+                    victim.save(update_fields=["value", "type", "description"])
+                    total_score += 1
+                else:
+                    targets = [c for c in non_money if int(c.value) > 0]
+                    if not targets:
+                        break
+                    victim = random.choice(targets)
+                    victim.value = 0
+                    victim.type = "neutral"
+                    victim.description = f"Rebalanced: {victim.category}"
+                    victim.save(update_fields=["value", "type", "description"])
+                    total_score -= 1
+                non_money = list(sponsor.conditions.exclude(category="money"))
+                rebalanced += 1
+
+            new_total = sum(
+                int(c.value) for c in sponsor.conditions.exclude(category="money")
+            )
+            if sponsor.total_score != new_total:
+                sponsor.total_score = new_total
+                sponsor.save(update_fields=["total_score"])
+
+        self.message_user(
+            request,
+            f"Balance complete: {filled} conditions filled, {rebalanced} adjustments made.",
+            level=messages.SUCCESS,
+        )
+        return redirect("..")
 
     def import_csv(self, request):
         """Simple CSV import endpoint for sponsors. Expects semicolon-delimited CSV with headers:
