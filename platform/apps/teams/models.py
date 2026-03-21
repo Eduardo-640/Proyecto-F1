@@ -32,6 +32,10 @@ class Sponsor(models.Model):
         default=0, help_text="Credits provided to the team per season"
     )
     active = models.BooleanField(default=True)
+    total_score = models.IntegerField(
+        default=0,
+        help_text="Sum of all non-money condition values (affinities and penalties).",
+    )
 
     class Meta:
         verbose_name = "Sponsor"

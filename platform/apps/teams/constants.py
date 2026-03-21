@@ -14,3 +14,4 @@ class Affinity(models.TextChoices):
 class SponsorConditionType(models.TextChoices):
     AFFINITY = "affinity", "Affinity"  # rewards
     PENALTY = "penalty", "Penalty"  # dislikes / penalizes'
+    NEUTRAL = "neutral", "Neutral"  # no effect / neutral

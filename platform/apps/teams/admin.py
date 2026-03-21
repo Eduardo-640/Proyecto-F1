@@ -6,6 +6,8 @@ from django.template.response import TemplateResponse
 from django.template import TemplateDoesNotExist
 from django.http import HttpResponse
 from django.contrib import messages
+import csv
+import io
 
 from apps.races.models import CreditTransaction
 from apps.races.constants import TransactionType as RaceTransactionType
@@ -250,6 +252,112 @@ class SponsorAdmin(admin.ModelAdmin):
     list_filter = ["is_main", "active"]
     search_fields = ["name", "team__name"]
     inlines = [SponsorConditionInline]
+    change_list_template = "admin/teams/sponsor_changelist.html"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom = [
+            path(
+                "import-csv/",
+                self.admin_site.admin_view(self.import_csv),
+                name="teams_sponsor_import_csv",
+            ),
+        ]
+        return custom + urls
+
+    def import_csv(self, request):
+        """Simple CSV import endpoint for sponsors. Expects semicolon-delimited CSV with headers:
+        name;description;base_bonus;is_main;active;engine;aerodynamics;electronics;chassis;suspension;development;consistency;podiums;money;speed
+        This view will delete all existing sponsors and recreate them from the CSV.
+        """
+        if request.method == "POST":
+            f = request.FILES.get("csv_file")
+            if not f:
+                self.message_user(request, "No file uploaded", level=messages.ERROR)
+                return redirect("..")
+
+            text = f.read().decode("utf-8-sig")
+            reader = csv.DictReader(io.StringIO(text), delimiter=";")
+            created = 0
+            errors = []
+            # delete existing sponsors and conditions
+            SponsorCondition.objects.all().delete()
+            Sponsor.objects.all().delete()
+
+            with transaction.atomic():
+                for i, row in enumerate(reader, start=1):
+                    try:
+                        name = row.get("name", f"Sponsor {i}").strip()
+                        sponsor = Sponsor.objects.create(
+                            name=name,
+                            description=row.get("description", "").strip(),
+                            is_main=row.get("is_main", "false").lower()
+                            in ("1", "true", "yes"),
+                            base_bonus=max(0, int(row.get("base_bonus") or 0)),
+                            active=row.get("active", "true").lower()
+                            in ("1", "true", "yes"),
+                        )
+
+                        # build conditions for all expected categories
+                        cats = [
+                            "engine",
+                            "aerodynamics",
+                            "electronics",
+                            "chassis",
+                            "suspension",
+                            "development",
+                            "consistency",
+                            "podiums",
+                            "money",
+                            "speed",
+                        ]
+                        total = 0
+                        for cat in cats:
+                            raw = row.get(cat, "0")
+                            try:
+                                v = int(raw)
+                            except Exception:
+                                v = 0
+                            if cat == "money":
+                                val = max(1, v) if v != 0 else 1
+                                typ = "money"
+                            else:
+                                val = 0 if v == 0 else (1 if v > 0 else -1)
+                                typ = (
+                                    "neutral"
+                                    if val == 0
+                                    else ("affinity" if val > 0 else "penalty")
+                                )
+
+                            # Only create non-money conditions if value != 0 (skip neutral to avoid clutter).
+                            if cat == "money" or val != 0:
+                                SponsorCondition.objects.create(
+                                    sponsor=sponsor,
+                                    type=typ,
+                                    category=cat,
+                                    value=val,
+                                    description=f"Imported: {cat} {val}",
+                                )
+
+                            if cat != "money":
+                                total += int(val)
+
+                        sponsor.total_score = int(total)
+                        sponsor.save(update_fields=["total_score"])
+                        created += 1
+                    except Exception as e:
+                        errors.append(f"Row {i}: {e}")
+
+            if errors:
+                for e in errors:
+                    self.message_user(request, e, level=messages.ERROR)
+            self.message_user(
+                request, f"Imported {created} sponsors", level=messages.SUCCESS
+            )
+            return redirect("..")
+
+        # render upload form using proper template so csrf token is included
+        return render(request, "admin/teams/import_sponsors_form.html", {})
 
 
 @admin.register(SponsorCondition)

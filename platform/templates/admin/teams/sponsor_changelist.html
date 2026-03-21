@@ -1,0 +1,30 @@
+{% extends "admin/change_list.html" %} {% load i18n %} {% block object-tools %}
+{{ block.super }}
+<span id="import-csv-container" style="display: none">
+    <a
+        id="import-csv-link"
+        class="addlink"
+        href="{% url 'admin:teams_sponsor_import_csv' %}"
+        >{% trans "Import CSV" %}</a
+    >
+</span>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var link = document.getElementById('import-csv-link');
+        if (!link) return;
+        var ul = document.querySelector('ul.object-tools');
+        if (ul) {
+            var li = document.createElement('li');
+            li.style.marginLeft = '18px';
+            li.style.display = 'inline-block';
+            li.appendChild(link);
+            ul.appendChild(li);
+        } else {
+            link.style.marginLeft = '18px';
+            link.style.display = 'inline-block';
+            var header = document.querySelector('.module');
+            if (header) header.appendChild(link);
+        }
+    });
+</script>
+{% endblock %}
