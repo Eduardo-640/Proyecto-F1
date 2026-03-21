@@ -9,6 +9,7 @@ from apps.drivers.models import Driver, DriverStanding, DriverPointTransaction
 from apps.teams.models import Team
 from apps.races.constants import TransactionType
 from django.core.management import call_command
+from django.db.models import F
 
 
 # Standard F1 points for top-10 (applies to race sessions)
@@ -322,10 +323,13 @@ class Command(BaseCommand):
                 ds.save()
 
                 # Award credits to the team based on points delta
+                # Use F() expression to avoid stale-object overwrite when
+                # multiple drivers share the same team in the same race.
                 credit_delta = points_delta * CREDIT_MULTIPLIER
                 if credit_delta != 0:
-                    team.credits = (team.credits or 0) + credit_delta
-                    team.save()
+                    Team.objects.filter(pk=team.pk).update(
+                        credits=F("credits") + credit_delta
+                    )
                     CreditTransaction.objects.create(
                         team=team,
                         amount=credit_delta,

@@ -1,10 +1,11 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
+from django.db.models import F
 
 from apps.races.models import Race, RaceResult
 from apps.races.models import CreditTransaction
 from apps.races.constants import TransactionType
-from apps.teams.models import Sponsor, SponsorPayout
+from apps.teams.models import Sponsor, SponsorPayout, Team
 from apps.developments.constants import PAYOUT_CONDITION_BOOST
 
 # Fraction of base_bonus applied upfront (must match apply_sponsor_base)
@@ -163,8 +164,9 @@ class Command(BaseCommand):
                     remainder = sponsor.base_bonus - upfront
                     # Give the upfront credit that apply_sponsor_base would have given
                     if upfront > 0:
-                        sponsor.team.credits = (sponsor.team.credits or 0) + upfront
-                        sponsor.team.save(update_fields=["credits"])
+                        Team.objects.filter(pk=sponsor.team_id).update(
+                            credits=F("credits") + upfront
+                        )
                         CreditTransaction.objects.create(
                             team=sponsor.team,
                             amount=upfront,
@@ -180,11 +182,15 @@ class Command(BaseCommand):
                             remaining_amount=remainder,
                         )
 
-            # find payouts for teams that have entries in this race and remaining > 0 in same season
+            # find payouts for teams that have entries in this race and remaining > 0 in same season.
+            # IMPORTANT: only include payouts where the sponsor is still assigned to the same team.
+            # If a sponsor was unassigned after the payout was created, skip it to avoid paying
+            # credits for a sponsor that no longer belongs to the team.
             payouts = SponsorPayout.objects.filter(
                 remaining_amount__gt=0,
                 team__in=race_team_ids,
                 season=race.season,
+                sponsor__team=F("team"),  # sponsor must still be assigned to this team
             ).select_related("sponsor", "team")
 
             # build per-team race stats once
@@ -221,9 +227,12 @@ class Command(BaseCommand):
                     skipped += 1
                     continue
 
-                # apply payment
+                # apply payment — use F() to avoid stale-object overwrite when
+                # the same team has multiple payouts being settled in the same loop.
                 p.remaining_amount = max(0, p.remaining_amount - pay)
-                p.save(update_fields=["remaining_amount"])  # persist remainder
+                p.save(update_fields=["remaining_amount"])
+
+                Team.objects.filter(pk=p.team_id).update(credits=F("credits") + pay)
 
                 CreditTransaction.objects.create(
                     team=p.team,

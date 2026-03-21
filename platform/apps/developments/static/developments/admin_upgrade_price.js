@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const d = await resp.json();
             if (d.error) return;
 
-            costEl.value = d.charged;
+            costEl.value = d.base_cost;
 
             const prev = d.previous_level || 1;
             const next = prev + 1;

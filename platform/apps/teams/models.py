@@ -78,6 +78,30 @@ class SponsorCondition(models.Model):
         return f"{self.sponsor.name} | {self.get_type_display()} | {self.get_category_display()}"
 
 
+# ---------------------------------------------------------------------------
+# Signal: cancel pending payouts when a sponsor is unassigned from a team
+# ---------------------------------------------------------------------------
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
+
+@receiver(pre_save, sender="teams.Sponsor")
+def _cancel_payouts_on_sponsor_unassign(sender, instance, **kwargs):
+    """When a sponsor's team FK changes (or is set to NULL), cancel all pending
+    SponsorPayout rows for the old team so they are never paid out."""
+    if not instance.pk:
+        return  # new object, nothing to cancel
+    try:
+        old = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        return
+    if old.team_id and old.team_id != instance.team_id:
+        # Sponsor moved away from old team — zero out pending payouts
+        SponsorPayout.objects.filter(
+            sponsor=instance, team_id=old.team_id, remaining_amount__gt=0
+        ).update(remaining_amount=0)
+
+
 class SponsorPayout(models.Model):
     """Represents scheduled / pending sponsor payments tied to a season.
 
