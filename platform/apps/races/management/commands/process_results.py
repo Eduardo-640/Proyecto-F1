@@ -8,6 +8,7 @@ from apps.races.models import RaceResult, Race, CreditTransaction
 from apps.drivers.models import Driver, DriverStanding, DriverPointTransaction
 from apps.teams.models import Team
 from apps.races.constants import TransactionType
+from django.core.management import call_command
 
 
 # Standard F1 points for top-10 (applies to race sessions)
@@ -339,3 +340,12 @@ class Command(BaseCommand):
                 f"Processed file {path.name}: created={created} updated={updated} credits_awarded={credit_sum}"
             )
         )
+
+        # After processing race results, if this was a race session, settle sponsor payouts
+        if session_type == "race":
+            try:
+                call_command("settle_sponsor_payouts", str(race.id))
+            except Exception as exc:
+                self.stdout.write(
+                    self.style.ERROR(f"Error settling sponsor payouts: {exc}")
+                )
