@@ -8,6 +8,7 @@
       "description": "Inyeccion de capital a costa de chasis pesado y lento",
       "is_main": true,
       "base_bonus": 12000,
+      "total_score": -1,
       "active": true
     }
   },
@@ -16,7 +17,7 @@
     "pk": 1001,
     "fields": {
       "sponsor": 1,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -27,7 +28,7 @@
     "pk": 1002,
     "fields": {
       "sponsor": 1,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -38,7 +39,7 @@
     "pk": 1003,
     "fields": {
       "sponsor": 1,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -60,7 +61,7 @@
     "pk": 1005,
     "fields": {
       "sponsor": 1,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -71,7 +72,7 @@
     "pk": 1006,
     "fields": {
       "sponsor": 1,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -93,7 +94,7 @@
     "pk": 1008,
     "fields": {
       "sponsor": 1,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -130,6 +131,7 @@
       "description": "Mucha energia para el motor pero poco desarrollo tecnico",
       "is_main": false,
       "base_bonus": 5000,
+      "total_score": 0,
       "active": true
     }
   },
@@ -149,7 +151,7 @@
     "pk": 1012,
     "fields": {
       "sponsor": 2,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -160,7 +162,7 @@
     "pk": 1013,
     "fields": {
       "sponsor": 2,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -171,7 +173,7 @@
     "pk": 1014,
     "fields": {
       "sponsor": 2,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -182,7 +184,7 @@
     "pk": 1015,
     "fields": {
       "sponsor": 2,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -204,7 +206,7 @@
     "pk": 1017,
     "fields": {
       "sponsor": 2,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -215,7 +217,7 @@
     "pk": 1018,
     "fields": {
       "sponsor": 2,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -237,7 +239,7 @@
     "pk": 1020,
     "fields": {
       "sponsor": 2,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -252,6 +254,7 @@
       "description": "Agarre nulo en curva pero gran velocidad punta en recta",
       "is_main": false,
       "base_bonus": 3500,
+      "total_score": -1,
       "active": true
     }
   },
@@ -260,7 +263,7 @@
     "pk": 1021,
     "fields": {
       "sponsor": 3,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -282,7 +285,7 @@
     "pk": 1023,
     "fields": {
       "sponsor": 3,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -293,7 +296,7 @@
     "pk": 1024,
     "fields": {
       "sponsor": 3,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -315,7 +318,7 @@
     "pk": 1026,
     "fields": {
       "sponsor": 3,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -326,7 +329,7 @@
     "pk": 1027,
     "fields": {
       "sponsor": 3,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -337,7 +340,7 @@
     "pk": 1028,
     "fields": {
       "sponsor": 3,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -374,6 +377,7 @@
       "description": "Electronica barata que falla en momentos clave del podio",
       "is_main": false,
       "base_bonus": 4000,
+      "total_score": -1,
       "active": true
     }
   },
@@ -393,7 +397,7 @@
     "pk": 1032,
     "fields": {
       "sponsor": 4,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -415,7 +419,7 @@
     "pk": 1034,
     "fields": {
       "sponsor": 4,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -426,7 +430,7 @@
     "pk": 1035,
     "fields": {
       "sponsor": 4,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -437,7 +441,7 @@
     "pk": 1036,
     "fields": {
       "sponsor": 4,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -448,7 +452,7 @@
     "pk": 1037,
     "fields": {
       "sponsor": 4,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -481,7 +485,7 @@
     "pk": 1040,
     "fields": {
       "sponsor": 4,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -496,6 +500,7 @@
       "description": "Potencia bruta con riesgo alto de averia mecanica",
       "is_main": true,
       "base_bonus": 8500,
+      "total_score": 0,
       "active": true
     }
   },
@@ -515,7 +520,7 @@
     "pk": 1042,
     "fields": {
       "sponsor": 5,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -526,7 +531,7 @@
     "pk": 1043,
     "fields": {
       "sponsor": 5,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -537,7 +542,7 @@
     "pk": 1044,
     "fields": {
       "sponsor": 5,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -548,7 +553,7 @@
     "pk": 1045,
     "fields": {
       "sponsor": 5,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -559,7 +564,7 @@
     "pk": 1046,
     "fields": {
       "sponsor": 5,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -581,7 +586,7 @@
     "pk": 1048,
     "fields": {
       "sponsor": 5,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -603,7 +608,7 @@
     "pk": 1050,
     "fields": {
       "sponsor": 5,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -618,6 +623,7 @@
       "description": "Proteccion financiera ante accidentes penaliza el podio",
       "is_main": true,
       "base_bonus": 14000,
+      "total_score": -1,
       "active": true
     }
   },
@@ -626,7 +632,7 @@
     "pk": 1051,
     "fields": {
       "sponsor": 6,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -637,7 +643,7 @@
     "pk": 1052,
     "fields": {
       "sponsor": 6,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -648,7 +654,7 @@
     "pk": 1053,
     "fields": {
       "sponsor": 6,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -670,7 +676,7 @@
     "pk": 1055,
     "fields": {
       "sponsor": 6,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -692,7 +698,7 @@
     "pk": 1057,
     "fields": {
       "sponsor": 6,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -725,7 +731,7 @@
     "pk": 1060,
     "fields": {
       "sponsor": 6,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -740,6 +746,7 @@
       "description": "Pesimo desarrollo pero ahorro de costes operativo alto",
       "is_main": false,
       "base_bonus": 2500,
+      "total_score": -1,
       "active": true
     }
   },
@@ -748,7 +755,7 @@
     "pk": 1061,
     "fields": {
       "sponsor": 7,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -759,7 +766,7 @@
     "pk": 1062,
     "fields": {
       "sponsor": 7,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -770,7 +777,7 @@
     "pk": 1063,
     "fields": {
       "sponsor": 7,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -781,7 +788,7 @@
     "pk": 1064,
     "fields": {
       "sponsor": 7,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -792,7 +799,7 @@
     "pk": 1065,
     "fields": {
       "sponsor": 7,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -825,7 +832,7 @@
     "pk": 1068,
     "fields": {
       "sponsor": 7,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -862,6 +869,7 @@
       "description": "Comodidad para el equipo pero penaliza la aerodinamica",
       "is_main": false,
       "base_bonus": 6000,
+      "total_score": 0,
       "active": true
     }
   },
@@ -870,7 +878,7 @@
     "pk": 1071,
     "fields": {
       "sponsor": 8,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -892,7 +900,7 @@
     "pk": 1073,
     "fields": {
       "sponsor": 8,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -903,7 +911,7 @@
     "pk": 1074,
     "fields": {
       "sponsor": 8,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -914,7 +922,7 @@
     "pk": 1075,
     "fields": {
       "sponsor": 8,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -925,7 +933,7 @@
     "pk": 1076,
     "fields": {
       "sponsor": 8,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -936,7 +944,7 @@
     "pk": 1077,
     "fields": {
       "sponsor": 8,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -969,7 +977,7 @@
     "pk": 1080,
     "fields": {
       "sponsor": 8,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -984,6 +992,7 @@
       "description": "Mejora estetica y flujo de aire pero mantenimiento caro",
       "is_main": false,
       "base_bonus": 9500,
+      "total_score": 0,
       "active": true
     }
   },
@@ -992,7 +1001,7 @@
     "pk": 1081,
     "fields": {
       "sponsor": 9,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -1025,7 +1034,7 @@
     "pk": 1084,
     "fields": {
       "sponsor": 9,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -1036,7 +1045,7 @@
     "pk": 1085,
     "fields": {
       "sponsor": 9,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -1047,7 +1056,7 @@
     "pk": 1086,
     "fields": {
       "sponsor": 9,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -1058,7 +1067,7 @@
     "pk": 1087,
     "fields": {
       "sponsor": 9,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -1069,7 +1078,7 @@
     "pk": 1088,
     "fields": {
       "sponsor": 9,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -1091,7 +1100,7 @@
     "pk": 1090,
     "fields": {
       "sponsor": 9,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -1106,6 +1115,7 @@
       "description": "Precision cronometrica que sacrifica la velocidad final",
       "is_main": false,
       "base_bonus": 5500,
+      "total_score": 0,
       "active": true
     }
   },
@@ -1114,7 +1124,7 @@
     "pk": 1091,
     "fields": {
       "sponsor": 10,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -1125,7 +1135,7 @@
     "pk": 1092,
     "fields": {
       "sponsor": 10,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -1136,7 +1146,7 @@
     "pk": 1093,
     "fields": {
       "sponsor": 10,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -1147,7 +1157,7 @@
     "pk": 1094,
     "fields": {
       "sponsor": 10,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -1158,7 +1168,7 @@
     "pk": 1095,
     "fields": {
       "sponsor": 10,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -1169,7 +1179,7 @@
     "pk": 1096,
     "fields": {
       "sponsor": 10,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -1191,7 +1201,7 @@
     "pk": 1098,
     "fields": {
       "sponsor": 10,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -1228,6 +1238,7 @@
       "description": "Rapidez en desarrollo tecnico que penaliza la suspension",
       "is_main": false,
       "base_bonus": 4500,
+      "total_score": 0,
       "active": true
     }
   },
@@ -1236,7 +1247,7 @@
     "pk": 1101,
     "fields": {
       "sponsor": 11,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -1247,7 +1258,7 @@
     "pk": 1102,
     "fields": {
       "sponsor": 11,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -1258,7 +1269,7 @@
     "pk": 1103,
     "fields": {
       "sponsor": 11,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -1269,7 +1280,7 @@
     "pk": 1104,
     "fields": {
       "sponsor": 11,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -1302,7 +1313,7 @@
     "pk": 1107,
     "fields": {
       "sponsor": 11,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -1313,7 +1324,7 @@
     "pk": 1108,
     "fields": {
       "sponsor": 11,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -1335,7 +1346,7 @@
     "pk": 1110,
     "fields": {
       "sponsor": 11,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -1350,6 +1361,7 @@
       "description": "Sin datos en carrera pero mas presupuesto para el equipo",
       "is_main": true,
       "base_bonus": 11500,
+      "total_score": 0,
       "active": true
     }
   },
@@ -1358,7 +1370,7 @@
     "pk": 1111,
     "fields": {
       "sponsor": 12,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -1369,7 +1381,7 @@
     "pk": 1112,
     "fields": {
       "sponsor": 12,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -1391,7 +1403,7 @@
     "pk": 1114,
     "fields": {
       "sponsor": 12,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -1402,7 +1414,7 @@
     "pk": 1115,
     "fields": {
       "sponsor": 12,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -1413,7 +1425,7 @@
     "pk": 1116,
     "fields": {
       "sponsor": 12,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -1424,7 +1436,7 @@
     "pk": 1117,
     "fields": {
       "sponsor": 12,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -1457,7 +1469,7 @@
     "pk": 1120,
     "fields": {
       "sponsor": 12,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -1472,6 +1484,7 @@
       "description": "Parada en seco que estresa el chasis pero da seguridad",
       "is_main": false,
       "base_bonus": 7500,
+      "total_score": 0,
       "active": true
     }
   },
@@ -1480,7 +1493,7 @@
     "pk": 1121,
     "fields": {
       "sponsor": 13,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -1491,7 +1504,7 @@
     "pk": 1122,
     "fields": {
       "sponsor": 13,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -1502,7 +1515,7 @@
     "pk": 1123,
     "fields": {
       "sponsor": 13,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -1535,7 +1548,7 @@
     "pk": 1126,
     "fields": {
       "sponsor": 13,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -1546,7 +1559,7 @@
     "pk": 1127,
     "fields": {
       "sponsor": 13,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -1557,7 +1570,7 @@
     "pk": 1128,
     "fields": {
       "sponsor": 13,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -1579,7 +1592,7 @@
     "pk": 1130,
     "fields": {
       "sponsor": 13,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -1594,6 +1607,7 @@
       "description": "Entrega lenta de piezas pero aerodinamica de alto nivel",
       "is_main": false,
       "base_bonus": 8800,
+      "total_score": 0,
       "active": true
     }
   },
@@ -1602,7 +1616,7 @@
     "pk": 1131,
     "fields": {
       "sponsor": 14,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -1624,7 +1638,7 @@
     "pk": 1133,
     "fields": {
       "sponsor": 14,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -1635,7 +1649,7 @@
     "pk": 1134,
     "fields": {
       "sponsor": 14,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -1646,7 +1660,7 @@
     "pk": 1135,
     "fields": {
       "sponsor": 14,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -1668,7 +1682,7 @@
     "pk": 1137,
     "fields": {
       "sponsor": 14,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -1679,7 +1693,7 @@
     "pk": 1138,
     "fields": {
       "sponsor": 14,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -1701,7 +1715,7 @@
     "pk": 1140,
     "fields": {
       "sponsor": 14,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -1716,6 +1730,7 @@
       "description": "Chispazos en electronica que mejoran el motor drasticamente",
       "is_main": true,
       "base_bonus": 10500,
+      "total_score": 0,
       "active": true
     }
   },
@@ -1735,7 +1750,7 @@
     "pk": 1142,
     "fields": {
       "sponsor": 15,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -1746,7 +1761,7 @@
     "pk": 1143,
     "fields": {
       "sponsor": 15,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -1757,7 +1772,7 @@
     "pk": 1144,
     "fields": {
       "sponsor": 15,
-      "type": "affinity",
+      "type": "neutral",
       "category": "chassis",
       "value": 0,
       "description": "Auto: chassis 0"
@@ -1768,7 +1783,7 @@
     "pk": 1145,
     "fields": {
       "sponsor": 15,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -1779,7 +1794,7 @@
     "pk": 1146,
     "fields": {
       "sponsor": 15,
-      "type": "affinity",
+      "type": "neutral",
       "category": "development",
       "value": 0,
       "description": "Auto: development 0"
@@ -1801,7 +1816,7 @@
     "pk": 1148,
     "fields": {
       "sponsor": 15,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -1823,7 +1838,7 @@
     "pk": 1150,
     "fields": {
       "sponsor": 15,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"
@@ -1838,6 +1853,7 @@
       "description": "Espacio de sobra para trabajar pero burocracia lenta",
       "is_main": true,
       "base_bonus": 13500,
+      "total_score": 0,
       "active": true
     }
   },
@@ -1846,7 +1862,7 @@
     "pk": 1151,
     "fields": {
       "sponsor": 16,
-      "type": "affinity",
+      "type": "neutral",
       "category": "engine",
       "value": 0,
       "description": "Auto: engine 0"
@@ -1857,7 +1873,7 @@
     "pk": 1152,
     "fields": {
       "sponsor": 16,
-      "type": "affinity",
+      "type": "neutral",
       "category": "aerodynamics",
       "value": 0,
       "description": "Auto: aerodynamics 0"
@@ -1868,7 +1884,7 @@
     "pk": 1153,
     "fields": {
       "sponsor": 16,
-      "type": "affinity",
+      "type": "neutral",
       "category": "electronics",
       "value": 0,
       "description": "Auto: electronics 0"
@@ -1890,7 +1906,7 @@
     "pk": 1155,
     "fields": {
       "sponsor": 16,
-      "type": "affinity",
+      "type": "neutral",
       "category": "suspension",
       "value": 0,
       "description": "Auto: suspension 0"
@@ -1912,7 +1928,7 @@
     "pk": 1157,
     "fields": {
       "sponsor": 16,
-      "type": "affinity",
+      "type": "neutral",
       "category": "consistency",
       "value": 0,
       "description": "Auto: consistency 0"
@@ -1923,7 +1939,7 @@
     "pk": 1158,
     "fields": {
       "sponsor": 16,
-      "type": "affinity",
+      "type": "neutral",
       "category": "podiums",
       "value": 0,
       "description": "Auto: podiums 0"
@@ -1945,7 +1961,7 @@
     "pk": 1160,
     "fields": {
       "sponsor": 16,
-      "type": "affinity",
+      "type": "neutral",
       "category": "speed",
       "value": 0,
       "description": "Auto: speed 0"

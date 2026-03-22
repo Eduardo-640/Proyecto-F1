@@ -32,6 +32,10 @@ class Sponsor(models.Model):
         default=0, help_text="Credits provided to the team per season"
     )
     active = models.BooleanField(default=True)
+    total_score = models.IntegerField(
+        default=0,
+        help_text="Sum of all non-money condition values (affinities and penalties).",
+    )
 
     class Meta:
         verbose_name = "Sponsor"
@@ -56,7 +60,9 @@ class SponsorCondition(models.Model):
         on_delete=models.CASCADE,
         related_name="conditions",
     )
-    type = models.CharField(max_length=20, choices=SponsorConditionType.choices)
+    type = models.CharField(
+        max_length=20, choices=SponsorConditionType.choices, blank=True, null=True
+    )
     category = models.CharField(max_length=20, choices=Affinity.choices)
     value = models.IntegerField(
         default=0,
@@ -70,6 +76,30 @@ class SponsorCondition(models.Model):
 
     def __str__(self):
         return f"{self.sponsor.name} | {self.get_type_display()} | {self.get_category_display()}"
+
+
+# ---------------------------------------------------------------------------
+# Signal: cancel pending payouts when a sponsor is unassigned from a team
+# ---------------------------------------------------------------------------
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
+
+@receiver(pre_save, sender="teams.Sponsor")
+def _cancel_payouts_on_sponsor_unassign(sender, instance, **kwargs):
+    """When a sponsor's team FK changes (or is set to NULL), cancel all pending
+    SponsorPayout rows for the old team so they are never paid out."""
+    if not instance.pk:
+        return  # new object, nothing to cancel
+    try:
+        old = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        return
+    if old.team_id and old.team_id != instance.team_id:
+        # Sponsor moved away from old team — zero out pending payouts
+        SponsorPayout.objects.filter(
+            sponsor=instance, team_id=old.team_id, remaining_amount__gt=0
+        ).update(remaining_amount=0)
 
 
 class SponsorPayout(models.Model):

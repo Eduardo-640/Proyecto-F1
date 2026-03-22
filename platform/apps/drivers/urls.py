@@ -1,7 +1,6 @@
-from rest_framework.routers import DefaultRouter
-from .views import PilotoViewSet
+from django.urls import path
+from .views import PilotoListView
 
-router = DefaultRouter()
-router.register(r'pilotos', PilotoViewSet, basename='piloto')
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('pilotos/', PilotoListView.as_view(), name='piloto-list'),
+]
