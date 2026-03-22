@@ -1,9 +1,29 @@
-from rest_framework import viewsets, permissions
-from .models import Piloto
-from .serializers import PilotoSerializer
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views import View
+from .models import Driver
 
 
-class PilotoViewSet(viewsets.ModelViewSet):
-    queryset = Piloto.objects.select_related('equipo').all()
-    serializer_class = PilotoSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+@method_decorator(csrf_exempt, name='dispatch')
+class PilotoListView(View):
+    def get(self, request):
+        pilotos = Driver.objects.select_related('team').all()
+        
+        data = [
+            {
+                'id': p.id,
+                'nombre': p.name,
+                'apellido': p.last_name,
+                'numero': p.number,
+                'pais': p.country,
+                'fecha_nacimiento': p.birth_date,
+                'equipo__nombre': p.team.name if p.team else None,
+            }
+            for p in pilotos
+        ]
+        
+        #debug
+        print("Pilotos data:", data)
+        
+        return JsonResponse({'pilotos': data})
