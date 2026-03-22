@@ -1,11 +1,8 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 from django.views import View
 from .models import Driver
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class PilotoListView(View):
     def get(self, request):
         pilotos = Driver.objects.select_related('team').all()
