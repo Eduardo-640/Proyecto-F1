@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password, check_password
 from apps.teams.models import Team
 
 
@@ -16,8 +17,23 @@ class Driver(models.Model):
         related_name="driver",
     )
     steam_id = models.CharField(max_length=64, blank=True, null=True, unique=True)
+    password = models.CharField(max_length=128, blank=True, null=True)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def set_password(self, raw_password):
+        if raw_password:
+            self.password = make_password(raw_password)
+        else:
+            self.password = None
+
+    def check_password(self, raw_password):
+        if not self.password:
+            return False
+        return check_password(raw_password, self.password)
+
+    def has_usable_password(self):
+        return bool(self.password)
 
     class Meta:
         ordering = ["name"]
