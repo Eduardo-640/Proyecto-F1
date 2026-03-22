@@ -1,32 +1,4 @@
 # ----------------------------------------
-# Laravel
-# ----------------------------------------
-/vendor
-/public/storage
-/storage/*.key
-.env
-.env.*.php
-.venv
-Homestead.yaml
-Homestead.json
-.phpunit.result.cache
-
-# Laravel - almacenamiento y caché
-/storage/logs
-/storage/framework/cache/data
-/storage/framework/sessions
-/storage/framework/testing
-/storage/framework/views
-
-# ----------------------------------------
-# Laravel Mix / Vite
-# ----------------------------------------
-/public/hot
-/public/mix-manifest.json
-/public/build
-/build
-
-# ----------------------------------------
 # Node / React
 # ----------------------------------------
 /node_modules
@@ -43,12 +15,17 @@ Thumbs.db
 *.swo
 *.bak
 
-# django y Python
+# ----------------------------------------
+# Python
+# ----------------------------------------
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-# migrations carpeta y archivos compilados
+
+# ----------------------------------------
+# Django migrations
+# ----------------------------------------
 */migrations/*.pyc
 */migrations/*.pyo
 */migrations/*.pyd

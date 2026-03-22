@@ -5,22 +5,24 @@ import Compra from './Compra';
 import Venta from './Venta';
 import MiEquipo from './MiEquipo';
 import Equipos from './Equipos';
+import { PRESUPUESTO_MOCK } from '../../data/mockData';
 
 const FantasyIndex = () => {
     const [pestanaActiva, setPestanaActiva] = useState('equipos');
     const [presupuesto, setPresupuesto] = useState(0);
 
     useEffect(() => {
-        const fetchPresupuesto = async () => {
-            try {
-                const response = await axios.get('/api/usuario/presupuesto');
-                setPresupuesto(response.data.presupuesto);
-            } catch (error) {
-                console.error('Error al obtener el presupuesto:', error);
-            }
-        };
-
-        fetchPresupuesto();
+        // TODO: reemplazar con llamada real cuando el backend esté disponible
+        // const fetchPresupuesto = async () => {
+        //     try {
+        //         const response = await axios.get('/api/usuario/presupuesto');
+        //         setPresupuesto(response.data.presupuesto);
+        //     } catch (error) {
+        //         console.error('Error al obtener el presupuesto:', error);
+        //     }
+        // };
+        // fetchPresupuesto();
+        setPresupuesto(PRESUPUESTO_MOCK);
     }, []);
 
     const actualizarPresupuesto = (nuevoPresupuesto) => {

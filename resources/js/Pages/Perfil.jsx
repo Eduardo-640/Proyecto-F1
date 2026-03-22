@@ -1,36 +1,60 @@
-import { usePage, useForm } from "@inertiajs/react";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { api } from '../api';
 
 export default function Perfil() {
-  const { auth, flash } = usePage().props;
-  const { data, setData, put, processing, errors } = useForm({
-    name: auth.user.name,
-    email: auth.user.email,
-    password: "",
+  const { user, refetch } = useAuth();
+  const [data, setData] = useState({
+    name: user?.name ?? '',
+    email: user?.email ?? '',
+    password: '',
     profile_photo: null,
   });
+  const [errors, setErrors] = useState({});
+  const [processing, setProcessing] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('');
 
-  const handleSubmit = (e) => {
+  const setField = (key, value) => setData((prev) => ({ ...prev, [key]: value }));
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    put(route("perfil.update"));
+    setProcessing(true);
+    setErrors({});
+    try {
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      if (data.password) formData.append('password', data.password);
+      if (data.profile_photo) formData.append('profile_photo', data.profile_photo);
+      await api.patch('/api/auth/profile/', formData);
+      await refetch();
+      setSuccessMsg('Cambios guardados correctamente.');
+      setTimeout(() => setSuccessMsg(''), 3000);
+    } catch (err) {
+      setErrors(err?.data?.errors ?? {});
+    } finally {
+      setProcessing(false);
+    }
   };
 
   const handleFileChange = (e) => {
-    setData("profile_photo", e.target.files[0]);
+    setField('profile_photo', e.target.files[0]);
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-start mb-4">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md font_enlaces"
         >
           Volver al Inicio
-        </a>
+        </Link>
       </div>
-      {flash?.success && (
+      {successMsg && (
         <div className="bg-green-500 text-white text-center py-2 rounded mb-4">
-          {flash.success}
+          {successMsg}
         </div>
       )}
       {Object.keys(errors).length > 0 && (
@@ -101,7 +125,7 @@ export default function Perfil() {
             disabled={processing}
             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"
           >
-            Guardar Cambios
+            {processing ? 'Guardando...' : 'Guardar Cambios'}
           </button>
         </div>
       </form>

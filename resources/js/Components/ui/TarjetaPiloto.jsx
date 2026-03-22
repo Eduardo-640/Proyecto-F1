@@ -18,12 +18,24 @@ export default function TarjetaPiloto({ piloto, year }) {
     setShowModal(true)
     setLoadingDetalles(true)
     try {
-      const response = await axios.get(`/api/pilotos/${year}/detalles/${piloto.driverId}`)
-      setDetallesPiloto(response.data)
+      // TODO: descomentar cuando el backend esté disponible
+      // const response = await axios.get(`/api/pilotos/${year}/detalles/${piloto.driverId}`)
+      // setDetallesPiloto(response.data)
+
+      // Mock de detalles del piloto
+      setTimeout(() => {
+        setDetallesPiloto([
+          { raceName: "Gran Premio de Bahrein", Results: [{ position: "1", points: "25" }] },
+          { raceName: "Gran Premio de Arabia Saudí", Results: [{ position: "3", points: "15" }] },
+          { raceName: "Gran Premio de Australia", Results: [{ position: "2", points: "18" }] },
+          { raceName: "Gran Premio de Japón", Results: [{ position: "5", points: "10" }] },
+          { raceName: "Gran Premio de China", Results: [{ position: "1", points: "25" }] },
+        ])
+        setLoadingDetalles(false)
+      }, 400)
     } catch (error) {
       console.error("Error al cargar los detalles del piloto:", error)
-      setDetallesPiloto(null)
-    } finally {
+      setDetallesPiloto([])
       setLoadingDetalles(false)
     }
   }
@@ -33,7 +45,7 @@ export default function TarjetaPiloto({ piloto, year }) {
 
   // Calcular estadísticas destacadas
   const estadisticas = useMemo(() => {
-    if (!detallesPiloto) return { victorias: 0, podios: 0, puntosTotales: 0 }
+    if (!detallesPiloto || !Array.isArray(detallesPiloto)) return { victorias: 0, podios: 0, puntosTotales: 0 }
 
     const victorias = detallesPiloto.filter((carrera) => carrera.Results[0].position === "1").length
     const podios = detallesPiloto.filter((carrera) =>

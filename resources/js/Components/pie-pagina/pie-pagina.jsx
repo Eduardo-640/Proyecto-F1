@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link } from "react-router-dom";
 
 export default function PiePagina() {
     return (
@@ -6,7 +6,7 @@ export default function PiePagina() {
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
-                        <Link href="/" className="flex items-center mb-6 font_enlaces">
+                        <Link to="/" className="flex items-center mb-6 font_enlaces">
                             <img src="/favicon-32x32.png" alt="Icono F1" />
                             <span className="text-xl text-white font-semibold">FÓRMULA 1</span>
                         </Link>
@@ -65,9 +65,9 @@ function EnlacesPiePagina({ titulo, enlaces }) {
             <ul className="space-y-3">
                 {enlaces.map((enlace, index) => (
                     <li key={index}>
-                        <Link href={enlace.href} className="text-gray-400 hover:text-white">
+                        <a href={enlace.href} className="text-gray-400 hover:text-white">
                             {enlace.etiqueta}
-                        </Link>
+                        </a>
                     </li>
                 ))}
             </ul>

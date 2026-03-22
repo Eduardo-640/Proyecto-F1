@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Tabs, Tab } from "react-bootstrap";
 import Navbar from '@/Components/cabeceras/Navbar';
+import { EQUIPOS_MOCK } from "../data/mockData";
 
 const Equipos = () => {
   const [equipos, setEquipos] = useState([]);
@@ -238,20 +239,25 @@ const Equipos = () => {
   };
 
   useEffect(() => {
-    const fetchEquipos = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(`/api/equipos/${currentYear}`);
-        setEquipos(response.data || []);
-      } catch (error) {
-        console.error("Error al obtener los equipos:", error);
-        setEquipos([]); // Evitar problemas si la API falla
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEquipos();
+    // TODO: reemplazar con llamada real cuando el backend esté disponible
+    // const fetchEquipos = async () => {
+    //   setLoading(true);
+    //   try {
+    //     const response = await axios.get(`/api/equipos/${currentYear}`);
+    //     setEquipos(response.data || []);
+    //   } catch (error) {
+    //     console.error("Error al obtener los equipos:", error);
+    //     setEquipos([]);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+    // fetchEquipos();
+    setLoading(true);
+    setTimeout(() => {
+      setEquipos(EQUIPOS_MOCK);
+      setLoading(false);
+    }, 400);
   }, [currentYear]);
 
   const verEquipo = (equipo) => {

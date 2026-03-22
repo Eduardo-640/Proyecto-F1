@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FANTASY_EQUIPOS_MOCK } from '../../data/mockData';
 
 const EquipoCard = ({ usuario }) => {
     return (
@@ -22,17 +23,20 @@ const Equipos = () => {
     const [usuarios, setUsuarios] = useState([]);
 
     useEffect(() => {
-        const fetchUsuarios = async () => {
-            try {
-                const response = await axios.get('/fantasy/equipos'); // Llama al endpoint del método equipos             
-                const usuariosOrdenados = response.data.sort((a, b) => b.puntos - a.puntos); // Ordena por puntos
-                setUsuarios(usuariosOrdenados);
-            } catch (error) {
-                console.error('Error al obtener los equipos:', error);
-            }
-        };
-
-        fetchUsuarios();
+        // TODO: descomentar cuando el backend esté disponible
+        // const fetchUsuarios = async () => {
+        //     try {
+        //         const response = await axios.get('/fantasy/equipos');
+        //         const usuariosOrdenados = response.data.sort((a, b) => b.puntos - a.puntos);
+        //         setUsuarios(usuariosOrdenados);
+        //     } catch (error) {
+        //         console.error('Error al obtener los equipos:', error);
+        //     }
+        // };
+        // fetchUsuarios();
+        setTimeout(() => {
+            setUsuarios([...FANTASY_EQUIPOS_MOCK].sort((a, b) => b.puntos - a.puntos));
+        }, 400);
     }, []);
 
     return (
