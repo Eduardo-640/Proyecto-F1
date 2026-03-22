@@ -34,3 +34,5 @@ __pycache__/
 
 #entorno virtual
 venv/
+.venv/
+vendor/
