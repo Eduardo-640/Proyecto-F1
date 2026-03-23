@@ -5,12 +5,16 @@ import dj_database_url
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
-DATABASES = {
-    'default': dj_database_url.config(
-        env='DATABASE_URL',
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=0,
+
+DATABASE_URL = os.getenv('DATABASE_URL')
+if not DATABASE_URL:
+    raise RuntimeError(
+        "DATABASE_URL no está definida. Configura el contenedor Postgres y "
+        "añade la variable al archivo .env para continuar."
     )
+
+DATABASES = {
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=0)
 }
 
 _cors_origins_raw = os.getenv('CORS_ALLOWED_ORIGINS', '').strip()
