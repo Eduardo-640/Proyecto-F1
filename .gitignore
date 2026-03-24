@@ -36,3 +36,10 @@ __pycache__/
 venv/
 .venv/
 vendor/
+
+# ----------------------------------------
+# Archivos de configuración
+# ----------------------------------------
+platform/.env
+platform/.env.local
+
