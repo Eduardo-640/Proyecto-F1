@@ -66,19 +66,31 @@ function normalizeRaceMetrics(payload) {
       driverId:
         row.driver_id ?? row.driverId ?? row.driver?.id ?? `driver-${idx}`,
       driverName:
+        row.driverName ??
         row.driver_name ??
         row.driver?.full_name ??
         row.driver?.name ??
         row.driver ??
-        'Piloto',
-      driverCode: row.driver_code ?? row.driver?.code ?? row.code ?? null,
+        `Piloto ${idx + 1}`,
+      driverCode:
+        row.driverCode ??
+        row.driver_code ??
+        row.driver?.code ??
+        row.code ??
+        null,
       teamId: row.team_id ?? row.teamId ?? row.team?.id ?? row.team ?? null,
-      teamName: row.team_name ?? row.team?.name ?? row.team ?? 'Equipo',
-      totalTime: row.total_time ?? row.time_formatted ?? row.time ?? '—',
+      teamName:
+        row.teamName ?? row.team_name ?? row.team?.name ?? row.team ?? 'Equipo',
+      totalTime:
+        row.totalTime ??
+        row.total_time ??
+        row.time_formatted ??
+        row.time ??
+        '—',
       gapToLeader:
         row.gap ??
-        row.gap_to_leader ??
         row.gapToLeader ??
+        row.gap_to_leader ??
         (row.position === 1 ? '—' : ''),
       points: row.points ?? row.score ?? 0,
     }))
