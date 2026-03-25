@@ -205,15 +205,30 @@ function normalizeTeamMetrics(payload, fallbackTeam) {
     teamId: payload.team_id ?? payload.teamId ?? fallbackTeam?.teamId ?? null,
     teamName:
       payload.team_name ??
+      payload.teamName ??
       payload.team?.name ??
       fallbackTeam?.teamName ??
       'Equipo',
-    totalPoints: payload.total_points ?? payload.points ?? null,
+    totalPoints:
+      payload.total_points ?? payload.totalPoints ?? payload.points ?? null,
     creditsGenerated:
-      payload.credits_generated ?? payload.credits ?? payload.revenue ?? null,
-    podiums: payload.podiums ?? payload.podium_count ?? null,
-    pitStopAverage: payload.pit_stop_average ?? payload.avg_pit_time ?? null,
-    reliabilityScore: payload.reliability_score ?? payload.reliability ?? null,
+      payload.credits_generated ??
+      payload.creditsGenerated ??
+      payload.credits ??
+      payload.revenue ??
+      null,
+    podiums:
+      payload.podiums ?? payload.podium_count ?? payload.podiumCount ?? null,
+    pitStopAverage:
+      payload.pit_stop_average ??
+      payload.pitStopAverage ??
+      payload.avg_pit_time ??
+      null,
+    reliabilityScore:
+      payload.reliability_score ??
+      payload.reliabilityScore ??
+      payload.reliability ??
+      null,
     development: payload.development ?? payload.departments ?? {},
     notes: payload.notes ?? payload.summary ?? null,
   };

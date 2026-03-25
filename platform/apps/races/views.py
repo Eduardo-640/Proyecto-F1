@@ -89,6 +89,10 @@ class TeamStatsView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, pk: int):
+        try:
+            team_id = int(pk)
+        except (TypeError, ValueError):
+            return Response({"detail": "Team ID inválido"}, status=status.HTTP_400_BAD_REQUEST)
         race_id = request.query_params.get("race")
         if not race_id:
             return Response(
@@ -104,7 +108,7 @@ class TeamStatsView(APIView):
             )
 
         try:
-            data = build_team_stats(pk, race_id_int)
+            data = build_team_stats(team_id, race_id_int)
         except Race.DoesNotExist:
             return Response({"detail": "Carrera no encontrada"}, status=status.HTTP_404_NOT_FOUND)
         except RaceResult.DoesNotExist as exc:

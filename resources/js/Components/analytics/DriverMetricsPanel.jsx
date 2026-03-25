@@ -3,7 +3,7 @@ import { Activity, CornerUpRight, Gauge, Zap } from 'lucide-react';
 function StatCard({ label, value, helper }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-      <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+      <p className="truncate text-xs uppercase tracking-[0.25em] text-white/40">
         {label}
       </p>
       <p className="text-2xl font-semibold leading-tight text-white">
