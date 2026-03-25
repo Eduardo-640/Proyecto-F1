@@ -4,10 +4,10 @@ from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from apps.races.models import RaceResult, Race, CreditTransaction
+from apps.races.models import RaceResult, Race, CreditTransaction, RaceSessionSnapshot
 from apps.drivers.models import Driver, DriverStanding, DriverPointTransaction
 from apps.teams.models import Team
-from apps.races.constants import TransactionType
+from apps.races.constants import TransactionType, RaceStatus
 from django.core.management import call_command
 from django.db.models import F
 
@@ -19,6 +19,15 @@ QUALIFY_POINTS = [3, 2, 1]
 
 # Credits multiplier (credits per point)
 CREDIT_MULTIPLIER = 10
+
+
+def _normalize_session_type(raw: str) -> str:
+    value = (raw or "").strip().lower()
+    if value in {"qualify", "qualifying", "qualy"}:
+        return RaceStatus.QUALIFYING
+    if value in {"practice", "practise"}:
+        return RaceStatus.PRACTICE
+    return RaceStatus.RACE
 
 
 class Command(BaseCommand):
@@ -70,11 +79,19 @@ class Command(BaseCommand):
 
         results = data.get("Result") or data.get("result") or []
         # Determine session type from JSON (if provided). Expected values: RACE, QUALIFY/QUALIFYING, PRACTICE
-        session_type = (data.get("Type") or data.get("Session") or "").strip().lower()
-        if session_type in ("qualifying",):
-            session_type = "qualify"
+        raw_session_type = (data.get("Type") or data.get("Session") or "").strip().lower()
+        session_type = _normalize_session_type(raw_session_type)
         if not results:
             raise CommandError("No results array found in the provided JSON")
+
+        RaceSessionSnapshot.objects.update_or_create(
+            race=race,
+            session_type=session_type,
+            defaults={
+                "payload": data,
+                "source_file": path.name,
+            },
+        )
 
         # Build laps map (DriverGuid or DriverName -> laps completed) from Laps if present
         laps_entries = data.get("Laps") or data.get("laps") or []
@@ -130,7 +147,7 @@ class Command(BaseCommand):
             time_val = t if t > 0 else 10**12
             return (best_val, time_val)
 
-        if session_type == "qualify":
+        if session_type == RaceStatus.QUALIFYING:
             sorted_results = sorted(deduped_results, key=qualify_sort_key)
         else:
             sorted_results = sorted(deduped_results, key=race_sort_key)
@@ -195,12 +212,12 @@ class Command(BaseCommand):
                     position = placed_count + 1
 
                 # Decide points table depending on session type:
-                # - 'race' -> full POINTS_TABLE
-                # - 'qualify' -> QUALIFY_POINTS (top-3)
-                # - 'practice' -> no points
-                if session_type == "qualify":
+                # - race -> full POINTS_TABLE
+                # - qualifying -> QUALIFY_POINTS (top-3)
+                # - practice -> no points
+                if session_type == RaceStatus.QUALIFYING:
                     source_table = QUALIFY_POINTS
-                elif session_type == "practice":
+                elif session_type == RaceStatus.PRACTICE:
                     source_table = []
                 else:
                     # default to race behaviour
@@ -211,7 +228,7 @@ class Command(BaseCommand):
                     points_awarded = source_table[position - 1]
 
                 # pole position: for qualifying, P1 is pole
-                pole_position = session_type == "qualify" and position == 1
+                pole_position = session_type == RaceStatus.QUALIFYING and position == 1
                 fastest_lap = (
                     (r.get("BestLap") == fastest_lap_val)
                     if fastest_lap_val is not None
@@ -346,7 +363,7 @@ class Command(BaseCommand):
         )
 
         # After processing race results, if this was a race session, settle sponsor payouts
-        if session_type == "race":
+        if session_type == RaceStatus.RACE:
             try:
                 call_command("settle_sponsor_payouts", str(race.id))
             except Exception as exc:
