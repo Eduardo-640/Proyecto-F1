@@ -20,14 +20,17 @@ function normalizeRaceList(payload) {
   const raw = Array.isArray(payload) ? payload : (payload?.results ?? []);
   return raw
     .map((item, idx) => ({
-      id:
-        item.id ??
-        item.slug ??
-        item.uuid ??
-        item.external_id ??
-        `${item.season ?? item.year}_${item.round ?? idx + 1}`,
-      name: item.name ?? item.race_name ?? item.title ?? `Carrera ${idx + 1}`,
+      id: `${item.id ?? ''}`,
+      name:
+        item.nombre ??
+        item.name ??
+        item.race_name ??
+        item.title ??
+        (item.circuito
+          ? `Ronda ${item.numero_ronda ?? idx + 1} · ${item.circuito}`
+          : `Carrera ${idx + 1}`),
       circuit:
+        item.circuito ??
         item.circuit ??
         item.circuit_name ??
         item.circuit?.name ??
@@ -35,10 +38,16 @@ function normalizeRaceList(payload) {
         '',
       country:
         item.country ?? item.circuit?.country ?? item.circuit?.location ?? '',
-      date: item.date ?? item.race_date ?? item.start_time ?? null,
+      date:
+        item.fecha_carrera ??
+        item.date ??
+        item.race_date ??
+        item.start_time ??
+        null,
       laps: item.laps ?? item.total_laps ?? null,
-      round: item.round ?? item.round_number ?? idx + 1,
+      round: item.numero_ronda ?? item.round ?? item.round_number ?? idx + 1,
       season:
+        item.temporada ??
         item.season ??
         item.season_year ??
         item.year ??
@@ -227,7 +236,7 @@ export default function Analytics() {
     setRacesLoading(true);
     (async () => {
       try {
-        const response = await api.get('/api/races/?state=finished');
+        const response = await api.get('/api/carreras/');
         if (cancelled) return;
         const normalized = normalizeRaceList(response);
         if (!normalized.length) throw new Error('empty-races');

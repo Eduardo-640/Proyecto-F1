@@ -21,6 +21,7 @@ class CarreraListView(View):
         data = [
             {
                 'id': c.id,
+                'nombre': f"Ronda {c.round_number} - {c.circuit.name if c.circuit else 'Carrera'}",
                 'numero_ronda': c.round_number,
                 'circuito': c.circuit.name if c.circuit else None,
                 'fecha_carrera': c.race_date,
@@ -29,9 +30,6 @@ class CarreraListView(View):
             }
             for c in carreras
         ]
-        
-        # debug
-        print("Carreras data:", data)
         
         return JsonResponse(data, safe=False)
 

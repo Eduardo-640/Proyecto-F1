@@ -56,7 +56,10 @@ export default function DriverMetricsPanel({
                 : 'border-white/10 text-white/70 hover:border-white/30'
             }`}
           >
-            {driver.driverCode ?? driver.driverId?.slice(0, 3).toUpperCase()}
+            {driver.driverCode ??
+              String(driver.driverId ?? '')
+                .substring(0, 3)
+                .toUpperCase()}
           </button>
         ))}
       </div>
