@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import NewsCard from "../components/ui/NewsCard";
+import NewsCard from '@/components/ui/NewsCard';
 import Navbar from '@/components/Navbar';
-import { NOTICIAS_MOCK } from "../data/mockData";
+import { NOTICIAS_MOCK } from '@/data/mockData';
 
 const Noticias = () => {
     const [noticias, setNoticias] = useState([]);

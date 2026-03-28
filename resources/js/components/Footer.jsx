@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function PiePagina() {
+export default function Footer() {
     return (
         <footer className="bg-black py-12 border-t border-gray-800">
             <div className="container mx-auto px-4">

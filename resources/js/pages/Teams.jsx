@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Tabs, Tab } from "react-bootstrap";
 import Navbar from '@/components/Navbar';
-import { EQUIPOS_MOCK } from "../data/mockData";
+import { EQUIPOS_MOCK } from '@/data/mockData';
 
 const Equipos = () => {
   const [equipos, setEquipos] = useState([]);

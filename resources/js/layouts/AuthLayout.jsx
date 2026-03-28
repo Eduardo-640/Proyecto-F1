@@ -3,7 +3,7 @@ import Dropdown from '@/components/ui/Dropdown';
 import NavLink from '@/components/ui/NavLink';
 import ResponsiveNavLink from '@/components/ui/ResponsiveNavLink';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {

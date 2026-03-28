@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PrimaryButton from '@/components/ui/PrimaryButton';
 import GuestLayout from '@/layouts/GuestLayout';
 import { Link } from 'react-router-dom';
-import { api } from '../../api';
-import { useAuth } from '../../context/AuthContext';
+import { api } from '@/api';
+import { useAuth } from '@/context/AuthContext';
 
 export default function VerifyEmail({ status }) {
     const { logout } = useAuth();

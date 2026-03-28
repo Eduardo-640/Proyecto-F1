@@ -3,7 +3,7 @@ import InputLabel from '@/components/ui/InputLabel';
 import PrimaryButton from '@/components/ui/PrimaryButton';
 import TextInput from '@/components/ui/TextInput';
 import { Transition } from '@headlessui/react';
-import { api } from '../../../api';
+import { api } from '@/api';
 import React, { useRef, useState } from 'react';
 
 export default function UpdatePasswordForm({ className = '' }) {

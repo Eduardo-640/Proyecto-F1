@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react"
 import axios from "axios"
-import DriverCard from "../components/ui/DriverCard";
-import Navbar from "@/components/Navbar";
-import { PILOTOS_MOCK } from "../data/mockData";
+import DriverCard from '@/components/ui/DriverCard';
+import Navbar from '@/components/Navbar';
+import { PILOTOS_MOCK } from '@/data/mockData';
 
 export default function Pilotos() {
     const [year, setYear] = useState(new Date().getFullYear())

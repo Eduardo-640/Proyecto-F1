@@ -3,7 +3,7 @@ import PrimaryButton from '@/components/ui/PrimaryButton';
 import TextInput from '@/components/ui/TextInput';
 import GuestLayout from '@/layouts/GuestLayout';
 import React from 'react';
-import { api } from '../../api';
+import { api } from '@/api';
 
 export default function ForgotPassword({ status }) {
     const [email, setEmail] = React.useState('');

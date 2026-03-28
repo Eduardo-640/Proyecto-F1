@@ -4,8 +4,8 @@ import PrimaryButton from '@/components/ui/PrimaryButton';
 import TextInput from '@/components/ui/TextInput';
 import { Transition } from '@headlessui/react';
 import React, { useState } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { api } from '../../../api';
+import { useAuth } from '@/context/AuthContext';
+import { api } from '@/api';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
     const { user, refetch } = useAuth();

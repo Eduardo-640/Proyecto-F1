@@ -5,7 +5,7 @@ import Buy from './Buy';
 import Sell from './Sell';
 import MyTeam from './MyTeam';
 import Teams from './Teams';
-import { PRESUPUESTO_MOCK } from '../../data/mockData';
+import { PRESUPUESTO_MOCK } from '@/data/mockData';
 
 const FantasyIndex = () => {
     const [pestanaActiva, setPestanaActiva] = useState('equipos');

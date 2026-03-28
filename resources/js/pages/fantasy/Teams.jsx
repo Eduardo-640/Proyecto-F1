@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FANTASY_EQUIPOS_MOCK } from '../../data/mockData';
+import { FANTASY_EQUIPOS_MOCK } from '@/data/mockData';
 
 const EquipoCard = ({ usuario }) => {
     return (

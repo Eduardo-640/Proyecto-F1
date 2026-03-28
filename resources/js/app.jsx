@@ -19,6 +19,8 @@ import Register from './pages/auth/Register';
 import ResetPassword from './pages/auth/ResetPassword';
 import VerifyEmail from './pages/auth/VerifyEmail';
 
+import Analytics from './pages/Analytics';
+
 // Fantasy pages
 import Buy from './pages/fantasy/Buy';
 import CreateTeam from './pages/fantasy/CreateTeam';
@@ -45,6 +47,7 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/confirm-password" element={<ConfirmPassword />} />
+          <Route path="/analytics" element={<Analytics />} />
           <Route path="/fantasy" element={<FantasyIndex />} />
           <Route path="/fantasy/create" element={<CreateTeam />} />
           <Route path="/fantasy/my-team" element={<MyTeam />} />

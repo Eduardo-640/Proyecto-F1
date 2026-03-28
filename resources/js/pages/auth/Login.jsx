@@ -6,7 +6,7 @@ import TextInput from '@/components/ui/TextInput';
 import GuestLayout from '@/layouts/GuestLayout';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Login({ status, canResetPassword }) {
     const { login } = useAuth();

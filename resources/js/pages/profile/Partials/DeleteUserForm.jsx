@@ -4,8 +4,8 @@ import InputLabel from '@/components/ui/InputLabel';
 import Modal from '@/components/ui/Modal';
 import SecondaryButton from '@/components/ui/SecondaryButton';
 import TextInput from '@/components/ui/TextInput';
-import { useAuth } from '../../../context/AuthContext';
-import { api } from '../../../api';
+import { useAuth } from '@/context/AuthContext';
+import { api } from '@/api';
 import React, { useRef, useState } from 'react';
 
 export default function DeleteUserForm({ className = '' }) {

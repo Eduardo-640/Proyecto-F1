@@ -5,7 +5,7 @@ import { Modal, Button, Tabs, Tab } from "react-bootstrap"
 import ResultsChart from "@/components/ui/ResultsChart"
 import Podio from "@/components/ui/Podium"
 import Navbar from '@/components/Navbar';
-import { CARRERAS_MOCK } from "../data/mockData";
+import { CARRERAS_MOCK } from '@/data/mockData';
 
 const Carreras = () => {
   const [year, setYear] = useState(new Date().getFullYear())

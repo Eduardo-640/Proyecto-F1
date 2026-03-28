@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { MI_EQUIPO_MOCK, PRESUPUESTO_MOCK } from '../../data/mockData';
+import { MI_EQUIPO_MOCK, PRESUPUESTO_MOCK } from '@/data/mockData';
 
 const PilotoCard = ({ piloto, onAction, actionLabel }) => {
     return (
