@@ -3,7 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from .models import Driver
+from .models import Driver, Usuario
+from .serializers import UsuarioSerializer, UsuarioCreateSerializer
 from apps.teams.models import Team
 from apps.races.models import Race
 from apps.seasons.models import Season
@@ -319,3 +320,47 @@ class SeasonDetailView(APIView):
             } for race in season.races.all()]
         }
         return Response(data)
+
+
+# ---------------------------------------------------------------------------
+# Vistas de Usuario
+# ---------------------------------------------------------------------------
+
+class UsuarioListView(APIView):
+    """Lista y creación de usuarios - requiere autenticación"""
+    permission_classes = [IsDriverAuthenticated]
+
+    def get(self, request):
+        usuarios = Usuario.objects.select_related('driver').all()
+        serializer = UsuarioSerializer(usuarios, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = UsuarioCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            usuario = serializer.save()
+            return Response(UsuarioSerializer(usuario).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UsuarioDetailView(APIView):
+    """Detalle, edición y eliminación de un usuario - requiere autenticación"""
+    permission_classes = [IsDriverAuthenticated]
+
+    def get(self, request, pk):
+        usuario = get_object_or_404(Usuario.objects.select_related('driver'), pk=pk)
+        return Response(UsuarioSerializer(usuario).data)
+
+    def patch(self, request, pk):
+        usuario = get_object_or_404(Usuario, pk=pk)
+        serializer = UsuarioCreateSerializer(usuario, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(UsuarioSerializer(usuario).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        usuario = get_object_or_404(Usuario, pk=pk)
+        usuario.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+

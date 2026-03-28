@@ -105,3 +105,43 @@ class DriverPointTransaction(models.Model):
     def __str__(self):
         sign = "+" if self.amount >= 0 else ""
         return f"{self.driver.name} {sign}{self.amount} pts ({self.season})"
+
+
+class Usuario(models.Model):
+    ROLE_ADMIN = 'admin'
+    ROLE_STEWARD = 'steward'
+    ROLE_VIEWER = 'viewer'
+
+    ROLES = [
+        (ROLE_ADMIN, 'Administrador'),
+        (ROLE_STEWARD, 'Comisario'),
+        (ROLE_VIEWER, 'Espectador'),
+    ]
+
+    driver = models.OneToOneField(
+        Driver,
+        on_delete=models.CASCADE,
+        related_name='usuario',
+        null=True,
+        blank=True,
+    )
+    email = models.EmailField(unique=True)
+    role = models.CharField(max_length=20, choices=ROLES, default=ROLE_VIEWER)
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['email']
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
+
+    def __str__(self):
+        return self.email
+
+    @property
+    def is_admin(self):
+        return self.role == self.ROLE_ADMIN
+
+    @property
+    def is_steward(self):
+        return self.role == self.ROLE_STEWARD
