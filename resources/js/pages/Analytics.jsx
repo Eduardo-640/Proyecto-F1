@@ -7,7 +7,6 @@ import RaceTimeline from '@/components/analytics/RaceTimeline';
 import TeamMetricsPanel from '@/components/analytics/TeamMetricsPanel';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { api } from '@/api';
 import {
   MOCK_ANALYTICS_RACES,
   MOCK_DRIVER_METRICS,
@@ -235,119 +234,28 @@ function normalizeTeamMetrics(payload, fallbackTeam) {
 }
 
 export default function Analytics() {
-  const [races, setRaces] = useState([]);
-  const [racesLoading, setRacesLoading] = useState(true);
-  const [raceNotice, setRaceNotice] = useState('');
-  const [selectedRaceId, setSelectedRaceId] = useState(null);
+  const [races] = useState(MOCK_ANALYTICS_RACES);
+  const [racesLoading] = useState(false);
+  const [selectedRaceId, setSelectedRaceId] = useState(MOCK_ANALYTICS_RACES[0]?.id ?? null);
 
   const [metrics, setMetrics] = useState(null);
-  const [metricsLoading, setMetricsLoading] = useState(false);
-  const [metricsNotice, setMetricsNotice] = useState('');
 
   const [timeline, setTimeline] = useState([]);
-  const [timelineLoading, setTimelineLoading] = useState(false);
-  const [timelineNotice, setTimelineNotice] = useState('');
 
   const [selectedDriverId, setSelectedDriverId] = useState(null);
   const [driverMetrics, setDriverMetrics] = useState(null);
-  const [driverLoading, setDriverLoading] = useState(false);
   const [driverNotice, setDriverNotice] = useState('');
 
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [teamMetrics, setTeamMetrics] = useState(null);
-  const [teamLoading, setTeamLoading] = useState(false);
   const [teamNotice, setTeamNotice] = useState('');
 
   useEffect(() => {
-    let cancelled = false;
-    setRacesLoading(true);
-    (async () => {
-      try {
-        const response = await api.get('/api/carreras/');
-        if (cancelled) return;
-        const normalized = normalizeRaceList(response);
-        if (!normalized.length) throw new Error('empty-races');
-        setRaces(normalized);
-        setRaceNotice('');
-        setSelectedRaceId((prev) => prev ?? normalized[0]?.id ?? null);
-      } catch (error) {
-        if (cancelled) return;
-        setRaces(MOCK_ANALYTICS_RACES);
-        setRaceNotice(
-          'No se pudo sincronizar el calendario; usando carreras de referencia.',
-        );
-        setSelectedRaceId(
-          (prev) => prev ?? MOCK_ANALYTICS_RACES[0]?.id ?? null,
-        );
-      } finally {
-        if (!cancelled) setRacesLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!selectedRaceId) return;
-    let cancelled = false;
-    setMetricsLoading(true);
-    setMetricsNotice('');
-    (async () => {
-      try {
-        const response = await api.get(`/api/race/${selectedRaceId}/metrics`);
-        if (cancelled) return;
-        const normalized = normalizeRaceMetrics(response);
-        if (!normalized) throw new Error('empty-metrics');
-        setMetrics(normalized);
-        setMetricsNotice('');
-      } catch (error) {
-        if (cancelled) return;
-        const fallback = MOCK_RACE_METRICS[selectedRaceId] ?? null;
-        setMetrics(fallback);
-        setMetricsNotice(
-          fallback
-            ? 'Mostrando métricas derivadas de results.json de ejemplo mientras se expone el endpoint real.'
-            : 'Sin datos de métricas para esta carrera.',
-        );
-      } finally {
-        if (!cancelled) setMetricsLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
+    setMetrics(MOCK_RACE_METRICS[selectedRaceId] ?? null);
   }, [selectedRaceId]);
 
   useEffect(() => {
-    if (!selectedRaceId) return;
-    let cancelled = false;
-    setTimelineLoading(true);
-    setTimelineNotice('');
-    (async () => {
-      try {
-        const response = await api.get(`/api/race/${selectedRaceId}/timeline`);
-        if (cancelled) return;
-        const normalized = normalizeTimeline(response);
-        if (!normalized.length) throw new Error('empty-timeline');
-        setTimeline(normalized);
-        setTimelineNotice('');
-      } catch (error) {
-        if (cancelled) return;
-        const fallback = MOCK_RACE_TIMELINES[selectedRaceId] ?? [];
-        setTimeline(fallback);
-        setTimelineNotice(
-          fallback.length
-            ? 'Cronología generada con datos de muestra.'
-            : 'Sin eventos en la cronología.',
-        );
-      } finally {
-        if (!cancelled) setTimelineLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
+    setTimeline(MOCK_RACE_TIMELINES[selectedRaceId] ?? []);
   }, [selectedRaceId]);
 
   useEffect(() => {
@@ -366,80 +274,16 @@ export default function Analytics() {
       setDriverMetrics(null);
       return;
     }
-    let cancelled = false;
-    setDriverLoading(true);
-    setDriverNotice('');
-    (async () => {
-      try {
-        const response = await api.get(
-          `/api/driver/${selectedDriverId}/stats?race=${selectedRaceId}`,
-        );
-        if (cancelled) return;
-        const fallbackDriver = metrics?.overview?.find(
-          (driver) => driver.driverId === selectedDriverId,
-        );
-        const normalized = normalizeDriverMetrics(response, fallbackDriver);
-        if (!normalized) throw new Error('empty-driver');
-        setDriverMetrics(normalized);
-        setDriverNotice('');
-      } catch (error) {
-        if (cancelled) return;
-        const fallback =
-          MOCK_DRIVER_METRICS[selectedRaceId]?.[selectedDriverId] ?? null;
-        setDriverMetrics(fallback);
-        setDriverNotice(
-          fallback
-            ? 'Métricas de piloto mostradas desde los results.json de referencia.'
-            : 'No hay métricas disponibles para este piloto.',
-        );
-      } finally {
-        if (!cancelled) setDriverLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedDriverId, selectedRaceId, metrics?.overview]);
+    setDriverMetrics(MOCK_DRIVER_METRICS[selectedRaceId]?.[selectedDriverId] ?? null);
+  }, [selectedDriverId, selectedRaceId]);
 
   useEffect(() => {
     if (!selectedTeamId || !selectedRaceId) {
       setTeamMetrics(null);
       return;
     }
-    let cancelled = false;
-    setTeamLoading(true);
-    setTeamNotice('');
-    (async () => {
-      try {
-        const response = await api.get(
-          `/api/team/${selectedTeamId}/stats?race=${selectedRaceId}`,
-        );
-        if (cancelled) return;
-        const fallbackTeam = metrics?.overview?.find(
-          (entry) => entry.teamId === selectedTeamId,
-        );
-        const normalized = normalizeTeamMetrics(response, fallbackTeam);
-        if (!normalized) throw new Error('empty-team');
-        setTeamMetrics(normalized);
-        setTeamNotice('');
-      } catch (error) {
-        if (cancelled) return;
-        const fallback =
-          MOCK_TEAM_METRICS[selectedRaceId]?.[selectedTeamId] ?? null;
-        setTeamMetrics(fallback);
-        setTeamNotice(
-          fallback
-            ? 'Datos de equipo obtenidos de una referencia local mientras se expone el endpoint.'
-            : 'No hay métricas agregadas para este equipo.',
-        );
-      } finally {
-        if (!cancelled) setTeamLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedTeamId, selectedRaceId, metrics?.overview]);
+    setTeamMetrics(MOCK_TEAM_METRICS[selectedRaceId]?.[selectedTeamId] ?? null);
+  }, [selectedTeamId, selectedRaceId]);
 
   const selectedRace = useMemo(() => {
     return (
@@ -459,8 +303,6 @@ export default function Analytics() {
     });
     return Array.from(seen.values());
   }, [metrics]);
-
-  const statusMessages = [raceNotice, metricsNotice].filter(Boolean);
 
   return (
     <div className="min-h-screen bg-[#05060a] text-white">
@@ -500,41 +342,14 @@ export default function Analytics() {
                     </option>
                   ))}
                 </select>
-                {racesLoading && (
-                  <p className="text-xs text-white/50">
-                    Sincronizando calendario...
-                  </p>
-                )}
               </div>
             </div>
-            {statusMessages.length > 0 && (
-              <div className="mt-4 space-y-2">
-                {statusMessages.map((message) => (
-                  <p
-                    key={message}
-                    className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-300"
-                  >
-                    {message}
-                  </p>
-                ))}
-              </div>
-            )}
           </div>
 
-          {metricsLoading ? (
-            <section className="animate-pulse rounded-3xl border border-white/5 bg-black/60 p-6">
-              <div className="h-5 w-1/3 rounded bg-white/10" />
-              <div className="mt-6 h-40 rounded-2xl bg-white/5" />
-            </section>
-          ) : (
-            <RaceOverview
-              race={selectedRace ?? metrics?.race}
-              entries={metrics?.overview ?? []}
-            />
-          )}
-          {metricsNotice && !metricsLoading && (
-            <p className="text-xs text-amber-300">{metricsNotice}</p>
-          )}
+          <RaceOverview
+            race={selectedRace ?? metrics?.race}
+            entries={metrics?.overview ?? []}
+          />
 
           <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-2">
@@ -547,16 +362,7 @@ export default function Analytics() {
             <IncidentFeed incidents={metrics?.incidents ?? []} />
           </div>
 
-          {timelineLoading ? (
-            <section className="rounded-3xl border border-white/5 bg-black/60 p-6">
-              <p className="text-sm text-white/60">Cargando cronología...</p>
-            </section>
-          ) : (
-            <RaceTimeline events={timeline} />
-          )}
-          {timelineNotice && !timelineLoading && (
-            <p className="text-xs text-amber-300">{timelineNotice}</p>
-          )}
+          <RaceTimeline events={timeline} />
 
           <div className="grid gap-6 lg:grid-cols-2">
             <DriverMetricsPanel
@@ -564,7 +370,7 @@ export default function Analytics() {
               activeDriverId={selectedDriverId}
               onSelectDriver={setSelectedDriverId}
               data={driverMetrics}
-              loading={driverLoading}
+              loading={false}
               error={driverNotice}
             />
             <TeamMetricsPanel
@@ -572,7 +378,7 @@ export default function Analytics() {
               activeTeamId={selectedTeamId}
               onSelectTeam={setSelectedTeamId}
               data={teamMetrics}
-              loading={teamLoading}
+              loading={false}
               error={teamNotice}
             />
           </div>
