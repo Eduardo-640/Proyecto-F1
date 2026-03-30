@@ -1,93 +1,116 @@
-# Proyecto de Fórmula 1 - Plataforma Web Interactiva
+# Sim Racing Team Manager
 
-Este proyecto es una plataforma web dedicada a los fans de la Fórmula 1, donde los usuarios pueden consultar noticias actualizadas, explorar información detallada sobre cada carrera de la temporada, y participar en una competición de F1 Fantasy League. La plataforma ofrece una experiencia completa e interactiva que combina datos de las carreras con una competición que fomenta la participación activa y la comunidad.
+## Sistema de Liga con Desarrollo Técnico para Assetto Corsa
+
+Sim Racing Team Manager es una plataforma web para gestionar campeonatos de simracing con una capa persistente de **gestión técnica, desarrollo del coche y economía**. Cada participante dirige un equipo ficticio que evoluciona a lo largo de la temporada, combinando habilidad de conducción con decisiones estratégicas fuera de pista.
+
+Pensado para grupos pequeños (5–8 pilotos) que compiten en Assetto Corsa y quieren añadir profundidad a su liga.
 
 ## Características
 
-- **Noticias Actualizadas**: Los usuarios pueden consultar las últimas noticias sobre la Fórmula 1.
-- **Detalles de Carreras**: Información detallada de cada carrera de la temporada, incluyendo resumen, mapa del circuito, clima y estadísticas.
-- **F1 Fantasy League**: Los usuarios pueden elegir pilotos y escuderías para participar en una competición fantasy durante la temporada.
-- **Interactividad y Visualización**: Estadísticas y datos visuales que mejoran la experiencia del usuario.
-  
-## Tecnologías Utilizadas
+- **Gestión de temporadas y carreras**: seguimiento de resultados de práctica, clasificación y carrera importados directamente desde JSONs exportados por Assetto Corsa.
+- **Sistema económico**: los pilotos acumulan créditos según sus resultados (puntos × multiplicador) para invertir en mejoras.
+- **Desarrollo técnico de equipos**: cada equipo mejora departamentos (aerodinámica, motor, chasis…) con niveles 1–5 que se traducen en parámetros reales de setup de Assetto Corsa (`.ini`).
+- **Generación automática de setups**: a partir del nivel de desarrollo del equipo y el circuito se generan setups optimizados.
+- **Balance of Performance (BoP)**: ajuste dinámico para mantener la competitividad entre equipos con distintos niveles de desarrollo.
+- **Clasificaciones y estadísticas**: standings de pilotos y equipos, victorias, podios, vueltas rápidas y más.
+- **API REST**: interfaz completa para integrarse con el frontend o herramientas externas.
 
-- **Frontend**: 
-  - React
-  - Lucide-React
-  - Bootstrap
-  - TailwindCSS
-  
-- **Backend**: 
-  - PHP
-  - Laravel 11
-  - Laravel-Breeze (para autenticación)
-  
-- **Base de Datos**: MySQL
-  
-- **Herramientas y Dependencias**:
-  - Composer (para gestión de dependencias PHP)
-  - Node.js (para gestionar las dependencias de JavaScript)
-  - Curl (para realizar peticiones HTTP a la API)
+## Tecnologías
 
-- **API**:
-  - [Ergast API](http://api.jolpi.ca/ergast/) para obtener datos de la Fórmula 1 (como pilotos, escuderías, carreras, resultados y más).
+- **Backend**: Django 5 · Django REST Framework · SimpleJWT · django-cors-headers
+- **Base de datos**: PostgreSQL 16 (vía Docker)
+- **Frontend**: React 18 · Vite · TailwindCSS · Bootstrap 5 · Recharts · React Router DOM
+- **Autenticación**: JWT (access + refresh tokens)
+- **Infraestructura**: Docker (contenedor de base de datos)
+
+## Estructura del proyecto
+
+```
+platform/          # Backend Django
+  apps/
+    seasons/       # Temporadas
+    races/         # Carreras, resultados y escaneo de JSONs
+    teams/         # Equipos y créditos
+    drivers/       # Pilotos y autenticación
+    developments/  # Desarrollo técnico y generación de setups
+  config/          # Configuración de Django (base/dev/prod)
+
+resources/js/      # Frontend React (Vite)
+media/output/      # JSONs de resultados procesados (Assetto Corsa)
+Docker/            # docker-compose para PostgreSQL
+```
 
 ## Instalación
 
-### Requisitos Previos
+### Requisitos previos
 
-1. **PHP** (preferiblemente versión 8.1 o superior)
-2. **MySQL**
-3. **Node.js** (preferiblemente versión 16 o superior)
-4. **Composer** (para gestionar dependencias PHP)
+- Python 3.11+
+- Node.js 18+
+- Docker y Docker Compose
 
-### Pasos para la instalación
+### Pasos
 
 1. **Clonar el repositorio**
 
    ```bash
    git clone https://github.com/Eduardo-640/Proyecto-F1.git
    cd Proyecto-F1
+   ```
 
-2. **Instalar dependencias del backend**
+2. **Levantar la base de datos**
 
-    ```bash
-    composer install
+   ```bash
+   docker compose -f Docker/docker-compose.yml up -d db
+   ```
 
-3. **Instalar dependencias del frontend**
+3. **Configurar el entorno del backend**
 
-    ```bash
-    npm install
+   ```bash
+   cd platform
+   cp .env.example .env
+   # Edita .env y ajusta DATABASE_URL y SECRET_KEY
+   ```
 
-4. **Configuración del entorno**
+4. **Instalar dependencias del backend y migrar**
 
-    ```bash
-    cp .env.example .env
+   ```bash
+   pip install -r ../requirements.txt
+   python manage.py migrate
+   python manage.py createsuperuser
+   ```
 
-5. **realiza las migraciones**
+5. **Instalar dependencias del frontend**
 
-    ```bash
-    php artisan migrate
+   ```bash
+   cd ..
+   npm install
+   ```
 
-6. **Compilar el frontend**
+6. **Ejecutar en desarrollo**
 
-    ```bash
-    npm run build
+   ```bash
+   # Backend (desde platform/)
+   python manage.py runserver
 
-7. **Ejecutar el servidor de desarrollo**
+   # Frontend (desde la raíz)
+   npm run dev
+   ```
 
-    ```bash
-    php artisan serve
+Para más detalles sobre la configuración de la base de datos consulta [Docker/LOCAL_SETUP.md](Docker/LOCAL_SETUP.md).
 
+## Flujo de resultados
 
-Enlaces 
+Los resultados de las sesiones se exportan desde Assetto Corsa como JSON y se colocan en `media/input/`. El comando de gestión los procesa y mueve a `media/output/`:
 
-[Boceto](https://drive.google.com/file/d/1RZuLG6UakVBmFR7eloQtEuYeyeKAOVuV/view?usp=sharing)
+```bash
+python manage.py process_input_folder
+```
 
-[Analisis](https://drive.google.com/file/d/1r6Q0LrjlT5QrNJKy45wH99NtXDJmZR9N/view?usp=sharing)
+Consulta [REWARDS.md](REWARDS.md) para ver cómo se calculan puntos y créditos por tipo de sesión.
 
-[Diseño](https://drive.google.com/file/d/1863NhQfqDKNmjj7nRcM07e7eAPFYSEwh/view?usp=sharing)
+---
 
-[Pruebas](https://drive.google.com/file/d/1ILFDL6xcspfFlvdfQVYXzSWuS8slZmpw/view?usp=sharing)
+## Enlaces
 
-[Video](https://youtu.be/FU6vX9cAtr0)
+[Boceto](https://drive.google.com/file/d/1RZuLG6UakVBmFR7eloQtEuYeyeKAOVuV/view?usp=sharing) · [Análisis](https://drive.google.com/file/d/1r6Q0LrjlT5QrNJKy45wH99NtXDJmZR9N/view?usp=sharing) · [Diseño](https://drive.google.com/file/d/1863NhQfqDKNmjj7nRcM07e7eAPFYSEwh/view?usp=sharing) · [Pruebas](https://drive.google.com/file/d/1ILFDL6xcspfFlvdfQVYXzSWuS8slZmpw/view?usp=sharing) · [Video](https://youtu.be/FU6vX9cAtr0)

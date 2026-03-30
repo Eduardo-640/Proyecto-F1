@@ -104,3 +104,26 @@ class Circuit(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RaceSessionSnapshot(models.Model):
+    """Stores the raw Assetto Corsa JSON payload for a processed session."""
+
+    race = models.ForeignKey(
+        Race, on_delete=models.CASCADE, related_name="session_snapshots"
+    )
+    session_type = models.CharField(
+        max_length=20, choices=RaceStatus.choices, default=RaceStatus.RACE
+    )
+    payload = models.JSONField(default=dict)
+    source_file = models.CharField(max_length=255, blank=True)
+    processed_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ["race", "session_type"]
+        ordering = ["race", "session_type"]
+        verbose_name = "Race Session Snapshot"
+        verbose_name_plural = "Race Session Snapshots"
+
+    def __str__(self):
+        return f"{self.race} – {self.get_session_type_display()} snapshot"
