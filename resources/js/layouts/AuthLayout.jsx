@@ -4,7 +4,7 @@ import NavLink from '@/components/ui/NavLink';
 import ResponsiveNavLink from '@/components/ui/ResponsiveNavLink';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {
     const { user, logout } = useAuth();
@@ -35,6 +35,65 @@ export default function AuthenticatedLayout({ header, children }) {
     const DEV_EXAMPLE_EMAIL = 'dev@example.com';
     const DEV_EXAMPLE_NAME = 'Usuario Dev';
 
+    // DEV_NOTIFICATIONS: notificaciones de ejemplo para desarrollo.
+    // Eliminar o reemplazar cuando la API de notificaciones esté disponible.
+    const DEV_NOTIFICATIONS = [
+        { id: 'DEV_NOTIF_1', title: 'Nuevo mensaje', body: 'Tienes un mensaje de equipo.' },
+        { id: 'DEV_NOTIF_2', title: 'Pago recibido', body: 'Saldo actualizado en tu cuenta.' },
+    ];
+
+    function NotificationsMenu({ notifications = [] }) {
+        const [open, setOpen] = useState(false);
+        const ref = useRef(null);
+
+        useEffect(() => {
+            function onDocClick(e) {
+                if (!open) return;
+                if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+            }
+            document.addEventListener('mousedown', onDocClick);
+            return () => document.removeEventListener('mousedown', onDocClick);
+        }, [open]);
+
+        return (
+            <div ref={ref} className="relative">
+                <button
+                    aria-label="Notificaciones"
+                    onClick={() => setOpen((v) => !v)}
+                    className="p-2 rounded-md hover:bg-gray-800 focus:outline-none"
+                >
+                    <svg className="w-5 h-5 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                    {notifications.length > 0 && (
+                        <span className="inline-block ms-1 px-1 text-xs rounded-full bg-red-500 text-white">{notifications.length}</span>
+                    )}
+                </button>
+
+                {open && (
+                    <div className="absolute right-0 mt-2 w-80 bg-gray-800 border border-gray-700 rounded shadow-lg z-50">
+                        <div className="p-3 border-b border-gray-700 font-medium">Notificaciones</div>
+                        <div className="max-h-64 overflow-auto">
+                            {notifications.length === 0 ? (
+                                <div className="p-3 text-sm text-gray-400">Sin notificaciones</div>
+                            ) : (
+                                notifications.map((n) => (
+                                    <div key={n.id} className="p-3 hover:bg-gray-900 border-b border-gray-800">
+                                        <div className="text-sm font-medium">{n.title}</div>
+                                        <div className="text-xs text-gray-400">{n.body}</div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                        <div className="p-2 text-center">
+                            <button className="text-sm text-blue-400 hover:underline">Ver todas</button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gray-900 text-gray-100">
             <nav className="border-b border-gray-800 bg-gray-900">
@@ -50,7 +109,11 @@ export default function AuthenticatedLayout({ header, children }) {
                         <div className="flex items-center gap-4">
                             {/* Se removió el enlace directo a Dashboard para evitar apariencia de 'link' en el header */}
 
-                            <div className="relative">
+                            <div className="relative flex items-center">
+                                {/* Notificaciones: botón con mini-modal */}
+                                <div className="me-3">
+                                    <NotificationsMenu notifications={DEV_NOTIFICATIONS} />
+                                </div>
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <button className="inline-flex items-center gap-2 rounded-full focus:outline-none">
