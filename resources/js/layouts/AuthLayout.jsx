@@ -13,163 +13,127 @@ export default function AuthenticatedLayout({ header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
-    return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 justify-between">
-                        <div className="flex">
-                            <div className="flex shrink-0 items-center">
-                                <Link to="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
+    const avatarUrl = user?.profile_photo_url || user?.photo_url || null;
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    to="/dashboard"
-                                    active={location.pathname === '/dashboard'}
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
+    function initials(name) {
+        if (!name) return 'U';
+        return name
+            .split(' ')
+            .map((n) => n[0])
+            .slice(0, 2)
+            .join('')
+            .toUpperCase();
+    }
+
+    // DEV_FAKE_SVG: SVG data for a temporary development avatar (encoded).
+    // Remove this constant and the <img id="DEV_FAKE_AVATAR"> element when
+    // using real user avatars in production.
+    const DEV_FAKE_SVG = encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24"><rect width="100%" height="100%" fill="#374151" rx="12"/><text x="50%" y="55%" font-size="10" fill="#f3f4f6" font-family="Arial, Helvetica, sans-serif" text-anchor="middle" dominant-baseline="middle">DEV</text></svg>');
+
+    // DEV_EXAMPLE_*: valores de ejemplo para desarrollo. Buscar por DEV_EXAMPLE_*
+    // y eliminar estos valores cuando se integre con datos reales.
+    const DEV_EXAMPLE_EMAIL = 'dev@example.com';
+    const DEV_EXAMPLE_NAME = 'Usuario Dev';
+
+    return (
+        <div className="min-h-screen bg-gray-900 text-gray-100">
+            <nav className="border-b border-gray-800 bg-gray-900">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="flex h-16 items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <Link to="/" className="flex items-center gap-3">
+                                <ApplicationLogo className="block h-9 w-auto fill-current text-white" />
+                                <span className="hidden sm:inline text-lg font-semibold text-white">Proyecto F1</span>
+                            </Link>
                         </div>
 
-                        <div className="hidden sm:ms-6 sm:flex sm:items-center">
-                            <div className="relative ms-3">
+                        <div className="flex items-center gap-4">
+                            {/* Se removió el enlace directo a Dashboard para evitar apariencia de 'link' en el header */}
+
+                            <div className="relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
-                                            >
-                                                {user.name}
-
-                                                <svg
-                                                    className="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
+                                        <button className="inline-flex items-center gap-2 rounded-full focus:outline-none">
+                                            {/* Texto a la izquierda del avatar: email encima del nombre (visible en >= sm) */}
+                                            <div className="hidden sm:flex flex-col text-right mr-2">
+                                                {/* DEV_EXAMPLE_EMAIL: eliminar en producción si no se necesita */}
+                                                <span id="DEV_EXAMPLE_EMAIL" className="text-xs text-gray-400">{user?.email ?? DEV_EXAMPLE_EMAIL}</span>
+                                                {/* DEV_EXAMPLE_NAME: eliminar en producción si no se necesita */}
+                                                <span id="DEV_EXAMPLE_NAME" className="text-sm font-medium text-gray-100">{user?.name ?? DEV_EXAMPLE_NAME}</span>
+                                            </div>
+                                            {avatarUrl ? (
+                                                <img src={avatarUrl} alt="avatar" className="h-9 w-9 rounded-full object-cover" />
+                                            ) : (
+                                                <>
+                                                    {/* DEV_FAKE_AVATAR: Avatar ficticio de desarrollo.
+                                                        Elimina la siguiente imagen (elemento con id="DEV_FAKE_AVATAR")
+                                                        cuando ya tengas avatares reales o en producción. */}
+                                                    <img
+                                                        id="DEV_FAKE_AVATAR"
+                                                        src={`data:image/svg+xml;utf8,${DEV_FAKE_SVG}`}
+                                                        alt="avatar-falso"
+                                                        className="h-9 w-9 rounded-full object-cover"
                                                     />
-                                                </svg>
-                                            </button>
-                                        </span>
+                                                    <div className="sr-only">Avatar de desarrollo (eliminar en producción)</div>
+                                                </>
+                                            )}
+                                        </button>
                                     </Dropdown.Trigger>
 
-                                        <Dropdown.Content>
-                                        <Dropdown.Link to="/profile">
-                                            Perfil
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href="#"
-                                            as="button"
-                                            onClick={(e) => { e.preventDefault(); logout(); }}
-                                        >
-                                            Cerrar sesión
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
+                                    {user ? (
+                                        <Dropdown.Content className="bg-gray-800 text-gray-100">
+                                            <Dropdown.Link to="/profile">Perfil</Dropdown.Link>
+                                            <Dropdown.Link href="#" as="button" onClick={(e) => { e.preventDefault(); logout(); }}>Cerrar sesión</Dropdown.Link>
+                                        </Dropdown.Content>
+                                    ) : (
+                                        <Dropdown.Content className="bg-gray-800 text-gray-100">
+                                            <Dropdown.Link to="/login">Iniciar sesión</Dropdown.Link>
+                                        </Dropdown.Content>
+                                    )}
                                 </Dropdown>
                             </div>
-                        </div>
 
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
-                                    )
-                                }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
-                            >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
+                            <div className="-me-2 flex items-center sm:hidden">
+                                <button
+                                    onClick={() =>
+                                        setShowingNavigationDropdown(
+                                            (previousState) => !previousState,
+                                        )
+                                    }
+                                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-200 hover:bg-gray-800 focus:bg-gray-800 focus:outline-none"
                                 >
-                                    <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
+                                    <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                        <path className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                                        <path className={showingNavigationDropdown ? 'inline-flex' : 'hidden'} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div
-                    className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
-                    }
-                >
-                    <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            to="/dashboard"
-                            active={location.pathname === '/dashboard'}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
+                    <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden bg-gray-800'}>
+                    <div className="space-y-1 pb-3 pt-2 px-4">
+                        {/* Enlaces del menú móvil (se puede ampliar si se desea) */}
                     </div>
 
-                    <div className="border-t border-gray-200 pb-1 pt-4">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
+                    <div className="border-t border-gray-700 pb-1 pt-4 px-4">
+                        <div>
+                            <div className="text-base font-medium text-gray-100">{user?.name ?? 'Invitado'}</div>
+                            <div className="text-sm font-medium text-gray-400">{user?.email ?? ''}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink to="/profile">
-                                Perfil
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                as="button"
-                                onClick={logout}
-                            >
-                                Cerrar sesión
-                            </ResponsiveNavLink>
+                            <ResponsiveNavLink to="/profile" className="text-gray-100">Perfil</ResponsiveNavLink>
+                            <ResponsiveNavLink as="button" onClick={logout} className="text-gray-100">Cerrar sesión</ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
             </nav>
 
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
-                    </div>
-                </header>
-            )}
+            {/* Header principal eliminado: ahora se utiliza la barra superior con logo y avatar */}
 
-            <main>{children}</main>
+            <main className="flex-1 overflow-auto">{children}</main>
         </div>
     );
 }

@@ -18,7 +18,21 @@ export function AuthProvider({ children }) {
         }
     }, []);
 
-    useEffect(() => { fetchUser(); }, [fetchUser]);
+    // ! Borrar este useEffect y llamar a fetchUser directamente desde Dashboard.jsx, para evitar llamadas innecesarias al backend desde páginas públicas como Home o Drivers
+    useEffect(() => {
+        // Evitar llamar a la validación del backend desde /dashboard
+        try {
+            const path = window?.location?.pathname ?? '';
+            if (path === '/dashboard') {
+                setLoading(false);
+                return;
+            }
+        } catch (_) {
+            // si window no está disponible, seguir con la validación
+        }
+
+        fetchUser();
+    }, [fetchUser]);
 
     const login = useCallback(async (credentials) => {
         const data = await api.post('/api/auth/login/', credentials);

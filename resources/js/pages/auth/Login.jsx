@@ -11,7 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 export default function Login({ status, canResetPassword }) {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [data, setData] = useState({ email: '', password: '', remember: false });
+    const [data, setData] = useState({ username: '', password: '', remember: false });
     const [errors, setErrors] = useState({});
     const [processing, setProcessing] = useState(false);
 
@@ -22,10 +22,10 @@ export default function Login({ status, canResetPassword }) {
         setProcessing(true);
         setErrors({});
         try {
-            await login({ email: data.email, password: data.password });
+            //await login({ username: data.username, password: data.password });
             navigate('/dashboard');
         } catch (err) {
-            setErrors(err?.data?.errors ?? { email: err?.data?.detail ?? 'Credenciales inválidas' });
+            setErrors(err?.data?.errors ?? { username: err?.data?.detail ?? 'Credenciales inválidas' });
             setField('password', '');
         } finally {
             setProcessing(false);
@@ -35,25 +35,23 @@ export default function Login({ status, canResetPassword }) {
     return (
         <GuestLayout>
             {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
-                </div>
+                <div className="mb-4 text-sm font-medium text-green-600">{status}</div>
             )}
 
             <form onSubmit={submit} className="bg-gray-800 p-8 rounded-lg shadow-lg">
                 <div className="mb-6">
-                    <InputLabel htmlFor="email" value="Correo Electrónico" className="text-white" />
+                    <InputLabel htmlFor="username" value="Usuario" className="text-white" />
                     <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
+                        id="username"
+                        type="text"
+                        name="username"
+                        value={data.username}
                         className="mt-1 block w-full rounded-lg border-gray-700 bg-gray-900 py-2 px-3 text-white"
                         autoComplete="username"
                         isFocused={true}
-                        onChange={(e) => setField('email', e.target.value)}
+                        onChange={(e) => setField('username', e.target.value)}
                     />
-                    <InputError message={errors.email} className="mt-2 text-red-500 text-sm" />
+                    <InputError message={errors.username} className="mt-2 text-red-500 text-sm" />
                 </div>
 
                 <div className="mb-6">
