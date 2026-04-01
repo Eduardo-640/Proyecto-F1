@@ -1,52 +1,47 @@
 import AuthenticatedLayout from '@/layouts/AuthLayout';
 import { useAuth } from '@/context/AuthContext';
 import Sidebar from '@/components/Sidebar';
+import Overview from '@/components/dashboard/Overview';
+import Upgrades from '@/components/dashboard/Upgrades';
+import Results from '@/components/dashboard/Results';
+import Cars from '@/components/dashboard/Cars';
+import Sponsors from '@/components/dashboard/Sponsors';
+import Balances from '@/components/dashboard/Balances';
 import { useState } from 'react';
 
+// Definido fuera del componente: array estático, no se recrea en cada render
+const SIDEBAR_ITEMS = [
+    { key: 'overview',  label: 'Resumen'    },
+    { key: 'upgrades',  label: 'Mejoras'    },
+    { key: 'results',   label: 'Resultados' },
+    { key: 'cars',      label: 'Coches'     },
+    { key: 'sponsors',  label: 'Sponsors'   },
+    { key: 'balances',  label: 'Balances'   },
+];
+
+// Mapa key → componente: O(1), sin if/switch
+const SECTION_MAP = {
+    overview: Overview,
+    upgrades: Upgrades,
+    results:  Results,
+    cars:     Cars,
+    sponsors: Sponsors,
+    balances: Balances,
+};
 
 export default function Dashboard() {
     const { user } = useAuth();
+    const [selectedSection, setSelectedSection] = useState(SIDEBAR_ITEMS[0].key);
 
-    const title = user?.name || user?.email || 'Dashboard';
-    // Definir aquí los items del sidebar para que el componente padre los controle
-    const sidebarItems = [
-        { key: 'overview', label: 'Resumen', href: '/dashboard' },
-        { key: 'upgrades', label: 'Mejoras', href: '/upgrades' },
-        { key: 'results', label: 'Resultados', href: '/results' },
-        { key: 'cars', label: 'Coches', href: '/cars' },
-        { key: 'sponsors', label: 'Sponsors', href: '/sponsors' },
-        { key: 'balances', label: 'Balances', href: '/balances' },
-    ]
-
-    const [selectedSection, setSelectedSection] = useState(sidebarItems[0].key);
-
-    function renderMain() {
-        switch (selectedSection) {
-            case 'races':
-                return <div>Sección: Carreras (contenido controlado por Dashboard)</div>
-            case 'teams':
-                return <div>Sección: Equipos</div>
-            case 'drivers':
-                return <div>Sección: Pilotos</div>
-            case 'settings':
-                return <div>Sección: Ajustes</div>
-            default:
-                return <div>Sección: Inicio</div>
-        }
-    }
+    const SectionComponent = SECTION_MAP[selectedSection] ?? Overview;
 
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    {title}
-                </h2>
-            }
-        >
+        <AuthenticatedLayout>
             <div className="flex min-h-[70vh]">
-                <Sidebar items={sidebarItems} selected={selectedSection} onSelect={setSelectedSection} />
+                <Sidebar items={SIDEBAR_ITEMS} selected={selectedSection} onSelect={setSelectedSection} />
+
                 <main className="flex-1 p-6">
-                    {renderMain()}
+                    <SectionComponent />
                 </main>
             </div>
         </AuthenticatedLayout>
