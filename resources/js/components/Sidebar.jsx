@@ -43,7 +43,7 @@ export default function Sidebar({ items = DefaultItems, logo, className = '', se
 			<aside
 				className={`fixed top-0 left-0 h-full z-40 transform bg-gray-900 text-gray-100 border-r border-gray-800 shadow-sm transition-transform duration-200 w-64 ${
 					open ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-				} md:static md:translate-x-0 md:min-h-screen min-h-screen ${className}`}
+				} md:static md:translate-x-0 md:h-full ${className}`}
 				style={{}}
 				role="navigation"
 			>

@@ -37,18 +37,18 @@ export default function Overview() {
                             </svg>
                         </div>
 
-                        {/* Tech Development panel */}
+                        {/* Panel de Desarrollo Tecnológico */}
                         <aside className="w-full lg:w-72 bg-gray-900 rounded-md p-4">
                             <h3 className="text-sm font-semibold text-gray-200 mb-4 uppercase tracking-wide">
-                                Tech Development
+                                Desarrollo Tecnológico
                             </h3>
                             <div className="space-y-4">
                                 {[
-                                    { key: 'chassis',      label: 'Chassis',       level: 1 },
-                                    { key: 'engine',       label: 'Engine',        level: 1 },
-                                    { key: 'aerodynamics', label: 'Aerodynamics',  level: 2 },
-                                    { key: 'suspension',   label: 'Suspension',    level: 3 },
-                                    { key: 'electronics',  label: 'Electronics',   level: 4 },
+                                    { key: 'chassis',      label: 'Chasis',        level: 1 },
+                                    { key: 'engine',       label: 'Motor',         level: 1 },
+                                    { key: 'aerodynamics', label: 'Aerodinámica',  level: 2 },
+                                    { key: 'suspension',   label: 'Suspensión',    level: 3 },
+                                    { key: 'electronics',  label: 'Electrónica',   level: 4 },
                                 ].map(({ key, label, level }) => {
                                     const color =
                                         level >= 5 ? 'bg-green-500'  :
@@ -78,16 +78,16 @@ export default function Overview() {
                     </div>
                 </div>
 
-                {/* Bottom statistics */}
+                {/* Estadísticas inferiores */}
                 <div className="bg-gray-800 rounded-lg p-4 shadow">
-                    <h4 className="text-sm font-semibold text-gray-200 mb-4 uppercase tracking-wide">Statistics</h4>
+                    <h4 className="text-sm font-semibold text-gray-200 mb-4 uppercase tracking-wide">Estadísticas</h4>
                     <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
                         {[
-                            { value: 4,  label: 'Wins'         },
-                            { value: 9,  label: 'Podiums'      },
-                            { value: 14, label: 'Races'        },
-                            { value: 33, label: 'Fastest laps' },
-                            { value: 2,  label: 'DNFs'         },
+                            { value: 4,  label: 'Victorias'       },
+                            { value: 9,  label: 'Podios'          },
+                            { value: 14, label: 'Carreras'        },
+                            { value: 33, label: 'Vueltas rápidas' },
+                            { value: 2,  label: 'DNFs'            },
                         ].map(({ value, label }) => (
                             <div key={label} className="bg-gray-900 rounded-md py-3 px-2">
                                 <div className="text-2xl font-bold text-white">{value}</div>
@@ -98,14 +98,14 @@ export default function Overview() {
                 </div>
             </div>
 
-            {/* Right sidebar: season metrics */}
+            {/* Sidebar derecho: métricas de temporada */}
             <aside className="bg-gray-800 rounded-lg p-4 shadow space-y-4">
-                <h3 className="text-sm font-semibold text-gray-200 uppercase tracking-wide">Season Metrics</h3>
+                <h3 className="text-sm font-semibold text-gray-200 uppercase tracking-wide">Métricas de Temporada</h3>
                 <div className="divide-y divide-gray-700">
                     {[
-                        { label: 'Points',  value: 120,      color: 'text-yellow-400' },
-                        { label: 'Credits', value: '12,000', color: 'text-green-400'  },
-                        { label: 'Wins',    value: 3,        color: 'text-red-400'    },
+                        { label: 'Puntos',   value: 120,      color: 'text-yellow-400' },
+                        { label: 'Créditos', value: '12.000', color: 'text-green-400'  },
+                        { label: 'Victorias', value: 3,       color: 'text-red-400'    },
                     ].map(({ label, value, color }) => (
                         <div key={label} className="flex items-center justify-between py-3">
                             <span className="text-sm text-gray-400">{label}</span>

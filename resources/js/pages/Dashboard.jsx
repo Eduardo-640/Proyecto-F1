@@ -37,10 +37,10 @@ export default function Dashboard() {
 
     return (
         <AuthenticatedLayout>
-            <div className="flex min-h-[70vh]">
+            <div className="flex h-full">
                 <Sidebar items={SIDEBAR_ITEMS} selected={selectedSection} onSelect={setSelectedSection} />
 
-                <main className="flex-1 p-6">
+                <main className="flex-1 p-6 overflow-auto">
                     <SectionComponent />
                 </main>
             </div>
