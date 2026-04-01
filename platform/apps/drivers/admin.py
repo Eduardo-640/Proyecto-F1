@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from apps.races.models import RaceResult
-from .models import Driver, DriverStanding, DriverPointTransaction, Usuario
+from .models import Driver, DriverStanding, DriverPointTransaction
 
 
 class DriverStandingInline(admin.TabularInline):
@@ -36,15 +36,6 @@ class DriverPointTransactionInline(admin.TabularInline):
 
 
 DriverAdmin.inlines = [DriverStandingInline, DriverPointTransactionInline]
-
-
-@admin.register(Usuario)
-class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ['email', 'role', 'driver', 'active', 'created_at']
-    list_filter = ['role', 'active']
-    search_fields = ['email', 'driver__name', 'driver__last_name']
-    autocomplete_fields = ['driver']
-    readonly_fields = ['created_at']
 
 
 @admin.register(DriverStanding)

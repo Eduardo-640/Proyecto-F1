@@ -19,10 +19,6 @@ urlpatterns = [
     path('public/seasons/', views.SeasonListPublicView.as_view(), name='season-list-public'),
     path('public/seasons/<int:pk>/', views.SeasonDetailPublicView.as_view(), name='season-detail-public'),
 
-    # Endpoints de usuarios
-    path('usuarios/', views.UsuarioListView.as_view(), name='usuario-list'),
-    path('usuarios/<int:pk>/', views.UsuarioDetailView.as_view(), name='usuario-detail'),
-
     # Endpoints protegidos (requieren autenticación)
     path('drivers/', views.DriverListView.as_view(), name='driver-list'),
     path('drivers/<int:pk>/', views.DriverDetailView.as_view(), name='driver-detail'),
