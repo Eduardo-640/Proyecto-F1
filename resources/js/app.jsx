@@ -2,30 +2,32 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
 // Pages
-import Carreras from './Pages/Carreras';
-import Dashboard from './Pages/Dashboard';
-import Equipos from './Pages/Equipos';
-import Home from './Pages/Home';
-import Noticias from './Pages/Noticias';
-import Perfil from './Pages/Perfil';
-import Pilotos from './Pages/Pilotos';
-import Welcome from './Pages/Welcome';
+import Races from './pages/Races';
+import Dashboard from './pages/Dashboard';
+import Teams from './pages/Teams';
+import Home from './pages/Home';
+import News from './pages/News';
+import Profile from './pages/Profile';
+import Drivers from './pages/Drivers';
+import Welcome from './pages/Welcome';
 
 // Auth pages
-import ConfirmPassword from './Pages/Auth/ConfirmPassword';
-import ForgotPassword from './Pages/Auth/ForgotPassword';
-import Login from './Pages/Auth/Login';
-import Register from './Pages/Auth/Register';
-import ResetPassword from './Pages/Auth/ResetPassword';
-import VerifyEmail from './Pages/Auth/VerifyEmail';
+import ConfirmPassword from './pages/auth/ConfirmPassword';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import ResetPassword from './pages/auth/ResetPassword';
+import VerifyEmail from './pages/auth/VerifyEmail';
+
+import Analytics from './pages/Analytics';
 
 // Fantasy pages
-import Compra from './Pages/Fantasy/Compra';
-import CrearEquipo from './Pages/Fantasy/CrearEquipo';
-import FantasyEquipos from './Pages/Fantasy/Equipos';
-import FantasyIndex from './Pages/Fantasy/Index';
-import MiEquipo from './Pages/Fantasy/MiEquipo';
-import Venta from './Pages/Fantasy/Venta';
+import Buy from './pages/fantasy/Buy';
+import CreateTeam from './pages/fantasy/CreateTeam';
+import FantasyTeams from './pages/fantasy/Teams';
+import FantasyIndex from './pages/fantasy/Index';
+import MyTeam from './pages/fantasy/MyTeam';
+import Sell from './pages/fantasy/Sell';
 
 export default function App() {
   return (
@@ -33,11 +35,11 @@ export default function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/pilotos" element={<Pilotos />} />
-          <Route path="/equipos" element={<Equipos />} />
-          <Route path="/carreras" element={<Carreras />} />
-          <Route path="/noticias" element={<Noticias />} />
-          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/drivers" element={<Drivers />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/races" element={<Races />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -45,12 +47,13 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/confirm-password" element={<ConfirmPassword />} />
+          <Route path="/analytics" element={<Analytics />} />
           <Route path="/fantasy" element={<FantasyIndex />} />
-          <Route path="/fantasy/crear" element={<CrearEquipo />} />
-          <Route path="/fantasy/mi-equipo" element={<MiEquipo />} />
-          <Route path="/fantasy/equipos" element={<FantasyEquipos />} />
-          <Route path="/fantasy/compra" element={<Compra />} />
-          <Route path="/fantasy/venta" element={<Venta />} />
+          <Route path="/fantasy/create" element={<CreateTeam />} />
+          <Route path="/fantasy/my-team" element={<MyTeam />} />
+          <Route path="/fantasy/teams" element={<FantasyTeams />} />
+          <Route path="/fantasy/buy" element={<Buy />} />
+          <Route path="/fantasy/sell" element={<Sell />} />
           <Route path="*" element={<Welcome />} />
         </Routes>
       </AuthProvider>

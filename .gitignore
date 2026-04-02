@@ -65,4 +65,3 @@ Docker/postgres_data/
 .pytest_cache/
 .coverage
 htmlcov/
-

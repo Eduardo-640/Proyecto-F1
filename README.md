@@ -27,18 +27,42 @@ Pensado para grupos pequeños (5–8 pilotos) que compiten en Assetto Corsa y qu
 ## Estructura del proyecto
 
 ```
-platform/          # Backend Django
+platform/                    # Backend Django
   apps/
-    seasons/       # Temporadas
-    races/         # Carreras, resultados y escaneo de JSONs
-    teams/         # Equipos y créditos
-    drivers/       # Pilotos y autenticación
-    developments/  # Desarrollo técnico y generación de setups
-  config/          # Configuración de Django (base/dev/prod)
+    seasons/                 # Temporadas
+    races/                   # Carreras, resultados y escaneo de JSONs
+    teams/                   # Equipos y créditos
+    drivers/                 # Pilotos y autenticación
+    developments/            # Desarrollo técnico y generación de setups
+  config/                    # Configuración de Django (base/dev/prod)
 
-resources/js/      # Frontend React (Vite)
-media/output/      # JSONs de resultados procesados (Assetto Corsa)
-Docker/            # docker-compose para PostgreSQL
+resources/js/                # Frontend React (Vite)
+  app.jsx                    # Raíz de la app y definición de rutas
+  main.jsx                   # Punto de entrada
+  context/                   # Contextos de React (AuthContext)
+  data/                      # Datos mock temporales
+  layouts/                   # Layouts reutilizables
+    AuthLayout.jsx
+    GuestLayout.jsx
+    MainLayout.jsx
+  pages/                     # Vistas por ruta
+    Home / Races / Teams / Drivers / News / Profile / Dashboard
+    auth/                    # Login, Register, ForgotPassword…
+    fantasy/                 # Buy, Sell, CreateTeam, MyTeam, Teams
+    profile/                 # Edit + Partials
+  components/
+    Navbar.jsx
+    Footer.jsx
+    ui/                      # Primitivos y tarjetas
+      DriverCard / TeamCard / RaceCard / NewsCard
+      Podium / ResultsChart / DriverRanking / CountryFlag
+      PrimaryButton / Modal / TextInput / Dropdown…
+    sections/                # Secciones de la página principal
+      LiveSection / UpcomingRacesSection / RaceCalendarSection
+      QualifyingSection / TeamsSection / LatestNewsSection / NewsletterSection
+
+media/output/                # JSONs de resultados procesados (Assetto Corsa)
+Docker/                      # docker-compose para PostgreSQL
 ```
 
 ## Instalación
