@@ -18,39 +18,42 @@ export function AuthProvider({ children }) {
         }
     }, []);
 
-    // ! Borrar este useEffect y llamar a fetchUser directamente desde Dashboard.jsx, para evitar llamadas innecesarias al backend desde páginas públicas como Home o Drivers
     useEffect(() => {
-        // Evitar llamar a la validación del backend desde /dashboard
-        try {
-            const path = window?.location?.pathname ?? '';
-            if (path === '/dashboard') {
-                setLoading(false);
-                return;
-            }
-        } catch (_) {
-            // si window no está disponible, seguir con la validación
+        // Skip API call if there's no token stored locally
+        if (!localStorage.getItem('access_token')) {
+            setUser(null);
+            setLoading(false);
+            return;
         }
-
         fetchUser();
     }, [fetchUser]);
 
-    const login = useCallback(async (credentials) => {
-        const data = await api.post('/api/auth/login/', credentials);
-        if (data?.access) localStorage.setItem('access_token', data.access);
+    const _storeTokensAndFetch = useCallback(async (data) => {
+        if (data?.access)  localStorage.setItem('access_token',  data.access);
         if (data?.refresh) localStorage.setItem('refresh_token', data.refresh);
         await fetchUser();
         return data;
     }, [fetchUser]);
 
-    const logout = useCallback(async () => {
-        try { await api.post('/api/auth/logout/', {}); } catch { /* ignore */ }
+    const login = useCallback(async (credentials) => {
+        const data = await api.post('/api/auth/login/', credentials);
+        console.log('Login response:', data);
+        return _storeTokensAndFetch(data);
+    }, [_storeTokensAndFetch]);
+
+    const register = useCallback(async (payload) => {
+        const data = await api.post('/api/auth/register/', payload);
+        return _storeTokensAndFetch(data);
+    }, [_storeTokensAndFetch]);
+
+    const logout = useCallback(() => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         setUser(null);
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout, refetch: fetchUser }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, refetch: fetchUser }}>
             {children}
         </AuthContext.Provider>
     );

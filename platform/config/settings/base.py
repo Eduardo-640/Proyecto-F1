@@ -41,7 +41,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "apps.drivers.middleware.DriverJWTMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -51,7 +50,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -77,8 +76,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # ─── Autenticación Personalizada ────────────────────────────────────────────
 AUTHENTICATION_BACKENDS = [
-    'apps.drivers.auth_backend.DriverBackend',
-    'django.contrib.auth.backends.ModelBackend',  # Fallback
+    "apps.drivers.auth_backend.DriverBackend",
+    "django.contrib.auth.backends.ModelBackend",  # Fallback
 ]
 
 LANGUAGE_CODE = "es-es"
@@ -94,8 +93,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ─── Django REST Framework ──────────────────────────────────────────────────
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
+        "apps.drivers.middleware.DriverJWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
