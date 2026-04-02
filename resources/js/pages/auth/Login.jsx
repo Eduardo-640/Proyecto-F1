@@ -11,7 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 export default function Login({ status, canResetPassword }) {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [data, setData] = useState({ username: '', password: '', remember: false });
+    const [data, setData] = useState({ steam_id: '', password: '', remember: false });
     const [errors, setErrors] = useState({});
     const [processing, setProcessing] = useState(false);
 
@@ -22,10 +22,10 @@ export default function Login({ status, canResetPassword }) {
         setProcessing(true);
         setErrors({});
         try {
-            //await login({ username: data.username, password: data.password });
+            await login({ steam_id: data.steam_id, password: data.password });
             navigate('/dashboard');
         } catch (err) {
-            setErrors(err?.data?.errors ?? { username: err?.data?.detail ?? 'Credenciales inválidas' });
+            setErrors(err?.data?.errors ?? { steam_id: err?.data?.error ?? 'Credenciales inválidas' });
             setField('password', '');
         } finally {
             setProcessing(false);
@@ -40,18 +40,18 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit} className="bg-gray-800 p-8 rounded-lg shadow-lg">
                 <div className="mb-6">
-                    <InputLabel htmlFor="username" value="Usuario" className="text-white" />
+                    <InputLabel htmlFor="steam_id" value="Steam ID" className="text-white" />
                     <TextInput
-                        id="username"
+                        id="steam_id"
                         type="text"
-                        name="username"
-                        value={data.username}
+                        name="steam_id"
+                        value={data.steam_id}
                         className="mt-1 block w-full rounded-lg border-gray-700 bg-gray-900 py-2 px-3 text-white"
                         autoComplete="username"
                         isFocused={true}
-                        onChange={(e) => setField('username', e.target.value)}
+                        onChange={(e) => setField('steam_id', e.target.value)}
                     />
-                    <InputError message={errors.username} className="mt-2 text-red-500 text-sm" />
+                    <InputError message={errors.steam_id} className="mt-2 text-red-500 text-sm" />
                 </div>
 
                 <div className="mb-6">
@@ -90,6 +90,13 @@ export default function Login({ status, canResetPassword }) {
                 >
                     Iniciar Sesión
                 </PrimaryButton>
+
+                <p className="mt-4 text-center text-sm text-gray-400">
+                    ¿No tienes cuenta?{' '}
+                    <Link to="/register" className="text-red-400 hover:underline">
+                        Regístrate
+                    </Link>
+                </p>
             </form>
         </GuestLayout>
     );
