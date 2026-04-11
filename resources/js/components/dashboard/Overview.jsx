@@ -1,3 +1,12 @@
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, useGLTF, Html } from '@react-three/drei';
+
+function CarModel({ src }) {
+    const gltf = useGLTF(src);
+    return <primitive object={gltf.scene} dispose={null} />;
+}
+
 export default function Overview() {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -5,36 +14,18 @@ export default function Overview() {
             <div className="lg:col-span-2 space-y-6">
                 <div className="bg-gray-800 rounded-lg p-6 shadow">
                     <div className="flex flex-col lg:flex-row items-start gap-6">
-                        {/* Car sketch */}
+                        {/* Car sketch: reemplazado por visor 3D (glTF/GLB) */}
                         <div className="flex-1 flex items-center justify-center bg-gray-900 rounded-md p-6">
-                            <svg
-                                className="w-full h-56 max-h-56"
-                                viewBox="0 0 800 300"
-                                xmlns="http://www.w3.org/2000/svg"
-                                preserveAspectRatio="xMidYMid meet"
-                            >
-                                <g fill="none" stroke="#f3f4f6" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                                    {/* Main silhouette */}
-                                    <path d="M60 200 C120 140, 220 120, 340 130 C420 135, 520 150, 640 140 C700 135, 740 120, 760 100" />
-                                    {/* Body */}
-                                    <path d="M140 200 L180 170 L260 160 L360 165 L440 170 L540 170 L600 200" />
-                                    {/* Nose */}
-                                    <path d="M60 200 L140 200" />
-                                    <path d="M600 200 L720 200" />
-                                    {/* Wheels */}
-                                    <circle cx="200" cy="220" r="28" />
-                                    <circle cx="200" cy="220" r="12" />
-                                    <circle cx="560" cy="220" r="28" />
-                                    <circle cx="560" cy="220" r="12" />
-                                    {/* Cockpit / airbox */}
-                                    <path d="M300 160 L340 130 L460 130 L500 160" />
-                                    {/* Front wing */}
-                                    <path d="M60 200 L20 210 L80 210" />
-                                    {/* Rear wing */}
-                                    <path d="M700 135 L740 115 L760 115" />
-                                    <path d="M740 115 L740 145" />
-                                </g>
-                            </svg>
+                            <div className="w-full h-56 max-h-56">
+                                <Canvas style={{ width: '100%', height: '100%' }} camera={{ position: [0, 0, 6], fov: 45 }}>
+                                    <ambientLight intensity={0.6} />
+                                    <directionalLight position={[10, 10, 5]} intensity={0.8} />
+                                    <Suspense fallback={<Html center><div className="text-gray-300 text-sm">Cargando 3D…</div></Html>}>
+                                        <CarModel src="/models/car.glb" />
+                                    </Suspense>
+                                    <OrbitControls enablePan enableZoom enableRotate />
+                                </Canvas>
+                            </div>
                         </div>
 
                         {/* Panel de Desarrollo Tecnológico */}
